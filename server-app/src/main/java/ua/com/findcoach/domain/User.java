@@ -6,6 +6,7 @@ import javax.persistence.*;
  * Created by DENIS on 20.09.2015.
  */
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "user")
 public class User {
     @Id
@@ -19,11 +20,11 @@ public class User {
     private String lastName;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "is_padawan",columnDefinition="DEFAULT false", nullable = false)
+    @Column(name = "is_padawan", columnDefinition = "DEFAULT false", nullable = false)
     private boolean isPadawan;
-    @Column(name = "is_coach",columnDefinition="DEFAULT false", nullable = false)
+    @Column(name = "is_coach", columnDefinition = "DEFAULT false", nullable = false)
     private boolean isCoach;
-    @Column(name = "is_active",columnDefinition="DEFAULT false", nullable = false)
+    @Column(name = "is_active", columnDefinition = "DEFAULT false", nullable = false)
     private boolean isActive;
 
     public int getUserId() {
@@ -76,10 +77,6 @@ public class User {
 
     public void setActive(boolean isActive) {
         this.isActive = isActive;
-    }
-
-    public static void main(String[] args){
-        System.out.println(Integer.MAX_VALUE);
     }
 
 

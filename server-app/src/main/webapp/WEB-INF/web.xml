@@ -7,29 +7,22 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          id="WebApp_ID" version="3.0">
     <display-name>All Kiev</display-name>
 
-    <!--<context-param>-->
-        <!--<param-name>contextConfigLocation</param-name>-->
-        <!--<param-value>-->
-            <!--/WEB-INF/defaultServlet-context.xml-->
-        <!--</param-value>-->
-    <!--</context-param>-->
-
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
     <servlet>
-        <servlet-name>defaultServlet</servlet-name>
+        <servlet-name>applicationContext</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/defaultServlet-context.xml</param-value>
+            <param-value>/WEB-INF/applicationContext.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>defaultServlet</servlet-name>
+        <servlet-name>applicationContext</servlet-name>
         <url-pattern>/email</url-pattern>
     </servlet-mapping>
 

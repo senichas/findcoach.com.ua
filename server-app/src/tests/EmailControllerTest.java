@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/defaultServlet-context.xml"})
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/applicationContext.xml"})
 public class EmailControllerTest {
     @Autowired
     private WebApplicationContext wac;
