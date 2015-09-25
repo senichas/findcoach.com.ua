@@ -10,8 +10,7 @@ $(function () {
             , acync: true
             , dataType: 'json'
             , success: function (res) {
-                $("#email").value = res;
-                alert(res);
+                $("#email").val(res.message);
             }
         });
         return false;

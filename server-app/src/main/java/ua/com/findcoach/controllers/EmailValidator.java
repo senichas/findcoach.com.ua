@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
  * Created by DENIS on 19.09.2015.
  */
 public class EmailValidator {
-    private Pattern pattern;
-    private Matcher matcher;
+    private static Pattern pattern;
+    private static Matcher matcher;
 
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
