@@ -29,8 +29,8 @@ public class AuthenticationController {
     public AuthentificationResponse postAnswer(@RequestBody String body) throws JsonMappingException, JsonParseException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         String decodeJSON = new URLDecoder().decode(body, "UTF-8");
-        User user = repository.findByEmail(decodeJSON);
         AuthenticationRequest authenticationRequest = mapper.readValue(decodeJSON, AuthenticationRequest.class);
+        User user = repository.findByEmail(authenticationRequest.getEmail());
         AuthentificationResponse authentificationResponse = emailValidator.validate(authenticationRequest.getEmail())
                 ? new AuthentificationResponse(true, "")
                 : new AuthentificationResponse(false, "You wrote wrong massage");

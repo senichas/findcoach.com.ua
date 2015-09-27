@@ -1,13 +1,16 @@
 package ua.com.findcoach.domain;
 
+import org.hibernate.annotations.DiscriminatorFormula;
+
 import javax.persistence.*;
 
 /**
  * Created by DENIS on 20.09.2015.
  */
 @Entity
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(name = "user")
+@DiscriminatorFormula("(is_padawan * 10 + is_coach)")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "\"user\"")
 public class User {
     @Id
     @Column(name = "user_id", nullable = false)
@@ -21,10 +24,11 @@ public class User {
     private String lastName;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "is_padawan", columnDefinition = "DEFAULT false", nullable = false)
-    private boolean isPadawan;
-    @Column(name = "is_coach", columnDefinition = "DEFAULT false", nullable = false)
-    private boolean isCoach;
+
+    @Column(name = "is_padawan", columnDefinition = "DEFAULT 0")
+    private Integer isPadawan;
+    @Column(name = "is_coach", columnDefinition = "DEFAULT 0")
+    private Integer isCoach;
     @Column(name = "is_active", columnDefinition = "DEFAULT false", nullable = false)
     private boolean isActive;
 
@@ -56,19 +60,19 @@ public class User {
         this.email = email;
     }
 
-    public boolean isPadawan() {
+    public Integer getIsPadawan() {
         return isPadawan;
     }
 
-    public void setPadawan(boolean isPadawan) {
+    public void setIsPadawan(Integer isPadawan) {
         this.isPadawan = isPadawan;
     }
 
-    public boolean isCoach() {
+    public Integer getIsCoach() {
         return isCoach;
     }
 
-    public void setCoach(boolean isCoach) {
+    public void setIsCoach(Integer isCoach) {
         this.isCoach = isCoach;
     }
 

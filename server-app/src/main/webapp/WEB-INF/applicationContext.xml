@@ -16,7 +16,7 @@
 
     <beans:beans>
         <context:annotation-config/>
-        <repositories base-package="ua.com.findcoach.repository" />
+        <repositories base-package="ua.com.findcoach.repository"/>
         <beans:bean class="ua.com.findcoach.conf.ApplicationConfiguration"/>
     </beans:beans>
 

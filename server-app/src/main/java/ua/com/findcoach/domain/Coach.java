@@ -4,8 +4,8 @@ import org.eclipse.persistence.annotations.Customizer;
 
 import javax.persistence.*;
 
-@Entity
-@DiscriminatorColumn(name="is_coach")
-@Customizer(CoachCustomizer.class)
+//@Entity
+//@DiscriminatorColumn(name="is_coach", discriminatorType=DiscriminatorType.INTEGER)
+//@DiscriminatorValue("1")
 public class Coach extends User {
 }

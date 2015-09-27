@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ua.com.findcoach.controllers.EmailValidator;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.Properties;
 
 /**
  * Created by DENIS on 26.09.2015.
@@ -39,12 +40,22 @@ public class ApplicationConfiguration {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
+
         factory.setPackagesToScan("ua.com.findcoach.domain");
         factory.setDataSource(dataSource());
+        factory.setJpaProperties(hibernateProperties());
         factory.afterPropertiesSet();
 
 
         return factory.getObject();
+    }
+
+    Properties hibernateProperties() {
+        return new Properties() {
+            {
+//                setProperty("hibernate.globally_quoted_identifiers", "true");
+            }
+        };
     }
 
     @Bean
