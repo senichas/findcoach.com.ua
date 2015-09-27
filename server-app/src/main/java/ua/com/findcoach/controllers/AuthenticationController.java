@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.com.findcoach.api.AuthenticationRequest;
 import ua.com.findcoach.api.AuthentificationResponse;
+import ua.com.findcoach.domain.User;
+import ua.com.findcoach.repository.UserRepository;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -19,20 +21,19 @@ import java.net.URLDecoder;
 public class AuthenticationController {
     @Autowired
     private EmailValidator emailValidator;
+    @Autowired
+    private UserRepository repository;
 
     @RequestMapping(method = RequestMethod.POST, value = "email")
     @ResponseBody
     public AuthentificationResponse postAnswer(@RequestBody String body) throws JsonMappingException, JsonParseException, IOException {
         ObjectMapper mapper = new ObjectMapper();
-        AuthentificationResponse authentificationResponse = new AuthentificationResponse();
         String decodeJSON = new URLDecoder().decode(body, "UTF-8");
+        User user = repository.findByEmail(decodeJSON);
         AuthenticationRequest authenticationRequest = mapper.readValue(decodeJSON, AuthenticationRequest.class);
-        if (!emailValidator.validate(authenticationRequest.getEmail())) {
-            authentificationResponse.setMessage("You wrote wrong email");
-            authentificationResponse.setResult(false);
-            return authentificationResponse;
-        }
-        authentificationResponse.setResult(true);
+        AuthentificationResponse authentificationResponse = emailValidator.validate(authenticationRequest.getEmail())
+                ? new AuthentificationResponse(true, "")
+                : new AuthentificationResponse(false, "You wrote wrong massage");
         return authentificationResponse;
     }
 }

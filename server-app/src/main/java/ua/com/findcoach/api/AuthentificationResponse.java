@@ -7,6 +7,14 @@ public class AuthentificationResponse {
     private boolean result;
     private String message;
 
+    public AuthentificationResponse(boolean result, String message) {
+        this.result = result;
+        this.message = message;
+    }
+
+    public AuthentificationResponse() {
+    }
+
     public boolean isResult() {
         return result;
     }
