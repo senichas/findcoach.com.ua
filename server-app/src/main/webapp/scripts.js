@@ -10,7 +10,9 @@ $(function () {
             , acync: true
             , dataType: 'json'
             , success: function (res) {
-                $("#email").val(res.message);
+                //$("#email").val(res.message);
+                //window.alert("resp " + res.redirect);
+                window.location = res.redirect;
             }
         });
         return false;
