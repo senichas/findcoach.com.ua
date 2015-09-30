@@ -1,8 +1,6 @@
 package ua.com.findcoach.conf;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.tools.view.VelocityView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +9,9 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.view.velocity.VelocityConfig;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
-import ua.com.findcoach.controllers.EmailValidator;
+import ua.com.findcoach.utils.EmailValidator;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Properties;
