@@ -3,6 +3,7 @@ package ua.com.findcoach.controllers;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.javafx.sg.PGShape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +24,8 @@ public class AuthenticationController {
     private EmailValidator emailValidator;
     @Autowired
     private UserRepository repository;
-    final static String COACH_REDIRECT = "{\"redirect\":\"coach.html\"}";
-    final static String PADAWAN_REDIRECT = "{\"redirect\":\"padawan.html\"}";
+    final static String COACH_REDIRECT = "{\"redirect\":\"/profile/coach.html\"}";
+    final static String PADAWAN_REDIRECT = "{\"redirect\":\"/profile/padawan.html\"}";
     public User user;
 
     @RequestMapping(method = RequestMethod.POST, value = {"email"})
@@ -33,7 +34,7 @@ public class AuthenticationController {
         ObjectMapper mapper = new ObjectMapper();
         String decodeJSON = new URLDecoder().decode(body, "UTF-8");
         AuthenticationRequest authenticationRequest = mapper.readValue(decodeJSON, AuthenticationRequest.class);
-        User user = repository.findByEmail(authenticationRequest.getEmail());
+        user = repository.findByEmail(authenticationRequest.getEmail());
         String result = user.getIsCoach() == 0 ? COACH_REDIRECT : PADAWAN_REDIRECT;
 //        AuthentificationResponse authentificationResponse = emailValidator.validate(authenticationRequest.getEmail())
 //                ? new AuthentificationResponse(true, "")
@@ -57,9 +58,9 @@ public class AuthenticationController {
         return new ModelAndView("padawan");
     }
 
-    @RequestMapping("/")
-    public @ResponseBody String index() {
-        return "";
+    @RequestMapping("/index.html")
+    public ModelAndView index() {
+        return new ModelAndView("index");
     }
 }
 
