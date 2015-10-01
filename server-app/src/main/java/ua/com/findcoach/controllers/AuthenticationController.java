@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AuthenticationRequest;
 import ua.com.findcoach.api.AuthentificationResponse;
+import ua.com.findcoach.i18n.LocalizedMessageResoler;
 import ua.com.findcoach.services.UserService;
 import ua.com.findcoach.utils.EmailValidator;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class AuthenticationController {
@@ -26,9 +29,13 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LocalizedMessageResoler messageResoler;
+
     @RequestMapping(method = RequestMethod.POST, value = {"email"})
     @ResponseBody
     public AuthentificationResponse postAnswer(@RequestBody String body) throws JsonMappingException, JsonParseException, IOException {
+
         ObjectMapper mapper = new ObjectMapper();
         String decodeJSON = new URLDecoder().decode(body, "UTF-8");
         AuthenticationRequest authenticationRequest = mapper.readValue(decodeJSON, AuthenticationRequest.class);
@@ -43,13 +50,18 @@ public class AuthenticationController {
 
     @RequestMapping("/coach")
     public ModelAndView coachValidator() throws IOException {
-        return new ModelAndView("coach");
+        Map<String, Object> params = new HashMap<>();
+        params.put("message", messageResoler.getMessage("titlepage.welcome.coach"));
+        return new ModelAndView("coach", params);
     }
 
     @RequestMapping("/padawan.html")
     public ModelAndView padawanValidator() throws IOException {
+        Map<String, Object> params = new HashMap<>();
+        params.put("message", messageResoler.getMessage("titlepage.welcome.padawan"));
 
-        return new ModelAndView("padawan");
+
+        return new ModelAndView("padawan", params);
     }
 
     @RequestMapping("/index.html")
