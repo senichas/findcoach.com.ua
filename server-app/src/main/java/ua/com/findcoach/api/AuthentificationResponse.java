@@ -6,13 +6,13 @@ package ua.com.findcoach.api;
 public class AuthentificationResponse {
     private boolean result;
     private String message;
+    private String redirectLink;
 
-    public AuthentificationResponse(boolean result, String message) {
+
+    public AuthentificationResponse(boolean result, String message, String redirectLink) {
         this.result = result;
         this.message = message;
-    }
-
-    public AuthentificationResponse() {
+        this.redirectLink = redirectLink;
     }
 
     public boolean isResult() {
@@ -29,5 +29,13 @@ public class AuthentificationResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getRedirectLink() {
+        return redirectLink;
+    }
+
+    public void setRedirectLink(String redirectLink) {
+        this.redirectLink = redirectLink;
     }
 }

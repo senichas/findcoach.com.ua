@@ -2,7 +2,6 @@
 $(function () {
     $("#submit").click(function(){
     var email = {email : document.getElementById("email").value};
-        alert(email);
         $.ajax({
             url: "email"
             , type: 'POST'
@@ -10,9 +9,7 @@ $(function () {
             , acync: true
             , dataType: 'json'
             , success: function (res) {
-                //$("#email").val(res.message);
-                //window.alert("resp " + res.redirect);
-                window.location = res.redirect;
+                window.location = res.redirectLink;
             }
         });
         return false;

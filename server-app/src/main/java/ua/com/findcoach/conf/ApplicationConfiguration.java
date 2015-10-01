@@ -3,11 +3,14 @@ package ua.com.findcoach.conf;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.tools.view.VelocityView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -24,9 +27,10 @@ import java.util.Properties;
  * Created by DENIS on 26.09.2015.
  */
 @Configuration
-@ComponentScan({"ua.com.findcoach.controllers"})
+@ComponentScan({"ua.com.findcoach.controllers", "ua.com.findcoach.services"})
 @PropertySource("classpath:jdbc.properties")
 @EnableWebMvc
+@EnableJpaRepositories("ua.com.findcoach.repository")
 public class ApplicationConfiguration {
     @Autowired
     Environment environment;
