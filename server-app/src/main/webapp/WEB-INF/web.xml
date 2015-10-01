@@ -22,11 +22,11 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 
     <servlet-mapping>
         <servlet-name>applicationContext</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/profile/*</url-pattern>
     </servlet-mapping>
 
-    <welcome-file-list>
-        <welcome-file>/index.html</welcome-file>
-    </welcome-file-list>
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>profile/index.html</welcome-file>-->
+    <!--</welcome-file-list>-->
 
 </web-app>

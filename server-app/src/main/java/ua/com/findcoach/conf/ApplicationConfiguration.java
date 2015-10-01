@@ -1,9 +1,13 @@
 package ua.com.findcoach.conf;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.tools.view.VelocityView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -21,16 +25,19 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan({"ua.com.findcoach.controllers"})
+@PropertySource("classpath:jdbc.properties")
 @EnableWebMvc
 public class ApplicationConfiguration {
+    @Autowired
+    Environment environment;
 
     @Bean
     public ComboPooledDataSource dataSource() throws Exception {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setDriverClass("org.postgresql.Driver");
-        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/findcoach");
-        dataSource.setUser("postgres");
-        dataSource.setPassword("adidas");
+        dataSource.setDriverClass(environment.getProperty("jdbc.driverClassName"));
+        dataSource.setJdbcUrl(environment.getProperty("jdbc.url"));
+        dataSource.setUser(environment.getProperty("jdbc.username"));
+        dataSource.setPassword(environment.getProperty("jdbc.password"));
         return dataSource;
     }
 
@@ -89,5 +96,9 @@ public class ApplicationConfiguration {
         velocityViewResolver.setSuffix(".html");
         velocityViewResolver.setContentType("text/html; charset=utf-8");
         return velocityViewResolver;
+    }
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(){
+        return new PropertySourcesPlaceholderConfigurer();
     }
 }
