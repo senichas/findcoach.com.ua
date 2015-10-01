@@ -1,4 +1,4 @@
-package ua.com.findcoach.controllers;
+package ua.com.findcoach.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

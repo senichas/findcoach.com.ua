@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AuthenticationRequest;
 import ua.com.findcoach.domain.User;
 import ua.com.findcoach.repository.UserRepository;
+import ua.com.findcoach.utils.EmailValidator;
 
 import java.io.IOException;
 import java.net.URLDecoder;
