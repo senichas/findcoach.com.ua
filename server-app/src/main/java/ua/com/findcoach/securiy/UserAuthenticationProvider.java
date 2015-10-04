@@ -20,13 +20,13 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String email = (String) authentication.getPrincipal();
-        char[] password = (char[]) authentication.getCredentials();
+        char[] password = String.valueOf("").toCharArray();
 
         if (!"coach@test.com".equals(email)) {
             throw new BadCredentialsException("Username not found.");
         }
 
-        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(UserRole.COACH.name()));
 
         return new UsernamePasswordAuthenticationToken(email, password, authorities);

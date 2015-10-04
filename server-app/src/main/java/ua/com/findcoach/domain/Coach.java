@@ -1,10 +1,10 @@
 package ua.com.findcoach.domain;
 
-import org.eclipse.persistence.annotations.Customizer;
-
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("1")
 public class Coach extends User {
+
 }
