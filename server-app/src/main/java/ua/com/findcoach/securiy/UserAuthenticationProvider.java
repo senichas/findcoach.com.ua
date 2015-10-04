@@ -1,5 +1,6 @@
 package ua.com.findcoach.securiy;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,7 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import ua.com.findcoach.domain.User;
 import ua.com.findcoach.domain.UserRole;
+import ua.com.findcoach.services.UserService;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,18 +19,26 @@ import java.util.Collection;
  * Created by senich on 10/2/2015.
  */
 public class UserAuthenticationProvider implements AuthenticationProvider {
+    @Autowired
+    UserService userService;
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String email = (String) authentication.getPrincipal();
         char[] password = String.valueOf("").toCharArray();
 
-        if (!"coach@test.com".equals(email)) {
+        User user = userService.findUserByEmail(email);
+        if (user == null){
             throw new BadCredentialsException("Username not found.");
         }
-
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(UserRole.COACH.name()));
+        if (user.getIsCoach()==1){
+            authorities.add(new SimpleGrantedAuthority(UserRole.COACH.name()));
+        }
+        if (user.getIsPadawan()==1){
+            authorities.add(new SimpleGrantedAuthority(UserRole.PADAWAN.name()));
+        }
 
         return new UsernamePasswordAuthenticationToken(email, password, authorities);
     }

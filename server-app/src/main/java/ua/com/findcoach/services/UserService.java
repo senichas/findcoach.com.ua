@@ -33,7 +33,7 @@ public class UserService {
     private AuthenticationManager authenticationManager;
 
     public String calculateHomeLinkForUser(String email) {
-        User user = repository.findByEmail(email);
+        User user = findUserByEmail(email);
         String redirectLink = "";
         if (user != null && user.getIsCoach() == 1) {
             redirectLink = COACH_REDIRECT;
@@ -60,5 +60,10 @@ public class UserService {
         session.setAttribute(SPRING_SECURITY_CONTEXT, securityContext);
 
         return true;
+    }
+
+    public User findUserByEmail(String email){
+        User user = repository.findByEmail(email);
+        return user;
     }
 }
