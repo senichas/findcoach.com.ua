@@ -2,10 +2,23 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/main.css"/>
+    <title>Стартовая страница</title>
 </head>
 <body>
-Welcome to coach page!<br>
-${message}
+<div id="mainContainer">
+    <header id="coachHeader">
+        <div style="text-align: right;">
+            <span>Статус:</span>
+            <select name="status" id="status">
+                <option>Looking for coach</option>
+            </select>
+        </div>
+        Welcome to coach page!<br>
+        ${message}
+    </header>
+</div>
+
 </body>
 </html>
