@@ -1,8 +1,6 @@
 package ua.com.findcoach.conf;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.tools.view.VelocityView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,7 +26,7 @@ import java.util.Properties;
  */
 @Configuration
 @ComponentScan({"ua.com.findcoach.controllers", "ua.com.findcoach.services"})
-@PropertySource("classpath:jdbc.properties")
+@PropertySource({"classpath:jdbc.properties"})
 @EnableWebMvc
 @EnableJpaRepositories("ua.com.findcoach.repository")
 public class ApplicationConfiguration {
@@ -86,23 +84,28 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public VelocityConfigurer velocityConfig(){
+    public VelocityConfigurer velocityConfig() {
         VelocityConfigurer velocityConfigurer = new VelocityConfigurer();
         velocityConfigurer.setResourceLoaderPath("WEB-INF/templates/");
-        return  velocityConfigurer;
+        Properties props = new Properties();
+        props.setProperty("input.encoding", "UTF-8");
+        props.setProperty("output.encoding", "UTF-8");
+        velocityConfigurer.setVelocityProperties(props);
+        return velocityConfigurer;
     }
 
     @Bean
-    public VelocityViewResolver velocityViewResolver(){
+    public VelocityViewResolver velocityViewResolver() {
         VelocityViewResolver velocityViewResolver = new VelocityViewResolver();
         velocityViewResolver.setCache(false);
         velocityViewResolver.setPrefix("");
         velocityViewResolver.setSuffix(".html");
-        velocityViewResolver.setContentType("text/html; charset=utf-8");
+        velocityViewResolver.setContentType("text/html; charset=UTF-8");
         return velocityViewResolver;
     }
+
     @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(){
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 }
