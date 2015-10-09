@@ -1055,7 +1055,7 @@
 			// Date object set to last day of the month
 			var dtLast = new Date(this.getCurrentYear(),this.getCurrentMonth(),daysInCurrentMonth,0,0,0,0);
 			// index within the week of the first day of the month
-			var firstDayWkIndex = dtFirst.getDay();
+			var firstDayWkIndex = dtFirst.getDay() - 1;
 			// inidex within the week of the last day of the month
 			var lastDayWkIndex = dtLast.getDay();
 			
@@ -2851,7 +2851,7 @@
 	
 	};
 	// static properties
-	Calendar.dayNames = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
+	Calendar.dayNames = new Array("Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье");
 	/**
 	 * Sort function for sorting agenda items by start date.
 	 *
