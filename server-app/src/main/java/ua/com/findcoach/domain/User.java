@@ -8,8 +8,8 @@ import javax.persistence.*;
  * Created by DENIS on 20.09.2015.
  */
 @Entity
-@DiscriminatorFormula("(is_padawan * 10 + is_coach)")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorFormula("(is_padawan * 10 + is_coach)")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "\"user\"")
 public class User {
     @Id
