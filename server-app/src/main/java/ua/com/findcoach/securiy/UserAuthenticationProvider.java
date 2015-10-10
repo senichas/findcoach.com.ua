@@ -29,14 +29,14 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         char[] password = String.valueOf("").toCharArray();
 
         User user = userService.findUserByEmail(email);
-        if (user == null){
+        if (user == null) {
             throw new BadCredentialsException("Username not found.");
         }
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        if (user.getIsCoach()==1){
+        if (user.getIsCoach().equals(1)) {
             authorities.add(new SimpleGrantedAuthority(UserRole.COACH.name()));
         }
-        if (user.getIsPadawan()==1){
+        if (user.getIsPadawan().equals(1)) {
             authorities.add(new SimpleGrantedAuthority(UserRole.PADAWAN.name()));
         }
 

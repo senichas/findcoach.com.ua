@@ -30,12 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/profile/coach.html").hasAuthority("COACH")
-                    .antMatchers("/profile/coach/**").hasAuthority("COACH")
-                    .anyRequest().permitAll()
+                .antMatchers("/profile/coach.html").hasAuthority("COACH")
+                .antMatchers("/profile/coach/**").hasAuthority("COACH")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                    .loginPage("/login").permitAll()
+                .loginPage("/login").permitAll()
                 .and()
                 .logout().permitAll();
     }
@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         AuthenticationManager authenticationManager = new ProviderManager(providers);
         return authenticationManager;
     }
+
     @Bean
     public UserAuthenticationProvider userAuthenticationProvider() {
         return new UserAuthenticationProvider();
