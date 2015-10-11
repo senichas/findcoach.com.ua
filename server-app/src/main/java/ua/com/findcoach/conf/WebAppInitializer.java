@@ -1,7 +1,5 @@
 package ua.com.findcoach.conf;
 
-import org.springframework.core.Conventions;
-import org.springframework.util.Assert;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
@@ -10,7 +8,6 @@ import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.*;
-import java.util.Arrays;
 import java.util.EnumSet;
 
 /**
@@ -44,7 +41,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
     private final void registerFilter(ServletContext servletContext, boolean insertBeforeOtherFilters, String filterName, Filter filter) {
         FilterRegistration.Dynamic registration = servletContext.addFilter(filterName, filter);
-        if(registration == null) {
+        if (registration == null) {
             throw new IllegalStateException("Duplicate Filter registration for \'" + filterName + "\'. Check to ensure the Filter is only configured once.");
         } else {
             registration.setAsyncSupported(true);
