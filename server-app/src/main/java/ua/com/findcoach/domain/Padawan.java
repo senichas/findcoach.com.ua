@@ -1,10 +1,8 @@
 package ua.com.findcoach.domain;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-//@Entity
-//@DiscriminatorValue("10")
+@Entity
 public class Padawan extends User {
 
 }

@@ -1,6 +1,5 @@
 package ua.com.findcoach.domain;
 
-import org.hibernate.annotations.DiscriminatorFormula;
 
 import javax.persistence.*;
 
@@ -8,7 +7,6 @@ import javax.persistence.*;
  * Created by DENIS on 20.09.2015.
  */
 @Entity
-//@DiscriminatorFormula("(is_padawan * 10 + is_coach)")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "\"user\"")
 public class User {
