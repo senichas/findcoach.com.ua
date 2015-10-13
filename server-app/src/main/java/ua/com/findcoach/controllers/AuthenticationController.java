@@ -62,10 +62,15 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/coach.html")
-    public ModelAndView coachValidator() throws IOException {
+    public ModelAndView coachHomePage() throws IOException {
         Map<String, Object> params = new HashMap<>();
+        Map<Enum, String> statusMap = statusHolder.getStatusMap();
+        for (Map.Entry<Enum, String> entry : statusMap.entrySet()) {
+            entry.setValue(messageResoler.getMessage(entry.getValue()));
+        }
         params.put("message", messageResoler.getMessage("titlepage.welcome.coach"));
-        params.put("status",statusHolder.getMesseger());
+        params.put("status", statusMap);
+
         return new ModelAndView("coach", params);
     }
 

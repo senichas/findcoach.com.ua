@@ -13,8 +13,8 @@
         <div style="text-align: right;">
             <span>Статус:</span>
             <select name="status" id="status">
-                #foreach($st in $status)
-                <option>$st</option>
+                #foreach($enum in $status.keySet())
+                <option value="$enum">$status.get($enum)</option>
                 #end
             </select>
         </div>
