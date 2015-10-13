@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 import ua.com.findcoach.utils.EmailValidator;
+import ua.com.findcoach.utils.StatusHolder;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Properties;
@@ -82,6 +83,9 @@ public class ApplicationConfiguration {
     public EmailValidator emailValidator() {
         return new EmailValidator();
     }
+
+    @Bean
+    public StatusHolder statusHolder(){return new StatusHolder();}
 
     @Bean
     public VelocityConfigurer velocityConfig() {

@@ -15,6 +15,7 @@ import ua.com.findcoach.api.AuthentificationResponse;
 import ua.com.findcoach.i18n.LocalizedMessageResoler;
 import ua.com.findcoach.services.UserService;
 import ua.com.findcoach.utils.EmailValidator;
+import ua.com.findcoach.utils.StatusHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -28,7 +29,11 @@ public class AuthenticationController {
     private EmailValidator emailValidator;
 
     @Autowired
+    private StatusHolder statusHolder;
+
+    @Autowired
     private UserService userService;
+
 
     @Autowired
     private LocalizedMessageResoler messageResoler;
@@ -57,9 +62,15 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/coach.html")
-    public ModelAndView coachValidator() throws IOException {
+    public ModelAndView coachHomePage() throws IOException {
         Map<String, Object> params = new HashMap<>();
+        Map<Enum, String> statusMap = statusHolder.getStatusMap();
+        for (Map.Entry<Enum, String> entry : statusMap.entrySet()) {
+            entry.setValue(messageResoler.getMessage(entry.getValue()));
+        }
         params.put("message", messageResoler.getMessage("titlepage.welcome.coach"));
+        params.put("status", statusMap);
+
         return new ModelAndView("coach", params);
     }
 
