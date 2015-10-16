@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AuthenticationRequest;
 import ua.com.findcoach.api.AuthentificationResponse;
 import ua.com.findcoach.domain.CoachStatus;
+import ua.com.findcoach.exception.StatusUpdateException;
 import ua.com.findcoach.i18n.LocalizedMessageResoler;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.UserService;
@@ -70,7 +71,8 @@ public class AuthenticationController {
     @RequestMapping("/coach.html")
     public ModelAndView coachHomePage() throws IOException {
         Map<String, Object> params = new HashMap<>();
-        Map<Enum, String> statusMap = statusHolder.getStatusMap();
+        Map<Enum,String> statusMap = new HashMap<>();
+        statusMap.putAll(statusHolder.getStatusMap());
         for (Map.Entry<Enum, String> entry : statusMap.entrySet()) {
             entry.setValue(messageResoler.getMessage(entry.getValue()));
         }
@@ -96,7 +98,7 @@ public class AuthenticationController {
 
     @RequestMapping("/status")
     @ResponseBody
-    public HttpStatus setStatus(@RequestBody String body, HttpServletRequest httpServletRequest) throws IOException {
+    public HttpStatus setStatus(@RequestBody String body, HttpServletRequest httpServletRequest) throws IOException, StatusUpdateException {
         String jsonDecode = new URLDecoder().decode(body, "UTF-8");
         Map<String, String> jsonMap = (HashMap<String, String>) new ObjectMapper().readValue(jsonDecode, HashMap.class);
         if (coachService.isCoach()) {
@@ -104,7 +106,7 @@ public class AuthenticationController {
                 return HttpStatus.OK;
             }
         }
-        return HttpStatus.INTERNAL_SERVER_ERROR;
+        throw new StatusUpdateException("Something was going wrong");
     }
 }
 
