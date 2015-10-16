@@ -13,7 +13,9 @@
         <div style="text-align: right;">
             <span>Статус:</span>
             <select name="status" id="status">
-                <option>Looking for padawan</option>
+                #foreach($st in $status)
+                <option>$st</option>
+                #end
             </select>
         </div>
         Welcome to coach page!<br>
