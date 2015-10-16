@@ -14,6 +14,7 @@
         <org.springframework.version>4.2.1.RELEASE</org.springframework.version>
         <org.jackson.version>2.6.1</org.jackson.version>
         <org.springframework.security.version>4.0.2.RELEASE</org.springframework.security.version>
+        <org.hibernate.version>5.0.2.Final</org.hibernate.version>
     </properties>
 
     <build>
@@ -22,8 +23,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -78,16 +79,17 @@
             <artifactId>jackson-databind</artifactId>
             <version>${org.jackson.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.3.9.Final</version>
+            <version>${org.hibernate.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.3.9.Final</version>
+            <version>${org.hibernate.version}</version>
         </dependency>
 
         <dependency>
