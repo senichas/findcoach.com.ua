@@ -65,4 +65,8 @@ public class UserService {
         User user = repository.findByEmail(email);
         return user;
     }
+
+    public String getUserPrincipal() {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 }
