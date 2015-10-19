@@ -24,18 +24,8 @@ public class CoachService {
     }
 
 
-    public int saveStatus(CoachStatus coachStatus, String email) {
-        return coachRepository.setNewStatus(coachStatus, email);
-    }
-
-    public boolean isCoach() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        List<GrantedAuthority> autorities = (List) authentication.getAuthorities();
-        for (GrantedAuthority authority : autorities) {
-            if (authority.getAuthority() == "COACH") ;
-            return true;
-        }
-        return false;
+    public int saveStatus(CoachStatus coachStatus) {
+        return coachRepository.setNewStatus(coachStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
 }

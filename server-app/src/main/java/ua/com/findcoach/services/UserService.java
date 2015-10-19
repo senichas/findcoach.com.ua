@@ -66,7 +66,4 @@ public class UserService {
         return user;
     }
 
-    public String getUserPrincipal() {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
 }

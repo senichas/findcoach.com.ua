@@ -22,6 +22,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorResponse statusUpdateExeption(Exception exception) {
-        return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, messageResoler.getMessage("error.status.failure_update"),exception.getMessage());
+        return new ErrorResponse(messageResoler.getMessage("error.status.failure_update"),exception.getMessage());
     }
 }

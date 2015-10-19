@@ -6,10 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AuthenticationRequest;
 import ua.com.findcoach.api.AuthentificationResponse;
@@ -18,8 +15,8 @@ import ua.com.findcoach.exception.StatusUpdateException;
 import ua.com.findcoach.i18n.LocalizedMessageResoler;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.UserService;
-import ua.com.findcoach.utils.EmailValidator;
 import ua.com.findcoach.utils.CoachStatusHolder;
+import ua.com.findcoach.utils.EmailValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -71,7 +68,7 @@ public class AuthenticationController {
     @RequestMapping("/coach.html")
     public ModelAndView coachHomePage() throws IOException {
         Map<String, Object> params = new HashMap<>();
-        Map<Enum,String> statusMap = new HashMap<>();
+        Map<Enum, String> statusMap = new HashMap<>();
         statusMap.putAll(statusHolder.getStatusMap());
         for (Map.Entry<Enum, String> entry : statusMap.entrySet()) {
             entry.setValue(messageResoler.getMessage(entry.getValue()));
@@ -96,15 +93,11 @@ public class AuthenticationController {
         return new ModelAndView("index");
     }
 
-    @RequestMapping("/status")
+    @RequestMapping(method = RequestMethod.POST, value = "/coach/status")
     @ResponseBody
-    public HttpStatus setStatus(@RequestBody String body, HttpServletRequest httpServletRequest) throws IOException, StatusUpdateException {
-        String jsonDecode = new URLDecoder().decode(body, "UTF-8");
-        Map<String, String> jsonMap = (HashMap<String, String>) new ObjectMapper().readValue(jsonDecode, HashMap.class);
-        if (coachService.isCoach()) {
-            if (coachService.saveStatus(CoachStatus.valueOf(jsonMap.get("statusUpdate")), userService.getUserPrincipal()) == 1) {
-                return HttpStatus.OK;
-            }
+    public HttpStatus updateCoachStatus(@RequestBody String body, @RequestParam("status") String status) throws IOException, StatusUpdateException {
+        if (coachService.saveStatus(CoachStatus.valueOf(status)) == 1) {
+            return HttpStatus.OK;
         }
         throw new StatusUpdateException("Something was going wrong");
     }
