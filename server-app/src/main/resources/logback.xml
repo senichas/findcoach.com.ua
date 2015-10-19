@@ -28,7 +28,6 @@
     </logger>
 
     <logger name="org.springframework" level="INFO"/>
-    <!--<logger name="org.hibernate" level="INFO"/>-->
     <logger name="org.springframework.context.support" level="WARN"/>
     <logger name="ua.com.findcoach" level="DEBUG"/>
     <logger name="org.hibernate.type" level="ALL" />

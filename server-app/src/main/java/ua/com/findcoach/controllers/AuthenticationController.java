@@ -42,6 +42,8 @@ public class AuthenticationController {
     @Autowired
     private LocalizedMessageResoler messageResoler;
 
+    private static final int UPDATED_ROWS_COUNT = 1;
+
     @RequestMapping(method = RequestMethod.POST, value = {"email"})
     @ResponseBody
     public AuthentificationResponse postAnswer(@RequestBody String body, HttpServletRequest request) throws JsonMappingException, JsonParseException, IOException {
@@ -101,8 +103,8 @@ public class AuthenticationController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/coach/status")
     @ResponseBody
-    public HttpStatus updateCoachStatus(@RequestBody String body, @RequestParam("status") String status) throws IOException, StatusUpdateException {
-        if (coachService.saveStatus(CoachStatus.valueOf(status)) == 1) {
+    public HttpStatus updateCoachStatus(@RequestParam("status") String status) throws IOException, StatusUpdateException {
+        if (coachService.updateStatus(CoachStatus.valueOf(status)) == UPDATED_ROWS_COUNT) {
             return HttpStatus.OK;
         }
         throw new StatusUpdateException("Something was going wrong");

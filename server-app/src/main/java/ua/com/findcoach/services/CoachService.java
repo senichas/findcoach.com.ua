@@ -1,8 +1,6 @@
 package ua.com.findcoach.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ua.com.findcoach.domain.Coach;
@@ -24,8 +22,8 @@ public class CoachService {
     }
 
 
-    public int saveStatus(CoachStatus coachStatus) {
-        return coachRepository.setNewStatus(coachStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    public int updateStatus(CoachStatus coachStatus) {
+        return coachRepository.updateNewStatus(coachStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
 }

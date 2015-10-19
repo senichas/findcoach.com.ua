@@ -19,6 +19,6 @@ public interface CoachRepository extends CrudRepository<Coach, Integer> {
     @Modifying(clearAutomatically = true)
     @Transactional(readOnly = false)
     @Query("UPDATE Coach c SET c.status = :coachStatus WHERE c.email = :email")
-    int setNewStatus(@Param("coachStatus") CoachStatus coachStatus, @Param("email") String email);
+    int updateNewStatus(@Param("coachStatus") CoachStatus coachStatus, @Param("email") String email);
 
 }
