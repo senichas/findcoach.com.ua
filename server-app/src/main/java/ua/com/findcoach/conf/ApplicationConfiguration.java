@@ -67,6 +67,7 @@ public class ApplicationConfiguration {
             {
 //                setProperty("hibernate.globally_quoted_identifiers", "true");
                 setProperty("hibernate.show_sql", "true");
+                setProperty("hibernate.hbm2ddl.auto", "validate");
             }
         };
     }

@@ -27,7 +27,7 @@ public class User {
     private Integer isPadawan;
     @Column(name = "is_coach", columnDefinition = "DEFAULT 0")
     private Integer isCoach;
-    @Column(name = "is_active", columnDefinition = "DEFAULT false", nullable = false)
+    @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
     public int getUserId() {
