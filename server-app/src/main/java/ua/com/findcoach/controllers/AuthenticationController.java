@@ -69,10 +69,16 @@ public class AuthenticationController {
     public ModelAndView coachHomePage() throws IOException {
         Map<String, Object> params = new HashMap<>();
         Map<Enum, String> statusMap = new HashMap<>();
-        statusMap.putAll(statusHolder.getStatusMap());
-        for (Map.Entry<Enum, String> entry : statusMap.entrySet()) {
-            entry.setValue(messageResoler.getMessage(entry.getValue()));
-        }
+        Map<Enum, String> statuses = CoachStatusHolder.getStatusMap();
+
+        statuses
+                .entrySet()
+                .stream()
+                .forEach(enumStringEntry ->
+                                statusMap.put(enumStringEntry.getKey(), messageResoler.getMessage(enumStringEntry.getValue()))
+                );
+
+
         params.put("message", messageResoler.getMessage("titlepage.welcome.coach"));
         params.put("status", statusMap);
 

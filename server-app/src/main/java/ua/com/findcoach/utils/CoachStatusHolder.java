@@ -16,7 +16,7 @@ public class CoachStatusHolder {
         }
     }
 
-    public  Map<Enum, String> getStatusMap() {
+    public static Map<Enum, String> getStatusMap() {
         return MESSEGES_KEYS_HOLDER;
     }
 }
