@@ -8,15 +8,12 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
-import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.User;
-import ua.com.findcoach.repository.CoachRepository;
 import ua.com.findcoach.repository.UserRepository;
 import ua.com.findcoach.securiy.UserAuthenticationProvider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -28,8 +25,6 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    @Autowired
-    private CoachRepository coachRepository;
 
     @Autowired
     private UserAuthenticationProvider userAuthenticationProvider;

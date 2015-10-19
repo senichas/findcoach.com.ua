@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "coach")
-//@DiscriminatorValue("1")
 @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "user_id")
 public class Coach extends User {
 
