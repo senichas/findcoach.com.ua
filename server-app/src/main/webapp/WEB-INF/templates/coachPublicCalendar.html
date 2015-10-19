@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/main.css"/>
+    <link rel="stylesheet" href="/css/coach.css"/>
+    <title>Стартовая страница</title>
+</head>
+<body>
+<div id="mainContainer">
+    <header id="coachHeader">
+        <div style="text-align: right;">
+            <span>Статус:</span>
+            <select name="status" id="status">
+                #foreach($st in $status)
+                <option>$st</option>
+                #end
+            </select>
+        </div>
+        Welcome to coach page!<br>
+        ${message}
+    </header>
+</div>
+
+</body>
+</html>
