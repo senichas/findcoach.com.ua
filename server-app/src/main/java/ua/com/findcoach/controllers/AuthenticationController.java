@@ -42,7 +42,7 @@ public class AuthenticationController {
     @Autowired
     private LocalizedMessageResoler messageResoler;
 
-    private static final int UPDATED_ROWS_COUNT = 1;
+    private static final int SINGLE_ROW = 1;
 
     @RequestMapping(method = RequestMethod.POST, value = {"email"})
     @ResponseBody
@@ -104,7 +104,8 @@ public class AuthenticationController {
     @RequestMapping(method = RequestMethod.POST, value = "/coach/status")
     @ResponseBody
     public HttpStatus updateCoachStatus(@RequestParam("status") String status) throws IOException, StatusUpdateException {
-        if (coachService.updateStatus(CoachStatus.valueOf(status)) == UPDATED_ROWS_COUNT) {
+        int updatedRowCount = coachService.updateStatus(CoachStatus.valueOf(status));
+        if (updatedRowCount == SINGLE_ROW) {
             return HttpStatus.OK;
         }
         throw new StatusUpdateException("Something was going wrong");

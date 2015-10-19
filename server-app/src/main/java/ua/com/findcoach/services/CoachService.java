@@ -23,7 +23,7 @@ public class CoachService {
 
 
     public int updateStatus(CoachStatus coachStatus) {
-        return coachRepository.updateNewStatus(coachStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return coachRepository.updateCoachStatus(coachStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
 }
