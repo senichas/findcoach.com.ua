@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 import ua.com.findcoach.utils.EmailValidator;
-import ua.com.findcoach.utils.StatusHolder;
+import ua.com.findcoach.utils.CoachStatusHolder;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Properties;
@@ -66,6 +66,8 @@ public class ApplicationConfiguration {
         return new Properties() {
             {
 //                setProperty("hibernate.globally_quoted_identifiers", "true");
+                setProperty("hibernate.show_sql", "true");
+                setProperty("hibernate.hbm2ddl.auto", "validate");
             }
         };
     }
@@ -85,7 +87,7 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public StatusHolder statusHolder(){return new StatusHolder();}
+    public CoachStatusHolder statusHolder(){return new CoachStatusHolder();}
 
     @Bean
     public VelocityConfigurer velocityConfig() {
