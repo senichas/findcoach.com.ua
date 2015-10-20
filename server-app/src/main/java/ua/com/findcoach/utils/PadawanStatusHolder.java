@@ -12,7 +12,7 @@ public class PadawanStatusHolder {
     private final static Map<Enum, String> MESSEGES_KEYS_HOLDER = new HashMap<>();
     static {
         for (PadawanStatus status : PadawanStatus.values()) {
-            MESSEGES_KEYS_HOLDER.put(status, "coach.status." + status.getStatus());
+            MESSEGES_KEYS_HOLDER.put(status, "padawan.status." + status.getStatus());
         }
     }
 

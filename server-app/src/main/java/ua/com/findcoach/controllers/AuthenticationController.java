@@ -36,9 +36,6 @@ public class AuthenticationController {
     private CoachStatusHolder statusHolder;
 
     @Autowired
-    private PadawanStatusHolder PadawanStatusHolder;
-
-    @Autowired
     private UserService userService;
 
     @Autowired

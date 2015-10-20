@@ -18,7 +18,7 @@ public interface PadawanRepository extends CrudRepository<Padawan, Integer> {
 
     @Modifying(clearAutomatically = true)
     @Transactional(readOnly = false)
-    @Query("UPDATE Padawan p SET p.status = :coachStatus WHERE p.email = :email")
+    @Query("UPDATE Padawan p SET p.status = :padawanStatus WHERE p.email = :email")
     int updatePadawanStatus(@Param("padawanStatus") PadawanStatus padawanStatus, @Param("email") String email);
 
 }

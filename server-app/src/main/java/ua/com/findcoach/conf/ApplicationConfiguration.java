@@ -91,9 +91,6 @@ public class ApplicationConfiguration {
     public CoachStatusHolder statusHolder(){return new CoachStatusHolder();}
 
     @Bean
-    public PadawanStatusHolder PadawanStatusHolder(){return new PadawanStatusHolder();}
-
-    @Bean
     public VelocityConfigurer velocityConfig() {
         VelocityConfigurer velocityConfigurer = new VelocityConfigurer();
         velocityConfigurer.setResourceLoaderPath("WEB-INF/templates/");
