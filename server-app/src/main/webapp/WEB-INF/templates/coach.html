@@ -8,15 +8,20 @@
     <title>Стартовая страница</title>
 </head>
 <body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/status.js"></script>
 <div id="mainContainer">
     <header id="coachHeader">
         <div style="text-align: right;">
             <span>Статус:</span>
             <select name="status" id="status">
-                #foreach($st in $status)
-                <option>$st</option>
+                #foreach($enum in $status.keySet())
+                <option value="$enum">$status.get($enum)</option>
                 #end
             </select>
+        </div>
+        <div id="statusResponseHolder" style="text-align: right">
+            <span id="statusMessege"></span>
         </div>
         Welcome to coach page!<br>
         ${message}

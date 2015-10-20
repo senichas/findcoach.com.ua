@@ -65,4 +65,5 @@ public class UserService {
         User user = repository.findByEmail(email);
         return user;
     }
+
 }
