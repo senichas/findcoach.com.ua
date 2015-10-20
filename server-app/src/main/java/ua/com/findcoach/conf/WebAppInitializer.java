@@ -21,7 +21,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet", new DispatcherServlet(context));
         dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/profile/*");
+        dispatcher.addMapping("/findcoach/*");
 
         insertSpringSecurityFilterChain(servletContext);
     }
