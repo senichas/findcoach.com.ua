@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 import ua.com.findcoach.utils.EmailValidator;
 import ua.com.findcoach.utils.CoachStatusHolder;
+import ua.com.findcoach.utils.PadawanStatusHolder;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Properties;
@@ -88,6 +89,9 @@ public class ApplicationConfiguration {
 
     @Bean
     public CoachStatusHolder statusHolder(){return new CoachStatusHolder();}
+
+    @Bean
+    public PadawanStatusHolder PadawanStatusHolder(){return new PadawanStatusHolder();}
 
     @Bean
     public VelocityConfigurer velocityConfig() {
