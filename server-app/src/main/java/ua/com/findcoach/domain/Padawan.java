@@ -1,3 +1,4 @@
+
 package ua.com.findcoach.domain;
 
 import javax.persistence.*;
