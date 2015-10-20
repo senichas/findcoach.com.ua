@@ -4,7 +4,7 @@ $(document).ready(function () {
             status: $("#status :selected").val()
         };
         $.ajax({
-            url: "coach/status"
+            url: "/findcoach/coach/profile/status"
             , type: 'POST'
             , data: statusUpdate
             , acync: true

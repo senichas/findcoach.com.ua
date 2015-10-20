@@ -18,8 +18,8 @@ import javax.servlet.http.HttpSession;
 @Service
 public class UserService {
 
-    private final static String COACH_REDIRECT = "/profile/coach.html";
-    private final static String PADAWAN_REDIRECT = "/profile/padawan.html";
+    private final static String COACH_REDIRECT = "/findcoach/coach/profile/home.html";
+    private final static String PADAWAN_REDIRECT = "/findcoach/padawan/profile/home.html";
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
     @Autowired

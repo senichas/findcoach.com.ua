@@ -1,0 +1,13 @@
+<project name="utils"
+         default="copyHtmlFiles"
+         basedir=".">
+
+    <target name="copyHtmlFiles">
+        <copydir src="server-app/src/main/webapp/"
+                 dest="server-app/target/server-app-1.0-SNAPSHOT/"
+                 includes="**/*"
+                 excludes="**/WEB-INF/"
+                />
+    </target>
+
+</project>
