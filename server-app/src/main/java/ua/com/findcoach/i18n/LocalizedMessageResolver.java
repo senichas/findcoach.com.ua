@@ -11,7 +11,7 @@ import java.util.Locale;
  * Created by senich on 10/1/2015.
  */
 @Component
-public class LocalizedMessageResoler {
+public class LocalizedMessageResolver {
 
     @Autowired
     private MessageSource messageSource;

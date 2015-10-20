@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ua.com.findcoach.api.ErrorResponse;
 import ua.com.findcoach.exception.StatusUpdateException;
-import ua.com.findcoach.i18n.LocalizedMessageResoler;
+import ua.com.findcoach.i18n.LocalizedMessageResolver;
 
 /**
  * Created by DENIS on 15.10.2015.
@@ -16,12 +16,12 @@ import ua.com.findcoach.i18n.LocalizedMessageResoler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @Autowired
-    private LocalizedMessageResoler messageResoler;
+    private LocalizedMessageResolver messageResolver;
 
     @ExceptionHandler(value = StatusUpdateException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorResponse statusUpdateExeption(Exception exception) {
-        return new ErrorResponse(messageResoler.getMessage("error.status.failure_update"),exception.getMessage());
+        return new ErrorResponse(messageResolver.getMessage("error.status.failure_update"),exception.getMessage());
     }
 }
