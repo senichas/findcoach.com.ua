@@ -14,15 +14,15 @@ import ua.com.findcoach.securiy.UserAuthenticationProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by senich on 10/2/2015.
- */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/profile/email");
+        web
+                .ignoring()
+                .antMatchers("/findcoach/authentication/email");
+
     }
 
     @Override
@@ -30,8 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/profile/coach.html").hasAuthority("COACH")
-                .antMatchers("/profile/coach/**").hasAuthority("COACH")
+                .antMatchers("/findcoach/coach/**").hasAuthority("COACH")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

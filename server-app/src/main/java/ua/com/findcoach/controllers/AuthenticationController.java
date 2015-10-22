@@ -11,14 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AuthenticationRequest;
 import ua.com.findcoach.api.AuthentificationResponse;
 import ua.com.findcoach.domain.CoachStatus;
-import ua.com.findcoach.domain.PadawanStatus;
 import ua.com.findcoach.exception.StatusUpdateException;
 import ua.com.findcoach.i18n.LocalizedMessageResoler;
 import ua.com.findcoach.services.CoachService;
-import ua.com.findcoach.services.PadawanService;
 import ua.com.findcoach.services.UserService;
 import ua.com.findcoach.utils.CoachStatusHolder;
-import ua.com.findcoach.utils.PadawanStatusHolder;
 import ua.com.findcoach.utils.EmailValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,9 +37,6 @@ public class AuthenticationController {
 
     @Autowired
     private CoachService coachService;
-
-    @Autowired
-    private PadawanService padawanService;
 
 
     @Autowired
@@ -94,20 +88,10 @@ public class AuthenticationController {
     }
 
     @RequestMapping("/padawan.html")
-    public ModelAndView padawanHomePage() throws IOException {
+    public ModelAndView padawanValidator() throws IOException {
         Map<String, Object> params = new HashMap<>();
-        Map<Enum, String> statusMap = new HashMap<>();
-        Map<Enum, String> statuses = PadawanStatusHolder.getStatusMap();
-
-        statuses
-                .entrySet()
-                .stream()
-                .forEach(enumStringEntry ->
-                                statusMap.put(enumStringEntry.getKey(), messageResoler.getMessage(enumStringEntry.getValue()))
-                );
-
         params.put("message", messageResoler.getMessage("titlepage.welcome.padawan"));
-        params.put("status", statusMap);
+
 
         return new ModelAndView("padawan", params);
     }
@@ -121,16 +105,6 @@ public class AuthenticationController {
     @ResponseBody
     public HttpStatus updateCoachStatus(@RequestParam("status") String status) throws IOException, StatusUpdateException {
         int updatedRowCount = coachService.updateStatus(CoachStatus.valueOf(status));
-        if (updatedRowCount == SINGLE_ROW) {
-            return HttpStatus.OK;
-        }
-        throw new StatusUpdateException("Something was going wrong");
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/padawan/status")
-    @ResponseBody
-    public HttpStatus updatePadawanStatus(@RequestParam("status") String status) throws IOException, StatusUpdateException {
-        int updatedRowCount = padawanService.updateStatus(PadawanStatus.valueOf(status));
         if (updatedRowCount == SINGLE_ROW) {
             return HttpStatus.OK;
         }
