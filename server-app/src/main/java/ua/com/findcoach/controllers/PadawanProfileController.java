@@ -33,6 +33,7 @@ public class PadawanProfileController {
         Map<String, Object> params = new HashMap<>();
         Map<Enum, String> statusMap = new HashMap<>();
         Map<Enum, String> statuses = PadawanStatusHolder.getStatusMap();
+        String currentStatus = padawanService.selectEmail();
 
         statuses
                 .entrySet()
@@ -44,6 +45,7 @@ public class PadawanProfileController {
 
         params.put("message", messageResolver.getMessage("titlepage.welcome.padawan"));
         params.put("status", statusMap);
+        params.put("currentstatus", currentStatus);
 
         return new ModelAndView("padawanHome", params);
     }

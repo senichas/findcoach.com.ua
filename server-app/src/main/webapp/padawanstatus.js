@@ -14,6 +14,7 @@ $(document).ready(function () {
             , dataType: 'json'
             , success: function (res) {
                 $("#statusResponseHolder").text(res);
+                $('#status [value="currentstatus"]').attr("selected", "selected");
                 setTimeout(hiddenStatusIndicator, 5000);
             }
             ,error: function(res){
