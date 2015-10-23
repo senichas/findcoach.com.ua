@@ -3,10 +3,7 @@ package ua.com.findcoach.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.domain.CoachStatus;
 import ua.com.findcoach.exception.StatusUpdateException;
@@ -36,6 +33,7 @@ public class CoachProfileController {
         Map<String, Object> params = new HashMap<>();
         Map<Enum, String> statusMap = new HashMap<>();
         Map<Enum, String> statuses = CoachStatusHolder.getStatusMap();
+        Enum currentStatus = coachService.getCurrentStatus();
 
         statuses
                 .entrySet()
@@ -47,6 +45,7 @@ public class CoachProfileController {
 
         params.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
         params.put("status", statusMap);
+        params.put("currentStatus", currentStatus);
 
         return new ModelAndView("coachHome", params);
     }
@@ -60,5 +59,16 @@ public class CoachProfileController {
         }
         throw new StatusUpdateException("Something was going wrong");
     }
+
+    @RequestMapping("/cv.html")
+    public ModelAndView coachCV(){
+        return new ModelAndView("cv");
+    }
+
+//    @RequestMapping(method = RequestMethod.POST, value = "/coach/profile/cv")
+//    @ResponseBody
+//    public void saveCoachCV(@RequestBody String body){
+//
+//    }
 
 }

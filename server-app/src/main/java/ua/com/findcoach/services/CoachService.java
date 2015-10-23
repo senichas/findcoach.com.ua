@@ -26,4 +26,8 @@ public class CoachService {
         return coachRepository.updateCoachStatus(coachStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
+    public Enum getCurrentStatus(){
+        return coachRepository.selectCurrentStatus((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
 }
