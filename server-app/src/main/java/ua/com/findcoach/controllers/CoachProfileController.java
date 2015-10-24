@@ -1,5 +1,6 @@
 package ua.com.findcoach.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,9 @@ import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.utils.CoachStatusHolder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,15 +63,19 @@ public class CoachProfileController {
         throw new StatusUpdateException("Something was going wrong");
     }
 
-    @RequestMapping("/cv.html")
+    @RequestMapping("/coachCV.html")
     public ModelAndView coachCV(){
-        return new ModelAndView("cv");
+        return new ModelAndView("coachCV");
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value = "/coach/profile/cv")
-//    @ResponseBody
-//    public void saveCoachCV(@RequestBody String body){
-//
-//    }
+    @RequestMapping(method = RequestMethod.POST, value = "/cv")
+    @ResponseBody
+    public ModelAndView saveCoachCV(@RequestParam("alias") String requestAlias, @RequestParam("header") String requestHeader, @RequestParam("description") String requestDescription,  HttpServletRequest httpServletRequest) throws IOException, StatusUpdateException{
+        int updatedRowCount = coachService.setCoachCV(requestAlias,requestHeader,requestDescription);
+        if (updatedRowCount == SINGLE_ROW){
+            return new ModelAndView("coachCV");
+        }
+        throw new StatusUpdateException("Can't set coach CV");
+    }
 
 }
