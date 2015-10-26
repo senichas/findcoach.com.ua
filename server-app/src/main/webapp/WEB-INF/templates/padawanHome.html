@@ -8,15 +8,22 @@
     <title>Стартовая страница</title>
 </head>
 <body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/padawanstatus.js"></script>
 <div id="mainContainer">
     <header id="padawanHeader">
         <div style="text-align: right;">
             <span>Статус:</span>
             <select name="status" id="status">
-                <option>Looking for coach</option>
+                #foreach($enum in $status.keySet())
+                <option value="$enum" #if($enum.equals($currentStatus))selected #end>$status.get($enum)</option>
+                #end
             </select>
         </div>
-        Welcome to padawan page!
+        <div id="statusResponseHolder" style="text-align: right">
+            <span id="statusMessege"></span>
+        </div>
+        Welcome to padawan page!<br>
         ${message}
     </header>
 </div>
