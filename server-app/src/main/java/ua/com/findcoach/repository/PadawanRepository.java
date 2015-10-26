@@ -22,6 +22,6 @@ public interface PadawanRepository extends CrudRepository<Padawan, Integer> {
     int updatePadawanStatus(@Param("padawanStatus") PadawanStatus padawanStatus, @Param("email") String email);
 
     @Query("SELECT p.status FROM Padawan p WHERE p.email = :email")
-    String selectPadawanEmail(@Param("email") String email);
+    Enum selectCurrentPadawanStatus(@Param("email") String email);
 
 }

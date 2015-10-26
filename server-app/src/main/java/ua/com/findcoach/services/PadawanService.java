@@ -26,7 +26,7 @@ public class PadawanService {
         return padawanRepository.updatePadawanStatus(padawanStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
-    public String selectEmail() {
-        return padawanRepository.selectPadawanEmail((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    public Enum getCurrentPadawanStatus() {
+        return padawanRepository.selectCurrentPadawanStatus((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 }
