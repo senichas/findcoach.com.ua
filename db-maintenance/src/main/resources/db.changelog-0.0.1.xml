@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <preConditions>
+        <dbms type="postgresql"/>
+    </preConditions>
+
+
+    <changeSet id="1.0" author="Andriy">
+        <createTable tableName="user">
+            <column name="user_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="character varying(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="character varying(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="character varying(255)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="user_email_uc"/>
+            </column>
+            <column name="is_padawan" type="integer" defaultValue="0"/>
+            <column name="is_coach" type="integer" defaultValue="0"/>
+            <column name="is_active" type="boolean" defaultValue="false"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="customer"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.1" author="Andriy">
+        <createTable tableName="coach">
+            <column name="user_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="user_id_fk"
+                             references=" &quot;user&quot; (user_id)"/>
+            </column>
+            <column name="status" type="character varying(20)"/>
+
+        </createTable>
+        <rollback>
+            <dropTable tableName="coach"/>
+        </rollback>
+    </changeSet>
+
+
+    <changeSet id="1.2" author="Anton">
+        <tagDatabase tag="version_0.0.1"/>
+    </changeSet>
+
+</databaseChangeLog>
