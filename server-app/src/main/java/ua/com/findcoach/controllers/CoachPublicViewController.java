@@ -44,11 +44,11 @@ public class CoachPublicViewController {
             event1.setId(1);
             event1.setSubject("TRX Training");
             event1.setStartTime(LocalDateTime.of(2015, 10, 22, 7, 0));
-            event1.setEndTime(LocalDateTime.of(2015, 10, 22, 10, 0));
-            event1.setAllDayEvent(Boolean.FALSE);
-            event1.setInstanceType(0);
+            event1.setEndTime(LocalDateTime.of(2015, 10, 25, 10, 0));
+            event1.setAllDayEvent(Boolean.TRUE);
+            event1.setCrossDay(0);
             event1.setRecurringEvent(0);
-            event1.setColor(7);
+            event1.setColor(2);
             event1.setEditable(0);
             event1.setLocation("Start gym");
             event1.setAttends("");

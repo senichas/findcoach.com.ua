@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
  *             1: "team meeting"       subject
  *             2: "10/24/2015 21:06"   startt
  *             3: "12/31/1969 18:40"   end
- *             4: 1                    allday
- *             5: 0                    more than one day event Instance type
- *             6: 0                    Recurring event
- *             7: -1                   Color
- *             8: 1                    Editable
+ *             4: 1                    allday 0 or 1
+ *             5: 0                    more than one day event Instance type 0 or 1
+ *             6: 0                    Recurring event 0 or 1
+ *             7: -1                   Color -1 to 13
+ *             8: 1                    Editable 0 or 1
  *             9: null                 Location
  *             10: ""                  Attend
  *
@@ -27,8 +27,8 @@ public class CalendarEvent {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Boolean allDayEvent;
-    private Integer instanceType;
-    private Integer recurringEvent;
+    private Integer crossDay; // use all day event
+    private Integer recurringEvent; // we don't use it
     private Integer color;
     private Integer editable;
     private String location;
@@ -74,12 +74,12 @@ public class CalendarEvent {
         this.allDayEvent = allDayEvent;
     }
 
-    public Integer getInstanceType() {
-        return instanceType;
+    public Integer getCrossDay() {
+        return crossDay;
     }
 
-    public void setInstanceType(Integer instanceType) {
-        this.instanceType = instanceType;
+    public void setCrossDay(Integer crossDay) {
+        this.crossDay = crossDay;
     }
 
     public Integer getRecurringEvent() {
