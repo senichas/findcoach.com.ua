@@ -52,7 +52,7 @@
             <id>local</id>
             <properties>
                 <database.driverClassName>org.postgresql.Driver</database.driverClassName>
-                <database.url>jdbc:postgresql://localhost:5432/findcoach_ldb</database.url>
+                <database.url>jdbc:postgresql://localhost:5432/findcoach</database.url>
                 <database.user>postgres</database.user>
                 <database.password>postgres</database.password>
             </properties>
