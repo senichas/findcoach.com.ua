@@ -64,9 +64,14 @@
             <dropTable tableName="padawan"/>
         </rollback>
     </changeSet>
+    <changeSet id="1.4" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="user.csv"
+                  tableName="user"/>
+    </changeSet>
 
 
-    <changeSet id="1.3" author="Andriy">
+    <changeSet id="1.10" author="Andriy">
         <tagDatabase tag="version_0.0.1"/>
     </changeSet>
 
