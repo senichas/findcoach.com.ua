@@ -64,10 +64,17 @@
             <dropTable tableName="padawan"/>
         </rollback>
     </changeSet>
+
     <changeSet id="1.4" author="Andriy">
         <loadData encoding="UTF-8"
-                  file="user.csv"
+                  file="data/user.csv"
                   tableName="user"/>
+    </changeSet>
+
+    <changeSet id="1.5" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/coach.csv"
+                  tableName="coach"/>
     </changeSet>
 
 
