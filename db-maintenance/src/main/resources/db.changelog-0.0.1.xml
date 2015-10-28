@@ -43,7 +43,9 @@
                              references=" &quot;user&quot; (user_id)"/>
             </column>
             <column name="status" type="character varying(20)"/>
-
+            <column name="alias" type="character varying(60)"/>
+            <column name="title" type="character varying(60)"/>
+            <column name="description" type="character varying(140)"/>
         </createTable>
         <rollback>
             <dropTable tableName="coach"/>
