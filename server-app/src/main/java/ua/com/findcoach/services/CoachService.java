@@ -26,4 +26,12 @@ public class CoachService {
         return coachRepository.updateCoachStatus(coachStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
+    public Enum getCurrentStatus(){
+        return coachRepository.selectCurrentStatus((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
+    public int setCoachCV(String alias, String header, String describe){
+        return coachRepository.setCoachDescription(alias,header,describe,(String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
 }
