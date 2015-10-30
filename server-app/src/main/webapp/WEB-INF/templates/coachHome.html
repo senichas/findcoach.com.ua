@@ -16,7 +16,7 @@
             <span>Статус:</span>
             <select name="status" id="status">
                 #foreach($enum in $status.keySet())
-                <option value="$enum">$status.get($enum)</option>
+                <option value="$enum" #if($enum.equals($currentStatus))selected #end>$status.get($enum)</option>
                 #end
             </select>
         </div>
