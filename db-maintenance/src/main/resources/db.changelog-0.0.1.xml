@@ -3,7 +3,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
     <preConditions>
         <dbms type="postgresql"/>
@@ -75,6 +75,12 @@
         <loadData encoding="UTF-8"
                   file="data/coach.csv"
                   tableName="coach"/>
+    </changeSet>
+
+    <changeSet id="1.6" author="Andriy">
+        <createTable tableName="evant">
+
+        </createTable>
     </changeSet>
 
 
