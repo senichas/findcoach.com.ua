@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/coach.css"/>
+    <link rel="stylesheet" href="/css/cv.css"/>
+    <title>Личная информация</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        function disableForm(){
+            $("input[name=alias]").prop("readonly", true);
+            $("input[name=header]").prop("readonly", true);
+            $("textarea[name=description]").prop("readonly", true);
+        }
+    </script>
+</head>
+<body>
+<div id="mainContainer">
+    <header id="coachHeader">
+        Welcome to coach page!<br>
+    </header>
+</div>
+<div id="formWrap">
+    <form name="cv" id="cvForm" method="post" action="/findcoach/coach/profile/cv" onsubmit="disableForm();">
+        <span>Псевдоним</span>
+        <input class="input" type="text" id="alias_" name="alias" maxlength="60" pattern="[a-zA-Z0-9._-]+$">
+        <span>Заголовок</span>
+        <input class="input" id="header_" type="text" name="header" maxlength="60">
+        <span>Описание</span>
+        <textarea class="input" id="descriptor_" name="description" maxlength="140"></textarea>
+        <input class="input" type="submit" value="Отправить">
+    </form>
+</div>
+</div>
+</body>
+</html>
