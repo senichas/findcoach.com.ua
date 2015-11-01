@@ -23,6 +23,9 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "alias", nullable = false, unique = true)
+    private String alias;
+
     @Column(name = "is_padawan", columnDefinition = "DEFAULT 0")
     private Integer isPadawan;
     @Column(name = "is_coach", columnDefinition = "DEFAULT 0")
@@ -82,5 +85,11 @@ public class User {
         this.isActive = isActive;
     }
 
+    public String getAlias() {
+        return alias;
+    }
 
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 }

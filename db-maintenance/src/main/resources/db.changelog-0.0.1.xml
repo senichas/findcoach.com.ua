@@ -3,7 +3,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
     <preConditions>
         <dbms type="postgresql"/>
@@ -26,6 +26,11 @@
                              unique="true"
                              uniqueConstraintName="user_email_uc"/>
             </column>
+            <column name="alias" type="character varying(60)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="user_alias_uc"/>
+            </column>
             <column name="is_padawan" type="integer" defaultValue="0"/>
             <column name="is_coach" type="integer" defaultValue="0"/>
             <column name="is_active" type="boolean" defaultValue="false"/>
@@ -43,10 +48,8 @@
                              references=" &quot;user&quot; (user_id)"/>
             </column>
             <column name="status" type="character varying(20)"/>
-            <column name="alias" type="character varying(60)"/>
             <column name="title" type="character varying(60)"/>
             <column name="description" type="character varying(140)"/>
-
         </createTable>
         <rollback>
             <dropTable tableName="coach"/>
@@ -78,6 +81,61 @@
         <loadData encoding="UTF-8"
                   file="data/coach.csv"
                   tableName="coach"/>
+    </changeSet>
+
+    <changeSet id="1.6" author="Andriy">
+        <createTable tableName="event">
+            <column name="event_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="character varying(60)"/>
+            <column name="description" type="character varying(140)"/>
+            <column name="type" type="character varying(15)"/>
+            <column name="location" type="character varying(60)"/>
+        </createTable>
+        <createTable tableName="event_recurrence">
+            <column name="event_recurrence_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="event_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="event_recurrence_id_fk"
+                             references=" &quot;event&quot; (event_id)"/>
+            </column>
+            <column name="all_day" type="boolean"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
+        </createTable>
+        <createTable tableName="event_participant">
+            <column name="event_participant_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="event_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="event_participant_event_id_fk"
+                             references=" &quot;event&quot; (event_id)"/>
+            </column>
+            <column name="user_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="event_participant_user_id_fk"
+                             references=" &quot;user&quot; (user_id)"/>
+            </column>
+            <column name="participant_role" type="character varying(15)"/>
+        </createTable>
+        <loadData encoding="UTF-8"
+                  file="data/event.csv"
+                  tableName="event"/>
+        <loadData encoding="UTF-8"
+                  file="data/event_recurrence.csv"
+                  tableName="event_recurrence"/>
+        <loadData encoding="UTF-8"
+                  file="data/event_participant.csv"
+                  tableName="event_participant"/>
+        <rollback>
+            <dropTable tableName="event_participant"/>
+            <dropTable tableName="event_recurrence"/>
+            <dropTable tableName="event"/>
+        </rollback>
     </changeSet>
 
 

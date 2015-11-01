@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
+    <title>Расписание тренера</title>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="/css/main.css"/>
+
+    <link href="/css/wdCalendar/dailog.css" rel="stylesheet" type="text/css" />
+    <link href="/css/wdCalendar/calendar.css" rel="stylesheet" type="text/css" />
+    <link href="/css/wdCalendar/dp.css" rel="stylesheet" type="text/css" />
+    <link href="/css/wdCalendar/alert.css" rel="stylesheet" type="text/css" />
+    <link href="/css/wdCalendar/main.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
     <link rel="stylesheet" href="/css/coach.css"/>
-    <title>Стартовая страница</title>
+
+    <script type="text/javascript" src="/js/libs/jquery-core/jquery-1.4.2.js"></script>
+
+    <script src="/js/libs/plugins/Common.js" type="text/javascript"></script>
+    <script src="/js/libs/plugins/datepicker_lang_US.js" type="text/javascript"></script>
+    <script src="/js/libs/plugins/jquery.datepicker.js" type="text/javascript"></script>
+
+    <script src="/js/libs/plugins/jquery.alert.js" type="text/javascript"></script>
+    <script src="/js/libs/plugins/Plugins/jquery.ifrmdailog.js" defer="defer" type="text/javascript"></script>
+    <script src="/js/libs/plugins/wdCalendar_lang_US.js" type="text/javascript"></script>
+    <script src="/js/libs/plugins/jquery.calendar.js" type="text/javascript"></script>
+
 </head>
 <body>
 <div id="mainContainer">
     <header id="coachHeader">
         <div style="text-align: right;">
-            <span>Статус:</span>
-            <select name="status" id="status">
-                #foreach($st in $status)
-                <option>$st</option>
-                #end
-            </select>
+
         </div>
-        Welcome to coach page!<br>
-        ${message}
     </header>
+    <section style="height: 400px;">
+        <h1>${coachFirstName} ${coachLastName}</h1>
+        <div id="mycal"></div>
+    </section>
 </div>
 
 </body>
