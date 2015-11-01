@@ -104,6 +104,9 @@
             <column name="end_date" type="timestamp"/>
         </createTable>
         <createTable tableName="event_participant">
+            <column name="event_participant_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
             <column name="event_id" type="integer">
                 <constraints nullable="false"
                              foreignKeyName="event_participant_event_id_fk"
