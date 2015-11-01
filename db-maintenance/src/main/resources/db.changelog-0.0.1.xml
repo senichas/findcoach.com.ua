@@ -43,6 +43,9 @@
                              references=" &quot;user&quot; (user_id)"/>
             </column>
             <column name="status" type="character varying(20)"/>
+            <column name="alias" type="character varying(60)"/>
+            <column name="title" type="character varying(60)"/>
+            <column name="description" type="character varying(140)"/>
 
         </createTable>
         <rollback>
@@ -78,9 +81,55 @@
     </changeSet>
 
     <changeSet id="1.6" author="Andriy">
-        <createTable tableName="evant">
-
+        <createTable tableName="event">
+            <column name="event_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="character varying(60)"/>
+            <column name="description" type="character varying(140)"/>
+            <column name="type" type="character varying(15)"/>
+            <column name="location" type="character varying(60)"/>
         </createTable>
+        <createTable tableName="event_recurrence">
+            <column name="event_recurrence_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="event_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="event_recurrence_id_fk"
+                             references=" &quot;event&quot; (event_id)"/>
+            </column>
+            <column name="all_day" type="boolean"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
+        </createTable>
+        <createTable tableName="event_participant">
+            <column name="event_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="event_participant_event_id_fk"
+                             references=" &quot;event&quot; (event_id)"/>
+            </column>
+            <column name="user_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="event_participant_user_id_fk"
+                             references=" &quot;user&quot; (user_id)"/>
+            </column>
+            <column name="participant_role" type="character varying(15)"/>
+        </createTable>
+        <loadData encoding="UTF-8"
+                  file="data/event.csv"
+                  tableName="event"/>
+        <loadData encoding="UTF-8"
+                  file="data/event_recurrence.csv"
+                  tableName="event_recurrence"/>
+        <loadData encoding="UTF-8"
+                  file="data/event_participant.csv"
+                  tableName="event_participant"/>
+        <rollback>
+            <dropTable tableName="event_participant"/>
+            <dropTable tableName="event_recurrence"/>
+            <dropTable tableName="event"/>
+        </rollback>
     </changeSet>
 
 
