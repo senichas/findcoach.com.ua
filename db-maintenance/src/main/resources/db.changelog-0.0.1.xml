@@ -26,6 +26,11 @@
                              unique="true"
                              uniqueConstraintName="user_email_uc"/>
             </column>
+            <column name="alias" type="character varying(60)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="user_alias_uc"/>
+            </column>
             <column name="is_padawan" type="integer" defaultValue="0"/>
             <column name="is_coach" type="integer" defaultValue="0"/>
             <column name="is_active" type="boolean" defaultValue="false"/>
@@ -43,10 +48,8 @@
                              references=" &quot;user&quot; (user_id)"/>
             </column>
             <column name="status" type="character varying(20)"/>
-            <column name="alias" type="character varying(60)"/>
             <column name="title" type="character varying(60)"/>
             <column name="description" type="character varying(140)"/>
-
         </createTable>
         <rollback>
             <dropTable tableName="coach"/>
