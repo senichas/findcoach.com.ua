@@ -61,4 +61,9 @@ public class CoachProfileController {
         throw new StatusUpdateException("Something was going wrong");
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/calendar.html")
+    public ModelAndView coachCalendarPage() {
+        return new ModelAndView("coachCalendarPage");
+    }
+
 }
