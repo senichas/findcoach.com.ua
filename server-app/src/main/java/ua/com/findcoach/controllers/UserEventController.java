@@ -15,7 +15,7 @@ import ua.com.findcoach.services.EventService;
 
 @RequestMapping("/user/{userName}")
 @RestController
-public class EventPublicController {
+public class UserEventController {
 
     @Autowired
     private EventService eventService;
