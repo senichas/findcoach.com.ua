@@ -40,7 +40,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
             authorities.add(new SimpleGrantedAuthority(UserRole.PADAWAN.name()));
         }
 
-        return new UsernamePasswordAuthenticationToken(email, password, authorities);
+        return new UsernamePasswordAuthenticationToken(user, password, authorities);
     }
 
     @Override
