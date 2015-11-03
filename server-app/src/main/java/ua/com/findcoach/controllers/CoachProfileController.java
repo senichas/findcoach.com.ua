@@ -8,14 +8,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import ua.com.findcoach.api.CalendarEvent;
+import ua.com.findcoach.api.CalendarResponse;
 import ua.com.findcoach.domain.CoachStatus;
+import ua.com.findcoach.domain.Event;
 import ua.com.findcoach.exception.StatusUpdateException;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
+import ua.com.findcoach.services.ConverterService;
+import ua.com.findcoach.services.EventService;
 import ua.com.findcoach.utils.CoachStatusHolder;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -27,6 +33,12 @@ public class CoachProfileController {
 
     @Autowired
     private CoachService coachService;
+
+    @Autowired
+    private EventService eventService;
+
+    @Autowired
+    private ConverterService converterService;
 
     private static final int SINGLE_ROW = 1;
 
@@ -41,7 +53,7 @@ public class CoachProfileController {
                 .entrySet()
                 .stream()
                 .forEach(enumStringEntry ->
-                                statusMap.put(enumStringEntry.getKey(), messageResolver.getMessage(enumStringEntry.getValue()))
+                        statusMap.put(enumStringEntry.getKey(), messageResolver.getMessage(enumStringEntry.getValue()))
                 );
 
 
@@ -65,5 +77,21 @@ public class CoachProfileController {
     public ModelAndView coachCalendarPage() {
         return new ModelAndView("coachCalendarPage");
     }
+
+    /**
+     * TODO - refactor JS and code to use methods POST, GET, PUT, DELETE instead request parameter method
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/calendar")
+    @ResponseBody
+    public CalendarResponse coachCalendarHandler(@RequestParam("method") String method) {
+
+        List<Event> events = eventService.findEventsForLoggedInUser();
+        List<CalendarEvent> calendarEvents = converterService.convertEventToCalendarEvent(events);
+
+        CalendarResponse response = new CalendarResponse();
+        response.setEvents(calendarEvents);
+        return response;
+    }
+
 
 }
