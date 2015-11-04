@@ -4,18 +4,81 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "padawan")
-@PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "user_id")
-public class Padawan extends User{
+public class Padawan implements User {
 
-    @Enumerated(EnumType.STRING)
-    @Column (name = "user_status", nullable = false)
-    private PadawanStatus status;
+    @Id
+    @Column(name = "padawan_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "padawan_seq_gen")
+    @SequenceGenerator(name = "padawan_seq_gen", sequenceName = "padawan_padawan_id_seq")
+    private Integer coachId;
 
-    public PadawanStatus getStatus() {
-        return status;
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
+
+    @Column
+    private String email;
+
+    @Column
+    private boolean isActive;
+
+    @Column
+    private String alias;
+
+/*    @Enumerated(EnumType.STRING)
+    @Column(name = "user_status", nullable = false)
+    private PadawanStatus status;*/
+
+    @Override
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setStatus(PadawanStatus status) {
-        this.status = status;
+    @Override
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
+
+    @Override
+    public String getLastName() {
+        return lastName;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public boolean isActive() {
+        return isActive;
+    }
+
+    @Override
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    @Override
+    public String getAlias() {
+        return alias;
+    }
+
+    @Override
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
 }

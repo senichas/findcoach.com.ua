@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AuthenticationRequest;
 import ua.com.findcoach.api.AuthentificationResponse;
-import ua.com.findcoach.services.UserService;
+import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.utils.EmailValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ public class AuthenticationController {
     private EmailValidator emailValidator;
 
     @Autowired
-    private UserService userService;
+    private CoachService coachService;
 
 
     @RequestMapping(method = RequestMethod.POST, value = {"email"})
@@ -41,10 +41,10 @@ public class AuthenticationController {
         }
 
         String email = authenticationRequest.getEmail();
-        Boolean isAuthenticated = userService.authenticateUser(email, request);
+        Boolean isAuthenticated = coachService.authenticateUser(email, request);
         String redirectLink;
         if (isAuthenticated) {
-            redirectLink = userService.calculateHomeLinkForUser(authenticationRequest.getEmail());
+            redirectLink = coachService.calculateHomeLink(authenticationRequest.getEmail());
         } else {
             redirectLink = "";
         }

@@ -16,8 +16,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
-import ua.com.findcoach.utils.EmailValidator;
 import ua.com.findcoach.utils.CoachStatusHolder;
+import ua.com.findcoach.utils.EmailValidator;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Properties;
@@ -68,6 +68,7 @@ public class ApplicationConfiguration {
 //                setProperty("hibernate.globally_quoted_identifiers", "true");
                 setProperty("hibernate.show_sql", "true");
                 setProperty("hibernate.hbm2ddl.auto", "validate");
+                setProperty("hibernate.physical_naming_strategy", "ua.com.findcoach.utils.CamelCaseNamingStrategy");
             }
         };
     }
@@ -87,7 +88,9 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public CoachStatusHolder statusHolder(){return new CoachStatusHolder();}
+    public CoachStatusHolder statusHolder() {
+        return new CoachStatusHolder();
+    }
 
     @Bean
     public VelocityConfigurer velocityConfig() {

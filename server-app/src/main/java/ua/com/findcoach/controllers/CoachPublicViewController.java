@@ -18,16 +18,6 @@ public class CoachPublicViewController {
     // TODO - replace with Enum
     private static final String METHOD_LIST = "list";
 
-    @RequestMapping(method = RequestMethod.GET, value = "/calendar.html")
-    public ModelAndView viewPublicCalendarPage(@PathVariable("coachUserName") String coachUserName) {
-        Map<String, Object> parameters = new HashMap<>();
-
-
-        parameters.put("coachFirstName", "Винс");
-        parameters.put("coachLastName", "Ломбарди");
-        return new ModelAndView("coachPublicCalendar", parameters);
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/calendar")
     public
     @ResponseBody

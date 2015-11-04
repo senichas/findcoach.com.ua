@@ -1,7 +1,19 @@
 package ua.com.findcoach.domain;
 
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "event")
@@ -30,7 +42,11 @@ public class Event {
     private List<EventRecurrence> recurrences;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.ALL)
-    private List<EventParticipant> participants;
+    private List<EventCoachParticipant> coaches;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventPadawanParticipant> padawans;
+
 
     public Integer getEventId() {
         return eventId;
@@ -80,11 +96,19 @@ public class Event {
         this.recurrences = recurrences;
     }
 
-    public List<EventParticipant> getParticipants() {
-        return participants;
+    public List<EventCoachParticipant> getCoaches() {
+        return coaches;
     }
 
-    public void setParticipants(List<EventParticipant> participants) {
-        this.participants = participants;
+    public void setCoaches(List<EventCoachParticipant> coaches) {
+        this.coaches = coaches;
+    }
+
+    public List<EventPadawanParticipant> getPadawans() {
+        return padawans;
+    }
+
+    public void setPadawans(List<EventPadawanParticipant> padawans) {
+        this.padawans = padawans;
     }
 }
