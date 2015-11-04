@@ -1,2 +1,2 @@
-user_id,status
-1,LOOKING_FOR_PADAWAN
+first_name,last_name,email,alias,is_active,status
+Vince,Lombardy,coach@test.com,vince,true,LOOKING_FOR_PADAWAN
