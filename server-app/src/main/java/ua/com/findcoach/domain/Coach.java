@@ -1,16 +1,18 @@
 package ua.com.findcoach.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "coach")
 public class Coach implements User {
 
-    @Column
+    @Id
+    @Column(name = "coach_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "coach_seq_gen")
+    @SequenceGenerator(name = "coach_seq_gen", sequenceName = "coach_coach_id_seq")
+    private Integer coachId;
+
+    @Column(name = "first_name")
     private String firstName;
 
     @Column
@@ -28,6 +30,14 @@ public class Coach implements User {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private CoachStatus status;
+
+    public Integer getCoachId() {
+        return coachId;
+    }
+
+    public void setCoachId(Integer coachId) {
+        this.coachId = coachId;
+    }
 
     @Override
     public String getFirstName() {

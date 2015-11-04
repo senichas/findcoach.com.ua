@@ -1,7 +1,4 @@
-package ua.com.findcoach.securiy;
-
-import java.util.ArrayList;
-import java.util.Collection;
+package ua.com.findcoach.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -11,17 +8,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import ua.com.findcoach.domain.User;
+import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.UserRole;
-import ua.com.findcoach.services.UserService;
+import ua.com.findcoach.services.CoachService;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by senich on 10/2/2015.
  */
 public class CoachAuthenticationProvider implements AuthenticationProvider {
     @Autowired
-    UserService userService;
+    private CoachService coachService;
 
 
     @Override
@@ -29,19 +28,14 @@ public class CoachAuthenticationProvider implements AuthenticationProvider {
         String email = (String) authentication.getPrincipal();
         char[] password = String.valueOf("").toCharArray();
 
-        User user = userService.findUserByEmail(email);
-        if (user == null) {
+        Coach coach = coachService.findByEmail(email);
+        if (coach == null) {
             throw new BadCredentialsException("Username not found.");
         }
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        if (user.getIsCoach().equals(1)) {
-            authorities.add(new SimpleGrantedAuthority(UserRole.COACH.name()));
-        }
-        if (user.getIsPadawan().equals(1)) {
-            authorities.add(new SimpleGrantedAuthority(UserRole.PADAWAN.name()));
-        }
+        authorities.add(new SimpleGrantedAuthority(UserRole.COACH.name()));
 
-        return new UsernamePasswordAuthenticationToken(user, password, authorities);
+        return new UsernamePasswordAuthenticationToken(coach, password, authorities);
     }
 
     @Override

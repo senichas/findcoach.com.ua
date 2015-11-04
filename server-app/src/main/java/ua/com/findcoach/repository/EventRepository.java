@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface EventRepository extends Repository<Event, Long> {
     @Query("select e from Event e " +
-            "join e.participants ep " +
-            "join ep.user u " +
-            "where u.alias = :alias")
+            "join e.coaches ec " +
+            "join ec.coach c " +
+            "where c.alias = :alias")
     List<Event> findAllByAlias(@Param("alias") String alias);
 }

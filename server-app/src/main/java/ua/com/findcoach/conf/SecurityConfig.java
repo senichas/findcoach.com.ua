@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import ua.com.findcoach.securiy.CoachAuthenticationProvider;
+import ua.com.findcoach.security.CoachAuthenticationProvider;
 
 @Configuration
 @EnableWebSecurity
