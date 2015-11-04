@@ -1,5 +1,8 @@
 package ua.com.findcoach.services;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -8,12 +11,10 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
+
 import ua.com.findcoach.domain.User;
 import ua.com.findcoach.repository.UserRepository;
-import ua.com.findcoach.securiy.UserAuthenticationProvider;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import ua.com.findcoach.securiy.CoachAuthenticationProvider;
 
 @Service
 public class UserService {
@@ -27,7 +28,7 @@ public class UserService {
 
 
     @Autowired
-    private UserAuthenticationProvider userAuthenticationProvider;
+    private CoachAuthenticationProvider coachAuthenticationProvider;
 
 
     public String calculateHomeLinkForUser(String email) {
@@ -48,7 +49,7 @@ public class UserService {
         token.setDetails(new WebAuthenticationDetails(request));
         Authentication authentication;
         try {
-            authentication = userAuthenticationProvider.authenticate(token);
+            authentication = coachAuthenticationProvider.authenticate(token);
         } catch (AuthenticationException e) {
             return false;
         }

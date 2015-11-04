@@ -1,5 +1,5 @@
 package ua.com.findcoach.domain;
 
-public enum EventParticipantRole {
+public enum EventCoachRole {
     ORGANIZER,COACH;
 }

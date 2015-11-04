@@ -1,5 +1,8 @@
 package ua.com.findcoach.conf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,10 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import ua.com.findcoach.securiy.UserAuthenticationProvider;
 
-import java.util.ArrayList;
-import java.util.List;
+import ua.com.findcoach.securiy.CoachAuthenticationProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -48,8 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public UserAuthenticationProvider userAuthenticationProvider() {
-        return new UserAuthenticationProvider();
+    public CoachAuthenticationProvider userAuthenticationProvider() {
+        return new CoachAuthenticationProvider();
     }
 
 }
