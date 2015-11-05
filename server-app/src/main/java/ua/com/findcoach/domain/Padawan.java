@@ -27,6 +27,11 @@ public class Padawan implements User {
     @Column
     private String alias;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Sex sex;
+
+
 /*    @Enumerated(EnumType.STRING)
     @Column(name = "user_status", nullable = false)
     private PadawanStatus status;*/
@@ -81,4 +86,13 @@ public class Padawan implements User {
         this.alias = alias;
     }
 
+    @Override
+    public Sex getSex() {
+        return sex;
+    }
+
+    @Override
+    public void setSex(Sex sex) {
+        this.sex = sex;
+    }
 }

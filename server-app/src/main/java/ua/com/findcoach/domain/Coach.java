@@ -31,6 +31,10 @@ public class Coach implements User {
     @Column(name = "status")
     private CoachStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Sex sex;
+
     public Integer getCoachId() {
         return coachId;
     }
@@ -95,5 +99,15 @@ public class Coach implements User {
 
     public void setStatus(CoachStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public Sex getSex() {
+        return sex;
+    }
+
+    @Override
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 }
