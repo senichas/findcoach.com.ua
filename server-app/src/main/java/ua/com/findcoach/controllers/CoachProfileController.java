@@ -17,7 +17,6 @@ import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.ConverterService;
 import ua.com.findcoach.services.EventService;
-import ua.com.findcoach.utils.CoachStatusHolder;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -46,22 +45,10 @@ public class CoachProfileController {
     @RequestMapping("/home.html")
     public ModelAndView coachHomePage() throws IOException {
         Map<String, Object> params = new HashMap<>();
-        Map<Enum, String> statusMap = new HashMap<>();
-        Map<Enum, String> statuses = CoachStatusHolder.getStatusMap();
-
-        statuses
-                .entrySet()
-                .stream()
-                .forEach(enumStringEntry ->
-                        statusMap.put(enumStringEntry.getKey(), messageResolver.getMessage(enumStringEntry.getValue()))
-                );
-
-
         params.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
-        params.put("status", statusMap);
-
         return new ModelAndView("coachHome", params);
     }
+
 
     @RequestMapping(method = RequestMethod.POST, value = "/status")
     @ResponseBody
