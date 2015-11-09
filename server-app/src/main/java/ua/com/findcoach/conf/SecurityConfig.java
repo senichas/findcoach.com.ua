@@ -51,5 +51,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CoachAuthenticationProvider userAuthenticationProvider() {
         return new CoachAuthenticationProvider();
     }
+/*
+    @Bean public FilterChainProxy filterChainProxy() {
 
+        List<SecurityFilterChain> securityFilterChains = new ArrayList<SecurityFilterChain>();
+        securityFilterChains.add(new DefaultSecurityFilterChain(
+                new AntPathRequestMatcher("/login**")));
+        securityFilterChains.add(new DefaultSecurityFilterChain(
+                new AntPathRequestMatcher("/resources/**")));
+        securityFilterChains.add(new DefaultSecurityFilterChain(
+                new AntPathRequestMatcher("/**"),
+                securityContextPersistenceFilter(),
+                logoutFilter(),
+                usernamePasswordAuthenticationFilter(),
+                exceptionTranslationFilter(),
+                filterSecurityInterceptor()));
+        return new FilterChainProxy(securityFilterChains);
+
+    }
+*/
 }
