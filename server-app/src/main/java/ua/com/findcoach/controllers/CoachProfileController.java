@@ -44,7 +44,7 @@ public class CoachProfileController {
 
 
     @RequestMapping("/dashboard.html")
-    public ModelAndView coachHomePage() throws IOException {
+    public ModelAndView coachDashboard() throws IOException {
         Map<String, Object> params = new HashMap<>();
         Map<Enum, String> statusMap = new HashMap<>();
         Map<Enum, String> statuses = CoachStatusHolder.getStatusMap();
@@ -59,6 +59,7 @@ public class CoachProfileController {
 
         params.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
         params.put("status", statusMap);
+        params.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
 
         return new ModelAndView("coachDashboard", params);
     }

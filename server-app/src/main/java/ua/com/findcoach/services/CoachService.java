@@ -75,5 +75,8 @@ public class CoachService {
         return redirectLink;
     }
 
+    public Coach retrieveCurrentCoach() {
+        return (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
 }
