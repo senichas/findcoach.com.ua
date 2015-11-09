@@ -43,7 +43,7 @@ public class CoachProfileController {
     private static final int SINGLE_ROW = 1;
 
 
-    @RequestMapping("/home.html")
+    @RequestMapping("/dashboard.html")
     public ModelAndView coachHomePage() throws IOException {
         Map<String, Object> params = new HashMap<>();
         Map<Enum, String> statusMap = new HashMap<>();
@@ -60,7 +60,7 @@ public class CoachProfileController {
         params.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
         params.put("status", statusMap);
 
-        return new ModelAndView("coachHome", params);
+        return new ModelAndView("coachDashboard", params);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/status")
