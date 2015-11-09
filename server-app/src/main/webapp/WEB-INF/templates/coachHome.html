@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="status">
 <head lang="en">
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -9,15 +9,17 @@
 </head>
 <body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="/status.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
+<script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-resource.js"></script>
+<script type="text/javascript" src="/js/angularJS/app.js"></script>
+<script type="text/javascript" src="/js/angularJS/controllers.js"></script>
 <div id="mainContainer">
-    <header id="coachHeader">
+    <header id="coachHeader" ng-controller="statusListController">
         <div style="text-align: right;">
             <span>Статус:</span>
             <select name="status" id="status">
-                #foreach($enum in $status.keySet())
-                <option value="$enum">$status.get($enum)</option>
-                #end
+                <option ng-repeat="(key,val) in data" value="{{key}}">{{val}}</option>
             </select>
         </div>
         <div id="statusResponseHolder" style="text-align: right">
