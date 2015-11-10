@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import ua.com.findcoach.security.CoachAuthenticationProvider;
+import ua.com.findcoach.security.CoachUrlAliasFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.csrf().disable()
+        http.addFilterAfter(coachUrlAliasFilter())
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/findcoach/coach/**").hasAuthority("COACH")
                 .anyRequest().permitAll()
@@ -51,23 +52,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CoachAuthenticationProvider userAuthenticationProvider() {
         return new CoachAuthenticationProvider();
     }
-/*
-    @Bean public FilterChainProxy filterChainProxy() {
 
+    /*@Bean
+    public FilterChainProxy springSecurityFilterChain() {
         List<SecurityFilterChain> securityFilterChains = new ArrayList<SecurityFilterChain>();
         securityFilterChains.add(new DefaultSecurityFilterChain(
-                new AntPathRequestMatcher("/login**")));
-        securityFilterChains.add(new DefaultSecurityFilterChain(
-                new AntPathRequestMatcher("/resources/**")));
-        securityFilterChains.add(new DefaultSecurityFilterChain(
-                new AntPathRequestMatcher("/**"),
-                securityContextPersistenceFilter(),
-                logoutFilter(),
-                usernamePasswordAuthenticationFilter(),
-                exceptionTranslationFilter(),
-                filterSecurityInterceptor()));
+                new RegexRequestMatcher("^/[a-z]+/coach/([a-zA-Z0-9]+)/.+$", RequestMethod.GET.name()),
+                coachUrlAliasFilter()));
         return new FilterChainProxy(securityFilterChains);
 
+    }*/
+
+    @Bean
+    public CoachUrlAliasFilter coachUrlAliasFilter() {
+        return new CoachUrlAliasFilter();
     }
-*/
 }
