@@ -1,5 +1,10 @@
 package ua.com.findcoach.controllers;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -8,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import ua.com.findcoach.api.CalendarEvent;
 import ua.com.findcoach.api.CalendarResponse;
 import ua.com.findcoach.domain.CoachStatus;
@@ -17,11 +23,6 @@ import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.ConverterService;
 import ua.com.findcoach.services.EventService;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/coach/profile")
@@ -46,6 +47,7 @@ public class CoachProfileController {
     public ModelAndView coachDashboard() throws IOException {
         Map<String, Object> params = new HashMap<>();
         params.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
+        params.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
         return new ModelAndView("coachDashboard", params);
     }
 

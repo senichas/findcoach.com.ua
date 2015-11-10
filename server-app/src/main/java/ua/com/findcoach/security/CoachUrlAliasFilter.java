@@ -1,28 +1,50 @@
 package ua.com.findcoach.security;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class CoachUrlAliasFilter implements Filter {
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import ua.com.findcoach.services.CoachService;
+
+public class CoachUrlAliasFilter extends OncePerRequestFilter {
+
+    public static final String COACH_URL_PADAWAN_MANAGEMENT = "^/*[a-z]*/coach/([a-zA-Z0-9]+)/padawan-management/.+$";
+
+    @Autowired
+    private CoachService coachService;
+
+    private static final Logger LOG = LoggerFactory.getLogger(CoachUrlAliasFilter.class);
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String url;
-        if (servletRequest instanceof HttpServletRequest) {
-            url = ((HttpServletRequest) servletRequest).getRequestURL().toString();
+
+        Pattern pattern = Pattern.compile(COACH_URL_PADAWAN_MANAGEMENT);
+        Matcher matcher = pattern.matcher(httpServletRequest.getPathInfo());
+
+        matcher.find();
+        String aliasInUrl = matcher.group(1);
+        String aliasOfCurrentCoach = coachService.retrieveCurrentCoach().getAlias();
+
+        LOG.debug("Parsed alias = " + aliasInUrl);
+        LOG.debug("Current coach alias = " + aliasOfCurrentCoach);
+
+        if (aliasInUrl == null
+                || aliasOfCurrentCoach == null
+                || !aliasInUrl.equals(aliasOfCurrentCoach)) {
+            throw new ServletException("Alias provided in URL doesn't correspond to alias of logged user");
         }
 
-        filterChain.doFilter(servletRequest, servletResponse);
-    }
-
-    @Override
-    public void destroy() {
-
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }
