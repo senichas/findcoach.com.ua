@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Service
 public class CoachService {
-    private final static String COACH_REDIRECT = "/findcoach/coach/profile/home.html";
+    private final static String COACH_REDIRECT = "/findcoach/coach/profile/dashboard.html";
     private final static String PADAWAN_REDIRECT = "/findcoach/padawan/profile/home.html";
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
@@ -82,5 +82,8 @@ public class CoachService {
         return redirectLink;
     }
 
+    public Coach retrieveCurrentCoach() {
+        return (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
 }

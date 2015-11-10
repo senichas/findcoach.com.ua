@@ -22,4 +22,8 @@ public interface User {
     String getAlias();
 
     void setAlias(String alias);
+
+    Sex getSex();
+
+    void setSex(Sex sex);
 }

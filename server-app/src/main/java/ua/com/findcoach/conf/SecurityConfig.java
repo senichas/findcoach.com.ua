@@ -12,8 +12,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import ua.com.findcoach.security.CoachAuthenticationProvider;
+import ua.com.findcoach.security.CoachUrlAliasFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,16 +35,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/findcoach/coach/profile/**").hasAuthority("COACH")
+                .antMatchers("/findcoach/coach/**").hasAuthority("COACH")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .and()
                 .logout().permitAll();
+
+        http.addFilterAfter(customSpringSecurityFilterChain(), BasicAuthenticationFilter.class);
     }
 
     @Bean
@@ -53,4 +61,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CoachAuthenticationProvider();
     }
 
+    @Bean
+    public FilterChainProxy customSpringSecurityFilterChain() {
+        List<SecurityFilterChain> securityFilterChains = new ArrayList<SecurityFilterChain>();
+        securityFilterChains.add(new DefaultSecurityFilterChain(
+                new RegexRequestMatcher(CoachUrlAliasFilter.COACH_URL_PADAWAN_MANAGEMENT, RequestMethod.GET.name()),
+                coachUrlAliasFilter()));
+        return new FilterChainProxy(securityFilterChains);
+
+    }
+
+    @Bean
+    public CoachUrlAliasFilter coachUrlAliasFilter() {
+        return new CoachUrlAliasFilter();
+    }
 }
