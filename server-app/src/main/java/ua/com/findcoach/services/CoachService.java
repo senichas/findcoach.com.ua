@@ -43,6 +43,12 @@ public class CoachService {
         return coachRepository.updateCoachStatus(coachStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
     }
 
+    public Enum getCurrentCoachStatus(){
+        Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return current.getStatus();
+    }
+
+
     public Boolean authenticateUser(String email, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, "");
         token.setDetails(new WebAuthenticationDetails(request));
