@@ -31,16 +31,10 @@ public class CoachProfileController {
     private LocalizedMessageResolver messageResolver;
 
     @Autowired
-    private CoachService coachService;
-
-    @Autowired
     private EventService eventService;
 
     @Autowired
     private ConverterService converterService;
-
-    private static final int SINGLE_ROW = 1;
-
 
     @RequestMapping("/home.html")
     public ModelAndView coachHomePage() throws IOException {
@@ -49,16 +43,6 @@ public class CoachProfileController {
         return new ModelAndView("coachHome", params);
     }
 
-
-    @RequestMapping(method = RequestMethod.POST, value = "/status")
-    @ResponseBody
-    public HttpStatus updateCoachStatus(@RequestParam("status") String status) throws IOException, StatusUpdateException {
-        int updatedRowCount = coachService.updateStatus(CoachStatus.valueOf(status));
-        if (updatedRowCount == SINGLE_ROW) {
-            return HttpStatus.OK;
-        }
-        throw new StatusUpdateException("Something was going wrong");
-    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/calendar.html")
     public ModelAndView coachCalendarPage() {

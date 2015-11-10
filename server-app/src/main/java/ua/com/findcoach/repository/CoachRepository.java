@@ -24,4 +24,6 @@ public interface CoachRepository extends CrudRepository<Coach, Integer> {
     @Query("UPDATE Coach c SET c.status = :coachStatus WHERE c.email = :email")
     int updateCoachStatus(@Param("coachStatus") CoachStatus coachStatus, @Param("email") String email);
 
+    @Query("SELECT c.status FROM Coach c WHERE c.email = :email")
+    Enum getCurrentCoachStatus(@Param("email") String string);
 }

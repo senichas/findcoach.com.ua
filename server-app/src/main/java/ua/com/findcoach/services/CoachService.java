@@ -40,12 +40,13 @@ public class CoachService {
 
 
     public int updateStatus(CoachStatus coachStatus) {
-        return coachRepository.updateCoachStatus(coachStatus, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return coachRepository.updateCoachStatus(coachStatus, current.getEmail());
     }
 
     public Enum getCurrentCoachStatus(){
         Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return current.getStatus();
+        return coachRepository.getCurrentCoachStatus(current.getEmail());
     }
 
 

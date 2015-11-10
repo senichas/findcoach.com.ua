@@ -1,14 +1,15 @@
 package ua.com.findcoach.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import ua.com.findcoach.domain.CoachStatus;
+import ua.com.findcoach.exception.StatusUpdateException;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.utils.CoachStatusHolder;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,8 @@ public class CoachStatusController {
 
     @Autowired
     private CoachService coachService;
+
+    private static final int SINGLE_ROW = 1;
 
     @RequestMapping(method = RequestMethod.GET, value = "/statuses")
     public Map<Enum, String> getCoachStatuses() {
@@ -41,5 +44,14 @@ public class CoachStatusController {
     @RequestMapping(method = RequestMethod.GET, value = "/status")
     public Enum getCurrentStatus(){
         return coachService.getCurrentCoachStatus();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/status")
+    public HttpStatus updateCoachStatus(@RequestBody String status) throws IOException, StatusUpdateException {
+        int updatedRowCount = coachService.updateStatus(CoachStatus.valueOf(status));
+        if (updatedRowCount == SINGLE_ROW) {
+            return HttpStatus.OK;
+        }
+        throw new StatusUpdateException("Something was going wrong");
     }
 }

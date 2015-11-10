@@ -18,7 +18,7 @@
     <header id="coachHeader" ng-controller="statusListController">
         <div style="text-align: right;">
             <span>Статус:</span>
-            <select ng-model="currentStatus" ng-options="k as v for (k,v) in data" name="status" id="status"></select>
+            <select ng-model="currentStatus" ng-change="updateStatus()" ng-options="k as v for (k,v) in data" name="status" id="status"></select>
         </div>
         <div id="statusResponseHolder" style="text-align: right">
             <span id="statusMessege"></span>

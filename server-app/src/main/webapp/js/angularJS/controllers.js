@@ -5,4 +5,7 @@ statusesControllers.controller('statusListController', function ($scope, $resour
         .success(function (data) {
             $scope.currentStatus = data;
         });
+    $scope.updateStatus = function(){
+        $resource('/findcoach/coach/profile/status').save($scope.currentStatus);
+    }
 })
