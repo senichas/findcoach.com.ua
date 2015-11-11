@@ -1,11 +1,11 @@
 coach_id,first_name,last_name,email,alias,is_active,status,sex,title,description
-1,VASA,PETROVICH,vasa@mail.com,vasa_petrovich,true,LOOKING_FOR_PADAWAN,MAN,Vasya Petrovich,Обладаю мощной базой знаний и опытом работы, за плечами десятки людей, достигших поставленных целей. 
+1,VASA,PETROVICH,vasa@mail.com,vasa_petrovich,true,LOOKING_FOR_PADAWAN,MAN,Vasya Petrovich,'Обладаю мощной базой знаний и опытом работы, за плечами десятки людей, достигших поставленных целей. '
 2,DIMA,IVANOV,dima@mail.com,dima_ivanov,true,ON_LEAVE,MAN,Dmitrii Ivanov,Сертифицированный специалист в области лечебного массажа и ЛФК.
 3,KOLYA,SHPIC,kolya@mail.com,kolya_shpic,true,ON_SICK_LEAVE,MAN,Kolya Shpitc,Работаю на результат! Со мной вы достигнете поставленных целей максимально безопасным путем в кратчайшие сроки!
 4,ALLA,GUS,alla@mail.com,alla_gus,true,LOOKING_FOR_PADAWAN,WOMAN,Alla Gus,МС по спортивной аэробике. Приходите на групповые тренировки и Вы почувствуете колоссальный эффект и море позитивных эмоций!
-5,BEN,LADAN,ben@mail.com,benladan,true,ON_LEAVE,MAN,Ben Ladan,Ваш главный противник, это Вы сами. Переборите свою сущность и перед Вами откроются новые горизонты. Ну а я, как тренер, Вам в этом помогу.
-6,BADA,BOOM,bada@mail.com,bada_boom,true,ON_SICK_LEAVE,MAN,Bada Boom,На собственном опыте знаю, как трудно добиваться своей цели, но удовлетворение от её достижения прямо пропорционально потраченным усилиям.
-7,ALLAH,AKBAR,allah@mail.com,allah_akbar,true,LOOKING_FOR_PADAWAN,MAN,Allah Akbar,Мастер Спорта по пауэрлифтингу, многократный чемпион Украины, призер мировых и европейских первенств среди юниоров.
-8,SUPER,MAN,super@mail.com,super_man,true,ON_LEAVE,MAN,Super Man,Мастер Спорта по маунтенбайку, абсолютный Чемпион Украины по велотриалу 2015 года.
-9,CART,MAN,cart@mail.com,cart_man,true,ON_SICK_LEAVE,MAN,Cart Man,Не люблю говорить в процессе тренировки, отдаю предпочтение тем, кто хочет себя изменить, а я для этого прикладываю максимум усилий
-10,HARD,BALLS,hard@mail.com,hard_balls,true,LOOKING_FOR_PADAWAN,MAN,Hard Balls,Если вы не слышали про слово твердый, значит вы еще не общались со мной
+5,BEN,LADAN,ben@mail.com,benladan,true,ON_LEAVE,MAN,Ben Ladan,'Ваш главный противник, это Вы сами. Переборите свою сущность и перед Вами откроются новые горизонты. Ну а я, как тренер, Вам в этом помогу.'
+6,BADA,BOOM,bada@mail.com,bada_boom,true,ON_SICK_LEAVE,MAN,Bada Boom,'На собственном опыте знаю, как трудно добиваться своей цели, но удовлетворение от её достижения прямо пропорционально потраченным усилиям.'
+7,ALLAH,AKBAR,allah@mail.com,allah_akbar,true,LOOKING_FOR_PADAWAN,MAN,Allah Akbar,'Мастер Спорта по пауэрлифтингу, многократный чемпион Украины, призер мировых и европейских первенств среди юниоров.'
+8,SUPER,MAN,super@mail.com,super_man,true,ON_LEAVE,MAN,Super Man,'Мастер Спорта по маунтенбайку, абсолютный Чемпион Украины по велотриалу 2015 года.'
+9,CART,MAN,cart@mail.com,cart_man,true,ON_SICK_LEAVE,MAN,Cart Man,'Не люблю говорить в процессе тренировки, отдаю предпочтение тем, кто хочет себя изменить, а я для этого прикладываю максимум усилий'
+10,HARD,BALLS,hard@mail.com,hard_balls,true,LOOKING_FOR_PADAWAN,MAN,Hard Balls,'Если вы не слышали про слово твердый, значит вы еще не общались со мной'
