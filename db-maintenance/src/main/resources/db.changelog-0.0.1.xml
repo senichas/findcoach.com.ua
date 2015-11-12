@@ -71,6 +71,15 @@
         <loadData encoding="UTF-8"
                   file="data/coach.csv"
                   tableName="coach"/>
+        <dropSequence
+                sequenceName="coach_coach_id_seq"/>
+        <createSequence
+                sequenceName="coach_coach_id_seq"
+                startValue="11"/>
+        <addDefaultValue
+                columnName="coach_id"
+                defaultValueSequenceNext="coach_coach_id_seq"
+                tableName="coach"/>
     </changeSet>
 
     <changeSet id="1.3" author="Andriy">
