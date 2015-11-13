@@ -33,7 +33,7 @@ public class Coach implements User {
 
     @Enumerated(EnumType.STRING)
     @Column
-    private Sex sex;
+    private Gender gender;
 
     public Integer getCoachId() {
         return coachId;
@@ -101,13 +101,11 @@ public class Coach implements User {
         this.status = status;
     }
 
-    @Override
-    public Sex getSex() {
-        return sex;
+    public Gender getGender() {
+        return gender;
     }
 
-    @Override
-    public void setSex(Sex sex) {
-        this.sex = sex;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

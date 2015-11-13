@@ -1,0 +1,11 @@
+padawan_id,first_name,last_name,email,alias,is_active,sex
+1,TELL,NET,tell@mail.com,tell_net,true,MALE
+2,YA,MOGU,ya@mail.com,ya_mogu,true,FEMALE
+3,LADA,CUBE,lada@mail.com,lada_cube,true,FEMALE
+4,TEST,TEST,test@mail.com,test_test,true,MALE
+5,GALINA,IVANOVNA,galina@mail.com,galina_ivanovna,true,FEMALE
+6,PUZ,BOLSHOI,puz@mail.com,bolshoi_puz,true,MALE
+7,MOBY,DICK,moby@mail.com,moby_dick,true,MALE
+8,LENA,GOLOVACH,lena@mail.com,golovach_lena,true,FEMALE
+9,BICEPS,MR,biceps@mail.com,mr_biceps,true,MALE
+10,ZAL,YOPTA,zal@mail.com,zal_yopta,true,MALE

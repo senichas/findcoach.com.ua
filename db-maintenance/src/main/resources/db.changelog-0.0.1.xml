@@ -33,7 +33,7 @@
             </column>
             <column name="is_active" type="boolean" defaultValue="false"/>
             <column name="status" type="character varying(20)"/>
-            <column name="sex" type="character varying(10)"/>
+            <column name="gender" type="character varying(10)"/>
             <column name="title" type="character varying(60)"/>
             <column name="description" type="character varying(140)"/>
         </createTable>
@@ -60,7 +60,7 @@
                              uniqueConstraintName="padawan_alias_uc"/>
             </column>
             <column name="is_active" type="boolean" defaultValue="false"/>
-            <column name="sex" type="character varying(10)"/>
+            <column name="gender" type="character varying(10)"/>
         </createTable>
         <rollback>
             <dropTable tableName="padawan"/>
@@ -71,6 +71,15 @@
         <loadData encoding="UTF-8"
                   file="data/coach.csv"
                   tableName="coach"/>
+        <dropSequence
+                sequenceName="coach_coach_id_seq"/>
+        <createSequence
+                sequenceName="coach_coach_id_seq"
+                startValue="11"/>
+        <addDefaultValue
+                columnName="coach_id"
+                defaultValueSequenceNext="coach_coach_id_seq"
+                tableName="coach"/>
     </changeSet>
 
     <changeSet id="1.3" author="Andriy">
