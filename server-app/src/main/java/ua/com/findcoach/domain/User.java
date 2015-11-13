@@ -23,7 +23,7 @@ public interface User {
 
     void setAlias(String alias);
 
-    Sex getSex();
+    Gender getGender();
 
-    void setSex(Sex sex);
+    void setGender(Gender gender);
 }

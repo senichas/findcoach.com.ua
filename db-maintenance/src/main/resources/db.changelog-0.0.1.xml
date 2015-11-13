@@ -33,7 +33,7 @@
             </column>
             <column name="is_active" type="boolean" defaultValue="false"/>
             <column name="status" type="character varying(20)"/>
-            <column name="sex" type="character varying(10)"/>
+            <column name="gender" type="character varying(10)"/>
             <column name="title" type="character varying(60)"/>
             <column name="description" type="character varying(140)"/>
         </createTable>
@@ -60,7 +60,7 @@
                              uniqueConstraintName="padawan_alias_uc"/>
             </column>
             <column name="is_active" type="boolean" defaultValue="false"/>
-            <column name="sex" type="character varying(10)"/>
+            <column name="gender" type="character varying(10)"/>
         </createTable>
         <rollback>
             <dropTable tableName="padawan"/>

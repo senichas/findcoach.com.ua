@@ -29,7 +29,7 @@ public class Padawan implements User {
 
     @Enumerated(EnumType.STRING)
     @Column
-    private Sex sex;
+    private Gender gender;
 
 
 /*    @Enumerated(EnumType.STRING)
@@ -86,13 +86,11 @@ public class Padawan implements User {
         this.alias = alias;
     }
 
-    @Override
-    public Sex getSex() {
-        return sex;
+    public Gender getGender() {
+        return gender;
     }
 
-    @Override
-    public void setSex(Sex sex) {
-        this.sex = sex;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }
