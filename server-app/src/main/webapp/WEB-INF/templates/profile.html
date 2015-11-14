@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="profileAttributes">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/coach.css"/>
+    <link rel="stylesheet" href="/css/profile.css"/>
+    <title>Личная информация</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
+    <script type="text/javascript"
+            src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-resource.js"></script>
+    <script type="text/javascript" src="/js/angularJS/app.js"></script>
+    <script type="text/javascript" src="/js/angularJS/controllers.js"></script>
+</head>
+<body>
+<div id="mainContainer">
+    <header id="coachHeader">
+        Welcome to coach page!<br>
+    </header>
+</div>
+<div id="formWrap"  ng-controller="profileController">
+    <form ng-submit="submit()" id="cvForm" >
+        <span>Псевдоним</span>
+        <input class="input" type="text" id="alias_" name="alias" ng-model="profileAttributes.alias" ng-maxlength="60">
+        <span>Заголовок</span>
+        <input class="input" id="header_" type="text" name="title" ng-model="profileAttributes.title" ng-maxlength="60">
+        <span>Описание</span>
+        <textarea class="input" id="descriptor_" name="description" ng-model="profileAttributes.description" ng-maxlength="140"></textarea>
+        <input class="input" type="submit" value="Отправить">
+    </form>
+    <span>{{status}}</span>
+</div>
+</div>
+</body>
+</html>

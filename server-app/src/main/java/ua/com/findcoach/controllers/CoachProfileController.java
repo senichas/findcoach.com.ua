@@ -1,30 +1,26 @@
 package ua.com.findcoach.controllers;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import ua.com.findcoach.api.CalendarEvent;
 import ua.com.findcoach.api.CalendarResponse;
-import ua.com.findcoach.domain.CoachStatus;
+import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Event;
-import ua.com.findcoach.exception.StatusUpdateException;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.ConverterService;
 import ua.com.findcoach.services.EventService;
 
-@Controller
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+
+@RestController
 @RequestMapping("/coach/profile")
 public class CoachProfileController {
 
@@ -39,9 +35,6 @@ public class CoachProfileController {
 
     @Autowired
     private ConverterService converterService;
-
-    private static final int SINGLE_ROW = 1;
-
 
     @RequestMapping("/dashboard.html")
     public ModelAndView coachDashboard() throws IOException {
@@ -72,5 +65,28 @@ public class CoachProfileController {
         return response;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/profile.html")
+    public ModelAndView coachProfilePage() {
+        return new ModelAndView("profile");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/coachProfileAttributes")
+    public Map getCoachProfileAttributes() {
+        Map<String, String> coachAtributes = new HashMap<>();
+        Coach coachAttribut = coachService.getCoachProfileAttributes();
+        coachAtributes.put("alias", coachAttribut.getAlias());
+        coachAtributes.put("title", coachAttribut.getTitle());
+        coachAtributes.put("description", coachAttribut.getDescription());
+        return coachAtributes;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/cv")
+    public HttpStatus setCoachProfileAttributes(@RequestBody LinkedHashMap body) {
+        LinkedHashMap<String, String> coachProfileAttributes = body;
+        coachService.updateCoachProfileAttributes(coachProfileAttributes.get("alias"),
+                coachProfileAttributes.get("title"),
+                coachProfileAttributes.get("description"));
+        return HttpStatus.OK;
+    }
 
 }

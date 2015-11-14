@@ -39,12 +39,22 @@ public class CoachService {
     }
 
 
+    public int updateCoachProfileAttributes(String alias, String title, String description) {
+        Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return coachRepository.updateCoachProfileAttributes(alias, title, description, current.getEmail());
+    }
+
+    public Coach getCoachProfileAttributes() {
+        Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return coachRepository.getCoachProfileAttributes(current.getEmail());
+    }
+
     public int updateStatus(CoachStatus coachStatus) {
         Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return coachRepository.updateCoachStatus(coachStatus, current.getEmail());
     }
 
-    public Enum getCurrentCoachStatus(){
+    public Enum getCurrentCoachStatus() {
         Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return coachRepository.getCurrentCoachStatus(current.getEmail());
     }
