@@ -56,12 +56,6 @@ public class Coach implements User {
         this.coachId = coachId;
     }
 
-    public Coach(String alias, String title, String description) {
-        this.alias = alias;
-        this.title = title;
-        this.description = description;
-    }
-
     public Coach() {
     }
 

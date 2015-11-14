@@ -44,9 +44,9 @@ public class CoachService {
         return coachRepository.updateCoachProfileAttributes(alias, title, description, current.getEmail());
     }
 
-    public Coach getCoachProfileAttributes() {
+    public Coach receiveCoachProfileAttributes() {
         Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return coachRepository.getCoachProfileAttributes(current.getEmail());
+        return coachRepository.receiveCoachProfileAttributes(current.getEmail());
     }
 
     public int updateStatus(CoachStatus coachStatus) {

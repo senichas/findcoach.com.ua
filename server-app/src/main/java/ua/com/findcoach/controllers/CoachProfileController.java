@@ -71,9 +71,9 @@ public class CoachProfileController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/coachProfileAttributes")
-    public Map getCoachProfileAttributes() {
+    public Map<String, String> receiveCoachProfileAttributes() {
         Map<String, String> coachAtributes = new HashMap<>();
-        Coach coachAttribut = coachService.getCoachProfileAttributes();
+        Coach coachAttribut = coachService.receiveCoachProfileAttributes();
         coachAtributes.put("alias", coachAttribut.getAlias());
         coachAtributes.put("title", coachAttribut.getTitle());
         coachAtributes.put("description", coachAttribut.getDescription());
@@ -81,7 +81,7 @@ public class CoachProfileController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/cv")
-    public HttpStatus setCoachProfileAttributes(@RequestBody LinkedHashMap body) {
+    public HttpStatus updateCoachProfileAttributes(@RequestBody LinkedHashMap body) {
         LinkedHashMap<String, String> coachProfileAttributes = body;
         coachService.updateCoachProfileAttributes(coachProfileAttributes.get("alias"),
                 coachProfileAttributes.get("title"),

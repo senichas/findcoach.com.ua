@@ -36,6 +36,6 @@ public interface CoachRepository extends CrudRepository<Coach, Integer> {
                                      @Param("email") String email);
 
  //   @Query("SELECT c.alias, c.title, c.description FROM Coach c WHERE c.email = :email")
-    @Query("SELECT new Coach (c.alias, c.title, c.description) FROM Coach c WHERE c.email = :email")
-    Coach getCoachProfileAttributes(@Param("email") String email);
+    @Query("SELECT c FROM Coach c WHERE c.email = :email")
+    Coach receiveCoachProfileAttributes(@Param("email") String email);
 }
