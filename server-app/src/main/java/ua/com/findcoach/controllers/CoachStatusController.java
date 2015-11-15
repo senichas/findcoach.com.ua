@@ -28,7 +28,7 @@ public class CoachStatusController {
     private static final int SINGLE_ROW = 1;
 
     @RequestMapping(method = RequestMethod.GET, value = "/statuses")
-    public Map<Enum, String> getCoachStatuses() {
+    public Map<Enum, String> receiveCoachStatuses() {
         Map<Enum, String> statusMap = new HashMap<>();
         Map<Enum, String> statuses = CoachStatusHolder.getStatusMap();
 
@@ -42,8 +42,8 @@ public class CoachStatusController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/status")
-    public Enum getCurrentStatus(){
-        return coachService.getCurrentCoachStatus();
+    public Enum receiveCurrentStatus(){
+        return coachService.receiveCurrentCoachStatus();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/status")

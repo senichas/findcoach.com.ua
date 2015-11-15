@@ -1,6 +1,9 @@
 package ua.com.findcoach.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "coach")
@@ -25,7 +28,17 @@ public class Coach implements User {
     private boolean isActive;
 
     @Column
+    @Length(max = 60)
+    @Pattern(regexp = "[a-zA-Z0-9._-]")
     private String alias;
+
+    @Column
+    @Length(max = 60)
+    private String title;
+
+    @Column
+    @Length(max = 140)
+    private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -41,6 +54,25 @@ public class Coach implements User {
 
     public void setCoachId(Integer coachId) {
         this.coachId = coachId;
+    }
+
+    public Coach() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
