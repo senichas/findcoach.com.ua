@@ -157,6 +157,27 @@
         </rollback>
     </changeSet>
 
+    <changeSet id="1.4" author="Andriy">
+        <createTable tableName="program">
+            <column name="program_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="coach_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="program_coach_id_fk"
+                             references=" &quot;coach&quot; (coach_id)"/>
+            </column>
+            <column name="padawan_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="program_padawan_id_fk"
+                             references=" &quot;padawan&quot; (padawan_id)"/>
+            </column>
+            <column name="goal" type="character varying(25)"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
 
     <changeSet id="1.10" author="Andriy">
         <tagDatabase tag="version_0.0.1"/>
