@@ -54,9 +54,9 @@ public class CoachService {
         return coachRepository.updateCoachStatus(coachStatus, current.getEmail());
     }
 
-    public Enum getCurrentCoachStatus() {
+    public Enum receiveCurrentCoachStatus() {
         Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return coachRepository.getCurrentCoachStatus(current.getEmail());
+        return coachRepository.receiveCurrentCoachStatus(current.getEmail());
     }
 
 
