@@ -176,6 +176,45 @@
             <column name="start_date" type="timestamp"/>
             <column name="end_date" type="timestamp"/>
         </createTable>
+        <rollback>
+            <dropTable tableName="program"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.5" author="Andriy">
+        <createTable tableName="measure">
+            <column name="measure_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="padawan_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="measure_padawan_id_fk"
+                             references=" &quot;padawan&quot; (padawan_id)"/>
+            </column>
+            <column name="measure_date" type="timestamp"/>
+            <column name="height" type="numeric(4)"/>
+            <column name="weight" type="numeric(3,1)"/>
+            <column name="neck" type="numeric(4)"/>
+            <column name="right_upper_arm" type="numeric(4)"/>
+            <column name="left_upper_arm" type="numeric(4)"/>
+            <column name="right_forearm" type="numeric(4)"/>
+            <column name="left_forearm" type="numeric(4)"/>
+            <column name="chest" type="numeric(4)"/>
+            <column name="bust" type="numeric(4)"/>
+            <column name="midriff" type="numeric(4)"/>
+            <column name="waist" type="numeric(4)"/>
+            <column name="abdomen" type="numeric(4)"/>
+            <column name="hips" type="numeric(4)"/>
+            <column name="buttocks" type="numeric(4)"/>
+            <column name="thigh" type="numeric(4)"/>
+            <column name="knee" type="numeric(4)"/>
+            <column name="calf" type="numeric(4)"/>
+            <column name="ankle" type="numeric(4)"/>
+
+        </createTable>
+        <rollback>
+            <dropTable tableName="program"/>
+        </rollback>
     </changeSet>
 
 
