@@ -9,3 +9,13 @@ statusesControllers.controller('statusListController', function ($scope, $resour
         $resource('/findcoach/coach/profile/status').save($scope.currentStatus);
     }
 })
+
+var profileController = angular.module('profileController', []);
+    profileController.controller('profileController', function ($scope, $resource) {
+    $scope.profileAttributes = $resource('/findcoach/coach/profile/coachProfileAttributes').get();
+    $scope.submit = function () {
+        $resource('/findcoach/coach/profile/cv').save($scope.profileAttributes, function(){
+            $scope.status = "attributes have been updated"
+        });
+    }
+})
