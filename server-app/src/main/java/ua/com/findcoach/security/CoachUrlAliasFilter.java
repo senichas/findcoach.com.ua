@@ -1,24 +1,23 @@
 package ua.com.findcoach.security;
 
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.filter.OncePerRequestFilter;
+import ua.com.findcoach.services.CoachService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import ua.com.findcoach.services.CoachService;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CoachUrlAliasFilter extends OncePerRequestFilter {
 
     public static final String COACH_URL_PADAWAN_MANAGEMENT = "^/*[a-z]*/coach/([a-zA-Z0-9]+)/padawan-management/.+$";
+    public static final String COACH_URL_ADD_PADAWAN_WIZARD = "^/*[a-z]*/coach/([a-zA-Z0-9]+)/add-padawan-wizard/.+$";
 
     @Autowired
     private CoachService coachService;

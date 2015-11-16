@@ -1,5 +1,5 @@
-var padawanManagementModule = angular.module("offerPadawanManagement", []);
-var addNewPadawanControllerHandler = function($scope, $http) {
+var addPadawanWizardModule = angular.module("addPadawanWizard", []);
+var addPadawanWizardControllerHandler = function($scope, $http) {
     $scope.padawanData = {};
     $scope.padawanData.padawanName = "1";
     $scope.padawanData.padawanGender = "male";
@@ -12,4 +12,4 @@ var addNewPadawanControllerHandler = function($scope, $http) {
     $scope.padawanData.padawanStartProgram = true;
 };
 
-padawanManagementModule.controller("addPadawanController", ["$scope", "$http", addNewPadawanControllerHandler]);
+addPadawanWizardModule.controller("addPadawanWizardController", ["$scope", "$http", addPadawanWizardControllerHandler]);

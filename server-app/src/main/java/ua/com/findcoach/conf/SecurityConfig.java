@@ -61,17 +61,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public CoachUrlAliasFilter coachUrlAliasFilter() {
+        return new CoachUrlAliasFilter();
+    }
+
+    @Bean
     public FilterChainProxy customSpringSecurityFilterChain() {
         List<SecurityFilterChain> securityFilterChains = new ArrayList<SecurityFilterChain>();
+
         securityFilterChains.add(new DefaultSecurityFilterChain(
                 new RegexRequestMatcher(CoachUrlAliasFilter.COACH_URL_PADAWAN_MANAGEMENT, RequestMethod.GET.name()),
+                coachUrlAliasFilter()));
+        securityFilterChains.add(new DefaultSecurityFilterChain(
+                new RegexRequestMatcher(CoachUrlAliasFilter.COACH_URL_ADD_PADAWAN_WIZARD, RequestMethod.GET.name()),
                 coachUrlAliasFilter()));
         return new FilterChainProxy(securityFilterChains);
 
     }
 
-    @Bean
-    public CoachUrlAliasFilter coachUrlAliasFilter() {
-        return new CoachUrlAliasFilter();
-    }
+
 }
