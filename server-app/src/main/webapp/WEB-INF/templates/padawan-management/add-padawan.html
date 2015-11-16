@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/main.css"/>
+    <script type="text/javascript">
+        var loggedCoachAlias = '$coachAlias';
+    </script>
     <script src="/js/libs/angularjs/angular.js"></script>
     <script src="/js/libs/jquery-core/jquery-1.4.2.js"></script>
-    <script src="/js/angularJS/addPadawanWizard.js"></script>
+    <script src="/js/angularJS/add-padawan-wizard.js"></script>
     <link rel="stylesheet" href="/css/coach.css"/>
     <title>Добавление падавана</title>
 </head>
@@ -16,7 +19,7 @@
         <h1>Добавление падавана</h1>
     </header>
     <section>
-        <form ng-controller="addPadawanWizardController" >
+        <form ng-controller="addPadawanWizardController" ng-submit="submitStep1()">
             <p>Имя</p>
 
             <p><input type="text" name="padawanName" id="padawanName" ng-model="padawanData.padawanName" value=""/></p>
@@ -64,8 +67,7 @@
                       ng-model="padawanData.padawanStartProgram"/>&nbsp;<label for="padawanStartProgram">Начать
                 создавать программу для падавана после его создания.</label></p>
 
-            <button type="button">Создать падавана</button>
-
+            <button type="submit">Создать падавана</button>
 
         </form>
     </section>

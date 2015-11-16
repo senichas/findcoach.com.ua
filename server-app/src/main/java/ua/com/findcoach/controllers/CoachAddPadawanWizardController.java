@@ -7,6 +7,8 @@ import ua.com.findcoach.api.ErrorResponse;
 @RestController
 @RequestMapping("/coach/{userAlias}/add-padawan-wizard")
 public class CoachAddPadawanWizardController {
+
+    @RequestMapping("/step1")
     public ErrorResponse addPadawanToSession() {
 
 
