@@ -61,6 +61,13 @@
             </column>
             <column name="is_active" type="boolean" defaultValue="false"/>
             <column name="gender" type="character varying(10)"/>
+            <column name="created_by_coach_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="padawan_created_by_coach_id_fk"
+                             references=" coach (coach_id)"/>
+            </column>
+            <column name="notes" type="text"/>
+
         </createTable>
         <rollback>
             <dropTable tableName="padawan"/>

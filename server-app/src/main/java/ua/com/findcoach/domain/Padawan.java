@@ -10,7 +10,7 @@ public class Padawan implements User {
     @Column(name = "padawan_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "padawan_seq_gen")
     @SequenceGenerator(name = "padawan_seq_gen", sequenceName = "padawan_padawan_id_seq")
-    private Integer coachId;
+    private Integer padawanId;
 
     @Column
     private String firstName;
@@ -26,15 +26,24 @@ public class Padawan implements User {
 
     @Column
     private String alias;
-
     @Enumerated(EnumType.STRING)
     @Column
     private Gender gender;
 
+    @ManyToOne
+    @JoinColumn(name="created_by_coach_id")
+    private Coach createdBy;
 
-/*    @Enumerated(EnumType.STRING)
-    @Column(name = "user_status", nullable = false)
-    private PadawanStatus status;*/
+    @Column
+    private String notes;
+
+    public Integer getPadawanId() {
+        return padawanId;
+    }
+
+    public void setPadawanId(Integer padawanId) {
+        this.padawanId = padawanId;
+    }
 
     @Override
     public String getFirstName() {
@@ -92,5 +101,21 @@ public class Padawan implements User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public Coach getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Coach createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }
