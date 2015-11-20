@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="addPadawanWizard">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/main.css"/>
+    <script type="text/javascript">
+        var loggedCoachAlias = '$coachAlias';
+    </script>
+    <script src="/js/libs/angularjs/angular.js"></script>
+    <script src="/js/libs/jquery-core/jquery-1.4.2.js"></script>
+    <script src="/js/angularJS/add-padawan-wizard.js"></script>
+    <link rel="stylesheet" href="/css/coach.css"/>
+    <title>Добавление падавана</title>
+</head>
+<body>
+<div id="mainContainer">
+    <header id="coachHeader">
+        <h1>Добавление падавана</h1>
+    </header>
+    <section>
+        <form ng-controller="addPadawanWizardControllerStep1" ng-submit="submitStep1()">
+
+            <p>Имя</p>
+
+            <p><input type="text" name="padawanName" id="padawanName" ng-model="padawanData.name" value=""/></p>
+
+            <p>Email</p>
+
+            <p><input type="email" name="padawanEmail" id="padawanEmail" ng-model="padawanData.email" value=""/></p>
+
+            <p>Пол</p>
+
+            <p><input type="radio" name="padawanGender" value="MALE" id="padawanGenderMale"
+                      ng-model="padawanData.gender"/>&nbsp;<label for="padawanGenderMale">Мужской</label></p>
+
+            <p><input type="radio" name="padawanGender" value="FEMALE" id="padawanGenderFemale"
+                      ng-model="padawanData.gender"/>&nbsp;<label for="padawanGenderFemale">Женский</label></p>
+
+            <p>Год рождения</p>
+
+            <p><input type="text" name="padawanYear" id="padawanYear" ng-model="padawanData.year"/></p>
+
+            <p>Рост</p>
+
+            <p><input type="text" name="padawanHeight" id="padawanHeight" ng-model="padawanData.height"/></p>
+
+            <p>Вес</p>
+
+            <p><input type="text" name="padawanWeight" id="padawanWeight" ng-model="padawanData.weight"/></p>
+
+            <p>Процент жира</p>
+
+            <p><input type="text" name="padawanFatPercentage" id="padawanFatPercentage"
+                      ng-model="padawanData.fatPercentage"/></p>
+
+            <p>Цель</p>
+
+            <p><select name="padawanGoal" id="padawanGoal" ng-model="padawanData.goal">
+                <option value="FAT_BURN">Сжигание жира</option>
+                <option value="STRENGTH">Развитие силы</option>
+                <option value="ENDURANCE">Развитие выносливости</option>
+            </select></p>
+
+            <p>Дополнительные заметки от тренера</p>
+
+            <p><textarea name="padawanNotes" id="padawanNotes" ng-model="padawanData.notes"></textarea></p>
+
+            <button type="submit">Далее </button>
+
+        </form>
+    </section>
+</div>
+
+</body>
+</html>

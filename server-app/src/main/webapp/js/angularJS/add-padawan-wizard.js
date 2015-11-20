@@ -10,20 +10,21 @@ addPadawanWizardModule.factory("DataService", function () {
 var addPadawanWizardControllerHandler = function ($scope, DataService, $http) {
     $scope.step1EndPoint = "/findcoach/coach/" + DataService.loggedCoachAlias + "/add-padawan-wizard/step1"
     $scope.padawanData = {};
-    $scope.padawanData.padawanName = "1";
-    $scope.padawanData.padawanGender = "male";
-    $scope.padawanData.padawanYear = "1982";
-    $scope.padawanData.padawanHeight = "178";
-    $scope.padawanData.padawanWeight = "95";
-    $scope.padawanData.padawanFatPercentage = "35";
-    $scope.padawanData.padawanGoal = "2";
-    $scope.padawanData.padawanNotes = "УУууууу";
-    $scope.padawanData.padawanStartProgram = true;
+    $scope.padawanData.name = "1";
+    $scope.padawanData.email = "padawan@test.com";
+    $scope.padawanData.gender = "MALE";
+    $scope.padawanData.year = "1982";
+    $scope.padawanData.height = "178";
+    $scope.padawanData.weight = "95";
+    $scope.padawanData.fatPercentage = "35";
+    $scope.padawanData.goal = "FAT_BURN";
+    $scope.padawanData.notes = "УУууууу";
 
     $scope.submitStep1 = function () {
         $http({
             method: 'PUT',
             url: $scope.step1EndPoint,
+            data: $scope.padawanData
 
         }).then(function successCallback(response) {
             alert("success");
@@ -33,4 +34,4 @@ var addPadawanWizardControllerHandler = function ($scope, DataService, $http) {
     };
 };
 
-addPadawanWizardModule.controller("addPadawanWizardController", ["$scope", "DataService", "$http", addPadawanWizardControllerHandler]);
+addPadawanWizardModule.controller("addPadawanWizardControllerStep1", ["$scope", "DataService", "$http", addPadawanWizardControllerHandler]);

@@ -17,11 +17,11 @@ public class CoachPadawanManagementController {
     @Autowired
     private CoachService coachService;
 
-    @RequestMapping(value = "/add-padawan.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/add-padawan-step1.html", method = RequestMethod.GET)
     public ModelAndView addPadawanForm() {
         Map<String, Object> paramerters = new HashMap<>();
         paramerters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
 
-        return new ModelAndView("padawan-management/add-padawan", paramerters);
+        return new ModelAndView("padawan-management/add-padawan-step1", paramerters);
     }
 }
