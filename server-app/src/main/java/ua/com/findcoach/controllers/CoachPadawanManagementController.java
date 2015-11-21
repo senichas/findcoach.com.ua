@@ -2,9 +2,12 @@ package ua.com.findcoach.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import ua.com.findcoach.api.AddPadawanBasicInfo;
 import ua.com.findcoach.services.CoachService;
 
 import java.util.HashMap;
@@ -17,11 +20,22 @@ public class CoachPadawanManagementController {
     @Autowired
     private CoachService coachService;
 
-    @RequestMapping(value = "/add-padawan-step1.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/add-padawan.html", method = RequestMethod.GET)
     public ModelAndView addPadawanForm() {
         Map<String, Object> paramerters = new HashMap<>();
         paramerters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
 
-        return new ModelAndView("padawan-management/add-padawan-step1", paramerters);
+        return new ModelAndView("padawan-management/add-padawan", paramerters);
     }
+
+    @RequestMapping(value = "/basic-info", method = RequestMethod.PUT)
+    @ResponseBody
+    public String addPadawan(@RequestBody AddPadawanBasicInfo padawanBasicInfo) {
+        Map<String, Object> paramerters = new HashMap<>();
+        paramerters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
+
+        return "";
+    }
+
+
 }
