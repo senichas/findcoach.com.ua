@@ -201,6 +201,7 @@
             <column name="measure_date" type="timestamp"/>
             <column name="height" type="numeric(4)"/>
             <column name="weight" type="numeric(3,1)"/>
+            <column name="fat_percentage" type="numeric(2)"/>
             <column name="neck" type="numeric(4)"/>
             <column name="right_upper_arm" type="numeric(4)"/>
             <column name="left_upper_arm" type="numeric(4)"/>
