@@ -51,13 +51,18 @@ public class CoachPadawanManagementController {
         newPadawan.setActive(Boolean.TRUE);
         newPadawan.setGender(padawanBasicInfo.getPadawanData().getGender());
 
+        Padawan savedPadawan = padawanService.save(newPadawan);
+
         Measure firstMeasure = new Measure();
         firstMeasure.setMeasureDate(LocalDate.now());
         firstMeasure.setWeight(BigDecimal.valueOf(padawanBasicInfo.getPadawanMeasurement().getWeight()));
         firstMeasure.setHeight(padawanBasicInfo.getPadawanMeasurement().getHeight());
-        firstMeasure.set
+        firstMeasure.setFatPercentage(padawanBasicInfo.getPadawanMeasurement().getFatPercentage());
 
-        Padawan savedPadawan = padawanService.save(newPadawan);
+        firstMeasure.setPadawan(savedPadawan);
+
+
+
 
         return "";
     }

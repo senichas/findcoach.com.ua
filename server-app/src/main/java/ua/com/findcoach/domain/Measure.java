@@ -25,6 +25,9 @@ public class Measure {
     @Column
     private BigDecimal weight;
 
+    @Column(columnDefinition = "numeric(2)")
+    private Short fatPercentage;
+
     @Column(columnDefinition = "numeric(4)")
     private Short neck;
 
@@ -239,5 +242,13 @@ public class Measure {
 
     public void setAnkle(Short ankle) {
         this.ankle = ankle;
+    }
+
+    public Short getFatPercentage() {
+        return fatPercentage;
+    }
+
+    public void setFatPercentage(Short fatPercentage) {
+        this.fatPercentage = fatPercentage;
     }
 }
