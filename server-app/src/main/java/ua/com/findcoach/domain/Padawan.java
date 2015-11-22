@@ -1,5 +1,8 @@
 package ua.com.findcoach.domain;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,8 +11,9 @@ public class Padawan implements User {
 
     @Id
     @Column(name = "padawan_id", nullable = false)
+    @Generated(GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "padawan_seq_gen")
-    @SequenceGenerator(name = "padawan_seq_gen", sequenceName = "padawan_padawan_id_seq")
+    @SequenceGenerator(allocationSize = 1, initialValue = 1, name = "padawan_seq_gen", sequenceName = "padawan_padawan_id_seq")
     private Integer padawanId;
 
     @Column
@@ -24,14 +28,12 @@ public class Padawan implements User {
     @Column
     private boolean isActive;
 
-    @Column
-    private String alias;
     @Enumerated(EnumType.STRING)
     @Column
     private Gender gender;
 
     @ManyToOne
-    @JoinColumn(name="created_by_coach_id")
+    @JoinColumn(name = "created_by_coach_id")
     private Coach createdBy;
 
     @Column
@@ -85,16 +87,6 @@ public class Padawan implements User {
         this.isActive = isActive;
     }
 
-    @Override
-    public String getAlias() {
-        return alias;
-    }
-
-    @Override
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
     public Gender getGender() {
         return gender;
     }
@@ -117,5 +109,15 @@ public class Padawan implements User {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public String getAlias() {
+        return null;
+    }
+
+    @Override
+    public void setAlias(String alias) {
+
     }
 }

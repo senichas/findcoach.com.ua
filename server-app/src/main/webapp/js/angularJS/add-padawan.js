@@ -10,7 +10,7 @@ addPadawanModule.factory("DataService", function () {
 var addPadawanControllerHandler = function ($scope, DataService, $http) {
     $scope.endPoint = "/findcoach/coach/" + DataService.loggedCoachAlias + "/padawan-management/basic-info"
     $scope.padawanData = {};
-    $scope.padawanData.name = "1";
+    $scope.padawanData.name = "Pertro Vasechkin";
     $scope.padawanData.email = "padawan@test.com";
     $scope.padawanData.gender = "MALE";
     $scope.padawanData.year = "1982";

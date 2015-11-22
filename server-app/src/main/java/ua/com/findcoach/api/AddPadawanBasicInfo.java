@@ -38,7 +38,7 @@ public class AddPadawanBasicInfo {
         this.padawanProgram = padawanProgram;
     }
 
-    private static class PadawanData {
+    public static class PadawanData {
         private String name;
         private String email;
         private Gender gender;
@@ -78,7 +78,7 @@ public class AddPadawanBasicInfo {
         }
     }
 
-    private static class PadawanMeasurement {
+    public static class PadawanMeasurement {
         private Integer height;
         private float weight;
         private float fatPercentage;
@@ -108,7 +108,7 @@ public class AddPadawanBasicInfo {
         }
     }
 
-    private static class PadawanProgram {
+    public static class PadawanProgram {
         private String name;
         private Goal goal;
         private String notes;

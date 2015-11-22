@@ -4,10 +4,11 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "coach")
-public class Coach implements User {
+public class Coach implements User, Serializable {
 
     @Id
     @Column(name = "coach_id", nullable = false)

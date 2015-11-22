@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AddPadawanBasicInfo;
+import ua.com.findcoach.domain.Coach;
+import ua.com.findcoach.domain.Padawan;
 import ua.com.findcoach.services.CoachService;
+import ua.com.findcoach.services.PadawanService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +22,9 @@ public class CoachPadawanManagementController {
 
     @Autowired
     private CoachService coachService;
+
+    @Autowired
+    private PadawanService padawanService;
 
     @RequestMapping(value = "/add-padawan.html", method = RequestMethod.GET)
     public ModelAndView addPadawanForm() {
@@ -31,8 +37,18 @@ public class CoachPadawanManagementController {
     @RequestMapping(value = "/basic-info", method = RequestMethod.PUT)
     @ResponseBody
     public String addPadawan(@RequestBody AddPadawanBasicInfo padawanBasicInfo) {
-        Map<String, Object> paramerters = new HashMap<>();
-        paramerters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
+        Coach currentCoach = coachService.retrieveCurrentCoach();
+
+        Padawan newPadawan = new Padawan();
+        newPadawan.setCreatedBy(currentCoach);
+        newPadawan.setEmail(padawanBasicInfo.getPadawanData().getEmail());
+        String[] parsedName = padawanBasicInfo.getPadawanData().getName().split(" ");
+        newPadawan.setFirstName(parsedName[0]);
+        newPadawan.setLastName(parsedName[1]);
+        newPadawan.setActive(Boolean.TRUE);
+        newPadawan.setGender(padawanBasicInfo.getPadawanData().getGender());
+
+        Padawan savedPadawan = padawanService.save(newPadawan);
 
         return "";
     }
