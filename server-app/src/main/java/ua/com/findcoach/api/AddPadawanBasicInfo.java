@@ -79,15 +79,15 @@ public class AddPadawanBasicInfo {
     }
 
     public static class PadawanMeasurement {
-        private Integer height;
+        private Short height;
         private float weight;
         private float fatPercentage;
 
-        public Integer getHeight() {
+        public Short getHeight() {
             return height;
         }
 
-        public void setHeight(Integer height) {
+        public void setHeight(Short height) {
             this.height = height;
         }
 

@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AddPadawanBasicInfo;
 import ua.com.findcoach.domain.Coach;
+import ua.com.findcoach.domain.Measure;
 import ua.com.findcoach.domain.Padawan;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.PadawanService;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +50,12 @@ public class CoachPadawanManagementController {
         newPadawan.setLastName(parsedName[1]);
         newPadawan.setActive(Boolean.TRUE);
         newPadawan.setGender(padawanBasicInfo.getPadawanData().getGender());
+
+        Measure firstMeasure = new Measure();
+        firstMeasure.setMeasureDate(LocalDate.now());
+        firstMeasure.setWeight(BigDecimal.valueOf(padawanBasicInfo.getPadawanMeasurement().getWeight()));
+        firstMeasure.setHeight(padawanBasicInfo.getPadawanMeasurement().getHeight());
+        firstMeasure.set
 
         Padawan savedPadawan = padawanService.save(newPadawan);
 
