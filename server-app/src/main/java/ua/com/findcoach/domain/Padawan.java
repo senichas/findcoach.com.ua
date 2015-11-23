@@ -4,6 +4,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "padawan")
@@ -38,6 +39,9 @@ public class Padawan implements User {
 
     @Column
     private String notes;
+
+    @OneToMany(mappedBy = "padawan")
+    private List<Measure> measures;
 
     public Integer getPadawanId() {
         return padawanId;
@@ -119,5 +123,13 @@ public class Padawan implements User {
     @Override
     public void setAlias(String alias) {
 
+    }
+
+    public List<Measure> getMeasures() {
+        return measures;
+    }
+
+    public void setMeasures(List<Measure> measures) {
+        this.measures = measures;
     }
 }

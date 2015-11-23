@@ -7,7 +7,6 @@ import ua.com.findcoach.repository.PadawanRepository;
 
 @Service
 public class PadawanService {
-
     @Autowired
     private PadawanRepository padawanRepository;
 
