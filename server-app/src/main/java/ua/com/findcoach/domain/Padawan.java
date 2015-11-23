@@ -1,6 +1,7 @@
 package ua.com.findcoach.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "padawan")
@@ -10,7 +11,7 @@ public class Padawan implements User {
     @Column(name = "padawan_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "padawan_seq_gen")
     @SequenceGenerator(name = "padawan_seq_gen", sequenceName = "padawan_padawan_id_seq")
-    private Integer coachId;
+    private Integer padawanId;
 
     @Column
     private String firstName;
@@ -31,10 +32,8 @@ public class Padawan implements User {
     @Column
     private Gender gender;
 
-
-/*    @Enumerated(EnumType.STRING)
-    @Column(name = "user_status", nullable = false)
-    private PadawanStatus status;*/
+    @OneToMany(mappedBy = "padawan")
+    private List<Program> programList;
 
     @Override
     public String getFirstName() {
@@ -92,5 +91,21 @@ public class Padawan implements User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public Integer getPadawanId() {
+        return padawanId;
+    }
+
+    public void setPadawanId(Integer padawanId) {
+        this.padawanId = padawanId;
+    }
+
+    public List<Program> getProgramList() {
+        return programList;
+    }
+
+    public void setProgramList(List<Program> programList) {
+        this.programList = programList;
     }
 }
