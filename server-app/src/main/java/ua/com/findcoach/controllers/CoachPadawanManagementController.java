@@ -16,7 +16,6 @@ import ua.com.findcoach.services.PadawanService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,26 +53,17 @@ public class CoachPadawanManagementController {
 
 
 
+        Padawan savedPadawan = padawanService.save(newPadawan);
 
         Measure firstMeasure = new Measure();
         firstMeasure.setMeasureDate(LocalDate.now());
         firstMeasure.setWeight(BigDecimal.valueOf(padawanBasicInfo.getPadawanMeasurement().getWeight()));
         firstMeasure.setHeight(padawanBasicInfo.getPadawanMeasurement().getHeight());
         firstMeasure.setFatPercentage(padawanBasicInfo.getPadawanMeasurement().getFatPercentage());
-        firstMeasure.setPadawan(newPadawan);
-
-        Padawan savedPadawan = padawanService.save(newPadawan);
-
-        newPadawan.setMeasures(new ArrayList<>());
-        newPadawan.getMeasures().add(firstMeasure);
+        firstMeasure.setPadawan(savedPadawan);
 
 
-        padawanService.save(savedPadawan);
-
-
-
-
-
+        savedPadawan = padawanService.addMeasureToPadawan(savedPadawan, firstMeasure);
         return "";
     }
 

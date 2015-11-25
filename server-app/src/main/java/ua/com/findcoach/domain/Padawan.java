@@ -40,7 +40,7 @@ public class Padawan implements User {
     @Column
     private String notes;
 
-    @OneToMany(mappedBy = "padawan")
+    @OneToMany(mappedBy = "padawan", fetch = FetchType.EAGER)
     private List<Measure> measures;
 
     public Integer getPadawanId() {
