@@ -11,8 +11,10 @@ import ua.com.findcoach.api.AddPadawanBasicInfo;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Measure;
 import ua.com.findcoach.domain.Padawan;
+import ua.com.findcoach.domain.Program;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.PadawanService;
+import ua.com.findcoach.services.ProgramService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,6 +30,9 @@ public class CoachPadawanManagementController {
 
     @Autowired
     private PadawanService padawanService;
+
+    @Autowired
+    private ProgramService programService;
 
     @RequestMapping(value = "/add-padawan.html", method = RequestMethod.GET)
     public ModelAndView addPadawanForm() {
@@ -52,7 +57,6 @@ public class CoachPadawanManagementController {
         newPadawan.setGender(padawanBasicInfo.getPadawanData().getGender());
 
 
-
         Padawan savedPadawan = padawanService.save(newPadawan);
 
         Measure firstMeasure = new Measure();
@@ -64,6 +68,17 @@ public class CoachPadawanManagementController {
 
 
         savedPadawan = padawanService.addMeasureToPadawan(savedPadawan, firstMeasure);
+        Program program = new Program();
+        program.setCoach(currentCoach);
+        program.setPadawan(savedPadawan);
+        program.setStartDate(padawanBasicInfo.getPadawanProgram().getStartDate());
+        program.setEndDate(padawanBasicInfo.getPadawanProgram().getEndDate());
+        program.setProgramGoal(padawanBasicInfo.getPadawanProgram().getGoal());
+        program.setName(padawanBasicInfo.getPadawanProgram().getName());
+
+
+        Program p1 = programService.saveProgram(program);
+
         return "";
     }
 

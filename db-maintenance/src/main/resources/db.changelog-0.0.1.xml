@@ -180,6 +180,7 @@
                              references=" &quot;padawan&quot; (padawan_id)"/>
             </column>
             <column name="goal" type="character varying(25)"/>
+            <column name="name" type="character varying(200)"/>
             <column name="start_date" type="timestamp"/>
             <column name="end_date" type="timestamp"/>
         </createTable>

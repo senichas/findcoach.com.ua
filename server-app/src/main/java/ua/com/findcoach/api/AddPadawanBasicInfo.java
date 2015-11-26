@@ -3,6 +3,8 @@ package ua.com.findcoach.api;
 import ua.com.findcoach.domain.Gender;
 import ua.com.findcoach.domain.Goal;
 
+import java.util.Date;
+
 public class AddPadawanBasicInfo {
     private PadawanData padawanData;
     private PadawanMeasurement padawanMeasurement;
@@ -112,6 +114,8 @@ public class AddPadawanBasicInfo {
         private String name;
         private Goal goal;
         private String notes;
+        private Date startDate;
+        private Date endDate;
 
         public String getName() {
             return name;
@@ -135,6 +139,22 @@ public class AddPadawanBasicInfo {
 
         public void setNotes(String notes) {
             this.notes = notes;
+        }
+
+        public Date getStartDate() {
+            return startDate;
+        }
+
+        public void setStartDate(Date startDate) {
+            this.startDate = startDate;
+        }
+
+        public Date getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
         }
     }
 }
