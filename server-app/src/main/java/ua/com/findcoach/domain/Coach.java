@@ -4,11 +4,11 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "coach")
-public class Coach implements User, Serializable {
+public class Coach implements User {
 
     @Id
     @Column(name = "coach_id", nullable = false)
@@ -48,6 +48,9 @@ public class Coach implements User, Serializable {
     @Enumerated(EnumType.STRING)
     @Column
     private Gender gender;
+
+    @OneToMany(mappedBy = "coach")
+    private List<Program> programList;
 
     public Integer getCoachId() {
         return coachId;
@@ -140,5 +143,13 @@ public class Coach implements User, Serializable {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public List<Program> getProgramList() {
+        return programList;
+    }
+
+    public void setProgramList(List<Program> programList) {
+        this.programList = programList;
     }
 }

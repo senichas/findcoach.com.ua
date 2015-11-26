@@ -3,9 +3,6 @@ package ua.com.findcoach.domain;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by DENIS on 16.11.2015.
- */
 
 @Entity
 @Table(name = "program")

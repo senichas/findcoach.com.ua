@@ -1,10 +1,6 @@
 package ua.com.findcoach.domain;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "padawan")
@@ -12,7 +8,6 @@ public class Padawan implements User {
 
     @Id
     @Column(name = "padawan_id", nullable = false)
-    @Generated(GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "padawan_seq_gen")
     @SequenceGenerator(allocationSize = 1, initialValue = 1, name = "padawan_seq_gen", sequenceName = "padawan_padawan_id_seq")
     private Integer padawanId;
@@ -43,6 +38,9 @@ public class Padawan implements User {
     @OneToMany(mappedBy = "padawan", fetch = FetchType.EAGER)
     private List<Measure> measures;
 
+    @OneToMany(mappedBy = "padawan")
+    private List<Program> programList;
+
     public Integer getPadawanId() {
         return padawanId;
     }
@@ -50,6 +48,7 @@ public class Padawan implements User {
     public void setPadawanId(Integer padawanId) {
         this.padawanId = padawanId;
     }
+
 
     @Override
     public String getFirstName() {
@@ -131,5 +130,21 @@ public class Padawan implements User {
 
     public void setMeasures(List<Measure> measures) {
         this.measures = measures;
+    }
+
+    public Integer getPadawanId() {
+        return padawanId;
+    }
+
+    public void setPadawanId(Integer padawanId) {
+        this.padawanId = padawanId;
+    }
+
+    public List<Program> getProgramList() {
+        return programList;
+    }
+
+    public void setProgramList(List<Program> programList) {
+        this.programList = programList;
     }
 }
