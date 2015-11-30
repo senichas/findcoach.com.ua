@@ -16,13 +16,13 @@ public class Program {
     @SequenceGenerator(name = "program_seq_gen", sequenceName = "program_program_id_seq")
     private Integer programId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "coach_id")
-    private Coach coachId;
+    private Coach coach;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "padawan_id")
-    private Padawan padawanId;
+    private Padawan padawan;
 
     @Column(name = "goal")
     private String programGoal;
@@ -33,4 +33,51 @@ public class Program {
     @Column(name = "end_date")
     private Date programEndDate;
 
+    public Integer getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(Integer programId) {
+        this.programId = programId;
+    }
+
+    public Coach getCoach() {
+        return coach;
+    }
+
+    public void setCoach(Coach coach) {
+        this.coach = coach;
+    }
+
+    public Padawan getPadawan() {
+        return padawan;
+    }
+
+    public void setPadawan(Padawan padawan) {
+        this.padawan = padawan;
+    }
+
+    public String getProgramGoal() {
+        return programGoal;
+    }
+
+    public void setProgramGoal(String programGoal) {
+        this.programGoal = programGoal;
+    }
+
+    public Date getProgramStartDate() {
+        return programStartDate;
+    }
+
+    public void setProgramStartDate(Date programStartDate) {
+        this.programStartDate = programStartDate;
+    }
+
+    public Date getProgramEndDate() {
+        return programEndDate;
+    }
+
+    public void setProgramEndDate(Date programEndDate) {
+        this.programEndDate = programEndDate;
+    }
 }

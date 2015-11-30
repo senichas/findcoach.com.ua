@@ -1,6 +1,7 @@
 package ua.com.findcoach.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "padawan")
@@ -31,11 +32,22 @@ public class Padawan implements User {
     private Gender gender;
 
     @ManyToOne
-    @JoinColumn(name="created_by_coach_id")
+    @JoinColumn(name = "created_by_coach_id")
     private Coach createdBy;
 
     @Column
     private String notes;
+
+    @OneToMany(mappedBy = "padawan")
+    private List<Program> programList;
+
+    public List<Program> getProgramList() {
+        return programList;
+    }
+
+    public void setProgramList(List<Program> programList) {
+        this.programList = programList;
+    }
 
     public Integer getPadawanId() {
         return padawanId;
