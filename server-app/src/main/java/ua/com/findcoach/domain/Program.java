@@ -13,7 +13,7 @@ public class Program {
     @SequenceGenerator(name = "program_seq_gen", sequenceName = "program_program_id_seq")
     private Integer programId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "coach_id")
     private Coach coach;
 

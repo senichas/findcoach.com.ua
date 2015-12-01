@@ -1,6 +1,7 @@
 var app = angular.module("status", [
     "ngResource",
-    "statusesControllers"
+    "statusesControllers",
+    "padawansListController"
 ]);
 
 var attributes = angular.module("profileAttributes", [

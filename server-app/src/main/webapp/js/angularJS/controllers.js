@@ -19,3 +19,10 @@ var profileController = angular.module('profileController', []);
         });
     }
 })
+
+var padawansListController = angular.module('padawansListController', []);
+padawansListController.controller('padawansList', function ($scope, $resource) {
+    $scope.click = function () {
+        $scope.data = $resource("/findcoach/coach/:coachAlias/padawan", {coachAlias: '@alias'}).query({coachAlias: '${coachAlias}'});;
+    };
+})
