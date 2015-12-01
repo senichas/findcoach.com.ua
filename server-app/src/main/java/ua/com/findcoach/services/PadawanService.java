@@ -2,7 +2,6 @@ package ua.com.findcoach.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ua.com.findcoach.domain.Measure;
 import ua.com.findcoach.domain.Padawan;
 import ua.com.findcoach.repository.MeasureRepository;
@@ -11,7 +10,6 @@ import ua.com.findcoach.repository.PadawanRepository;
 import java.util.ArrayList;
 
 @Service
-@Transactional
 public class PadawanService {
     @Autowired
     private PadawanRepository padawanRepository;
@@ -25,12 +23,11 @@ public class PadawanService {
 
     public Padawan addMeasureToPadawan(Padawan padawan, Measure measure) {
         measure.setPadawan(padawan);
-        Measure savedMeasure = measureRepository.save(measure);
         if (padawan.getMeasures() == null) {
             padawan.setMeasures(new ArrayList<>());
         }
 
-        padawan.getMeasures().add(savedMeasure);
+        padawan.getMeasures().add(measure);
         return padawanRepository.save(padawan);
     }
 }

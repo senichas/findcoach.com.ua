@@ -29,27 +29,18 @@ public class Padawan implements User {
     @Column
     private Gender gender;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "created_by_coach_id")
     private Coach createdBy;
 
     @Column
     private String notes;
 
-    @OneToMany(mappedBy = "padawan", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "padawan", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Measure> measures;
 
-    @OneToMany(mappedBy = "padawan")
+    @OneToMany(mappedBy = "padawan", cascade = CascadeType.MERGE)
     private List<Program> programList;
-
-    public Integer getPadawanId() {
-        return padawanId;
-    }
-
-    public void setPadawanId(Integer padawanId) {
-        this.padawanId = padawanId;
-    }
-
 
     @Override
     public String getFirstName() {

@@ -17,7 +17,7 @@ public class Program {
     @JoinColumn(name = "coach_id")
     private Coach coach;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "padawan_id")
     private Padawan padawan;
 
@@ -26,7 +26,7 @@ public class Program {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "goal")
-    private Goal programGoal;
+    private Goal goal;
 
     @Column(name = "start_date")
     private Date startDate;
@@ -58,12 +58,12 @@ public class Program {
         this.padawan = padawanId;
     }
 
-    public Goal getProgramGoal() {
-        return programGoal;
+    public Goal getGoal() {
+        return goal;
     }
 
-    public void setProgramGoal(Goal programGoal) {
-        this.programGoal = programGoal;
+    public void setGoal(Goal programGoal) {
+        this.goal = programGoal;
     }
 
     public Date getStartDate() {

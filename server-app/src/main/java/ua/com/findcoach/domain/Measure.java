@@ -12,8 +12,8 @@ public class Measure {
     @SequenceGenerator(name = "measure_id_seq_gen", sequenceName = "measure_measure_id_seq")
     private Integer measureId;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "padawan_id")
-    @ManyToOne
     private Padawan padawan;
 
     @Column

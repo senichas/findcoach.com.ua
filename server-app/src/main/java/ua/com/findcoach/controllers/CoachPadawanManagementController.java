@@ -73,7 +73,7 @@ public class CoachPadawanManagementController {
         program.setPadawan(savedPadawan);
         program.setStartDate(padawanBasicInfo.getPadawanProgram().getStartDate());
         program.setEndDate(padawanBasicInfo.getPadawanProgram().getEndDate());
-        program.setProgramGoal(padawanBasicInfo.getPadawanProgram().getGoal());
+        program.setGoal(padawanBasicInfo.getPadawanProgram().getGoal());
         program.setName(padawanBasicInfo.getPadawanProgram().getName());
 
 
