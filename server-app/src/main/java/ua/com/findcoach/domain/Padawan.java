@@ -25,8 +25,6 @@ public class Padawan implements User {
     @Column
     private boolean isActive;
 
-    @Column
-    private String alias;
     @Enumerated(EnumType.STRING)
     @Column
     private Gender gender;
@@ -99,12 +97,12 @@ public class Padawan implements User {
 
     @Override
     public String getAlias() {
-        return alias;
+        return null;
     }
 
     @Override
     public void setAlias(String alias) {
-        this.alias = alias;
+
     }
 
     public Gender getGender() {
