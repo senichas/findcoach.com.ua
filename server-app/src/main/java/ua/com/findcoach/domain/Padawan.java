@@ -10,7 +10,7 @@ public class Padawan implements User {
     @Id
     @Column(name = "padawan_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "padawan_seq_gen")
-    @SequenceGenerator(name = "padawan_seq_gen", sequenceName = "padawan_padawan_id_seq")
+    @SequenceGenerator(allocationSize = 1, initialValue = 1, name = "padawan_seq_gen", sequenceName = "padawan_padawan_id_seq")
     private Integer padawanId;
 
     @Column
@@ -29,31 +29,18 @@ public class Padawan implements User {
     @Column
     private Gender gender;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "created_by_coach_id")
     private Coach createdBy;
 
     @Column
     private String notes;
 
-    @OneToMany(mappedBy = "padawan")
+    @OneToMany(mappedBy = "padawan", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private List<Measure> measures;
+
+    @OneToMany(mappedBy = "padawan", cascade = CascadeType.MERGE)
     private List<Program> programList;
-
-    public List<Program> getProgramList() {
-        return programList;
-    }
-
-    public void setProgramList(List<Program> programList) {
-        this.programList = programList;
-    }
-
-    public Integer getPadawanId() {
-        return padawanId;
-    }
-
-    public void setPadawanId(Integer padawanId) {
-        this.padawanId = padawanId;
-    }
 
     @Override
     public String getFirstName() {
@@ -95,16 +82,6 @@ public class Padawan implements User {
         this.isActive = isActive;
     }
 
-    @Override
-    public String getAlias() {
-        return null;
-    }
-
-    @Override
-    public void setAlias(String alias) {
-
-    }
-
     public Gender getGender() {
         return gender;
     }
@@ -127,5 +104,39 @@ public class Padawan implements User {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public String getAlias() {
+        return null;
+    }
+
+    @Override
+    public void setAlias(String alias) {
+
+    }
+
+    public List<Measure> getMeasures() {
+        return measures;
+    }
+
+    public void setMeasures(List<Measure> measures) {
+        this.measures = measures;
+    }
+
+    public Integer getPadawanId() {
+        return padawanId;
+    }
+
+    public void setPadawanId(Integer padawanId) {
+        this.padawanId = padawanId;
+    }
+
+    public List<Program> getProgramList() {
+        return programList;
+    }
+
+    public void setProgramList(List<Program> programList) {
+        this.programList = programList;
     }
 }

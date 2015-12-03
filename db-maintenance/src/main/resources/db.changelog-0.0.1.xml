@@ -54,11 +54,11 @@
                 <constraints nullable="false"/>
             </column>
             <column name="email" type="character varying(255)"/>
-            <column name="alias" type="character varying(60)">
+           <!-- <column name="alias" type="character varying(60)">
                 <constraints nullable="false"
                              unique="true"
                              uniqueConstraintName="padawan_alias_uc"/>
-            </column>
+            </column>-->
             <column name="is_active" type="boolean" defaultValue="false"/>
             <column name="gender" type="character varying(10)"/>
             <column name="created_by_coach_id" type="integer">
@@ -180,6 +180,7 @@
                              references=" &quot;padawan&quot; (padawan_id)"/>
             </column>
             <column name="goal" type="character varying(25)"/>
+            <column name="name" type="character varying(200)"/>
             <column name="start_date" type="timestamp"/>
             <column name="end_date" type="timestamp"/>
         </createTable>
@@ -201,6 +202,7 @@
             <column name="measure_date" type="timestamp"/>
             <column name="height" type="numeric(4)"/>
             <column name="weight" type="numeric(3,1)"/>
+            <column name="fat_percentage" type="numeric(2)"/>
             <column name="neck" type="numeric(4)"/>
             <column name="right_upper_arm" type="numeric(4)"/>
             <column name="left_upper_arm" type="numeric(4)"/>

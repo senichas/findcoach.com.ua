@@ -93,7 +93,8 @@ public class CoachService {
     }
 
     public Coach retrieveCurrentCoach() {
-        return (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = ((Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail();
+        return coachRepository.findByEmail(email);
     }
 
 }

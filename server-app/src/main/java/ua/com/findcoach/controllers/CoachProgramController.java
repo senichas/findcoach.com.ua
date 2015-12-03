@@ -12,9 +12,6 @@ import ua.com.findcoach.services.CoachService;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by DENIS on 28.11.2015.
- */
 @RestController
 @RequestMapping("/coach")
 public class CoachProgramController {

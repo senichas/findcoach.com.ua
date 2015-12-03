@@ -3,9 +3,6 @@ package ua.com.findcoach.domain;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by DENIS on 16.11.2015.
- */
 
 @Entity
 @Table(name = "program")
@@ -20,18 +17,22 @@ public class Program {
     @JoinColumn(name = "coach_id")
     private Coach coach;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "padawan_id")
     private Padawan padawan;
 
+    @Column(length = 200)
+    private String name;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "goal")
-    private String programGoal;
+    private Goal goal;
 
     @Column(name = "start_date")
-    private Date programStartDate;
+    private Date startDate;
 
     @Column(name = "end_date")
-    private Date programEndDate;
+    private Date endDate;
 
     public Integer getProgramId() {
         return programId;
@@ -45,39 +46,47 @@ public class Program {
         return coach;
     }
 
-    public void setCoach(Coach coach) {
-        this.coach = coach;
+    public void setCoach(Coach coachId) {
+        this.coach = coachId;
     }
 
     public Padawan getPadawan() {
         return padawan;
     }
 
-    public void setPadawan(Padawan padawan) {
-        this.padawan = padawan;
+    public void setPadawan(Padawan padawanId) {
+        this.padawan = padawanId;
     }
 
-    public String getProgramGoal() {
-        return programGoal;
+    public Goal getGoal() {
+        return goal;
     }
 
-    public void setProgramGoal(String programGoal) {
-        this.programGoal = programGoal;
+    public void setGoal(Goal programGoal) {
+        this.goal = programGoal;
     }
 
-    public Date getProgramStartDate() {
-        return programStartDate;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setProgramStartDate(Date programStartDate) {
-        this.programStartDate = programStartDate;
+    public void setStartDate(Date programStartDate) {
+        this.startDate = programStartDate;
     }
 
-    public Date getProgramEndDate() {
-        return programEndDate;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setProgramEndDate(Date programEndDate) {
-        this.programEndDate = programEndDate;
+    public void setEndDate(Date programEndDate) {
+        this.endDate = programEndDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

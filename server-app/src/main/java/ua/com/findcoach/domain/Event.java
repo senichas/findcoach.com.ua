@@ -1,19 +1,7 @@
 package ua.com.findcoach.domain;
 
+import javax.persistence.*;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "event")
@@ -38,13 +26,13 @@ public class Event {
     @Column(name = "location", length = 60)
     private String location;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.MERGE)
     private List<EventRecurrence> recurrences;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.MERGE)
     private List<EventCoachParticipant> coaches;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.MERGE)
     private List<EventPadawanParticipant> padawans;
 
 

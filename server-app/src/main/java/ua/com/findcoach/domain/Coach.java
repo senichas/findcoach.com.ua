@@ -49,16 +49,11 @@ public class Coach implements User {
     @Column
     private Gender gender;
 
-    @OneToMany(mappedBy = "coach")
+    @OneToMany(mappedBy = "coach", cascade = CascadeType.MERGE)
     private List<Program> programList;
 
-    public List<Program> getProgramList() {
-        return programList;
-    }
-
-    public void setProgramList(List<Program> programList) {
-        this.programList = programList;
-    }
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.MERGE)
+    private List<Padawan> padawans;
 
     public Integer getCoachId() {
         return coachId;
@@ -151,5 +146,21 @@ public class Coach implements User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public List<Program> getProgramList() {
+        return programList;
+    }
+
+    public void setProgramList(List<Program> programList) {
+        this.programList = programList;
+    }
+
+    public List<Padawan> getPadawans() {
+        return padawans;
+    }
+
+    public void setPadawans(List<Padawan> padawans) {
+        this.padawans = padawans;
     }
 }
