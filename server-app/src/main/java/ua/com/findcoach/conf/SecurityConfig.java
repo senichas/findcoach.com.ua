@@ -75,6 +75,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         securityFilterChains.add(new DefaultSecurityFilterChain(
                 new RegexRequestMatcher(CoachUrlAliasFilter.COACH_URL_ADD_PADAWAN_WIZARD, RequestMethod.GET.name()),
                 coachUrlAliasFilter()));
+        securityFilterChains.add(new DefaultSecurityFilterChain(
+                new RegexRequestMatcher(CoachUrlAliasFilter.COACH_URL_PROGRAM, RequestMethod.GET.name()),
+                coachUrlAliasFilter()));
         return new FilterChainProxy(securityFilterChains);
 
     }

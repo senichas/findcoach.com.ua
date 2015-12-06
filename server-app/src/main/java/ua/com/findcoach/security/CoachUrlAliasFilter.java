@@ -16,8 +16,11 @@ import java.util.regex.Pattern;
 
 public class CoachUrlAliasFilter extends OncePerRequestFilter {
 
-    public static final String COACH_URL_PADAWAN_MANAGEMENT = "^/*[a-z]*/coach/([a-zA-Z0-9]+)/padawan-management/.+$";
-    public static final String COACH_URL_ADD_PADAWAN_WIZARD = "^/*[a-z]*/coach/([a-zA-Z0-9]+)/add-padawan-wizard/.+$";
+    public static final String COACH_URL_PADAWAN_MANAGEMENT = "^/*[a-z]*/coach/([a-zA-Z0-9_-]+)/padawan-management/.+$";
+    public static final String COACH_URL_ADD_PADAWAN_WIZARD = "^/*[a-z]*/coach/([a-zA-Z0-9_-]+)/add-padawan-wizard/.+$";
+    public static final String COACH_URL_PROGRAM = "^/*[a-z]*/coach/([a-zA-Z0-9_-]+)/program/.+$";
+
+    private static final String COACH_ALIAS_EXTRACT =  "^/*[a-z]*/coach/([a-zA-Z0-9_-]+)/.+$";
 
     @Autowired
     private CoachService coachService;
@@ -26,9 +29,8 @@ public class CoachUrlAliasFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        String url;
 
-        Pattern pattern = Pattern.compile(COACH_URL_PADAWAN_MANAGEMENT);
+        Pattern pattern = Pattern.compile(COACH_ALIAS_EXTRACT);
         Matcher matcher = pattern.matcher(httpServletRequest.getPathInfo());
 
         matcher.find();
