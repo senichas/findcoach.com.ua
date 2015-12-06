@@ -14,7 +14,7 @@
         src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-resource.js"></script>
 <script type="text/javascript" src="/js/angularJS/app.js"></script>
 <script type="text/javascript" src="/js/angularJS/controllers.js"></script>
-<div id="mainContainer" ng-controller="padawansList">
+<div id="mainContainer">
     <header id="coachHeader" ng-controller="statusListController">
         <div style="text-align: right;">
             <span>Статус:</span>
@@ -27,31 +27,13 @@
         ${message}
     </header>
     <section>
+        <h1>Детали для программы &laquo;${programName}&raquo;</h1>
         <a href="/findcoach/coach/profile/calendar.html">Календарь</a>
         <a href="/findcoach/coach/${coachAlias}/padawan-management/add-padawan.html">Добавление падавана</a>
-        <a href="/findcoach/coach/${coachAlias}/program/1.html">Программа</a>
-        <a href="" ng-click="click()">Список падаванов</a>
+        <a href="" ng-click="click()">Список падаванов</a><br/>
+        <a href="">Добавить цикл</a>
     </section>
-    <section>
-        <table ng-show="data">
-            <tr class="header">
-                <td>#</td>
-                <td>FirstName</td>
-                <td>LastName</td>
-                <td>Email</td>
-                <td>Gender</td>
-                <td>ProgramId</td>
-            </tr>
-            <tr ng-repeat="x in data">
-                <td>{{$index}}</td>
-                <td>{{x.firstName}}</td>
-                <td>{{x.lastName}}</td>
-                <td>{{x.email}}</td>
-                <td>{{x.gender}}</td>
-                <td>{{x.programId}}</td>
-            </tr>
-        </table>
-    </section>
+
 </div>
 
 </body>

@@ -13,8 +13,11 @@ public class ProgramService {
     @Autowired
     private ProgramRepository programRepository;
 
-
     public Program saveProgram(Program program) {
         return programRepository.save(program);
+    }
+
+    public Program findProgramById(Integer programId) {
+        return programRepository.findOneByProgramId(programId);
     }
 }
