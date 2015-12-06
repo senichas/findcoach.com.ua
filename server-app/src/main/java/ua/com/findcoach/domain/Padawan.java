@@ -81,7 +81,6 @@ public class Padawan implements User {
     public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
-
     public Gender getGender() {
         return gender;
     }
