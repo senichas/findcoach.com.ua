@@ -37,7 +37,7 @@ var addPadawanControllerHandler = function ($scope, DataService, $http) {
         addPadawanData.padawanProgram = $scope.padawanProgram;
 
         $http({
-            method: 'PUT',
+            method: 'POST',
             url: $scope.endPoint,
             data: addPadawanData
 

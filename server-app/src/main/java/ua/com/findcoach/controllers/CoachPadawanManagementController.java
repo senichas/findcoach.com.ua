@@ -42,7 +42,7 @@ public class CoachPadawanManagementController {
         return new ModelAndView("padawan-management/add-padawan", paramerters);
     }
 
-    @RequestMapping(value = "/basic-info", method = RequestMethod.PUT)
+    @RequestMapping(value = "/basic-info", method = RequestMethod.POST)
     @ResponseBody
     public String addPadawan(@RequestBody AddPadawanBasicInfo padawanBasicInfo) {
         Coach currentCoach = coachService.retrieveCurrentCoach();
