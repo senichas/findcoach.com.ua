@@ -44,7 +44,7 @@ var addPadawanControllerHandler = function ($scope, DataService, $http) {
         }).then(function successCallback(response) {
             alert("success");
         }, function errorCallback(response) {
-            alert("success");
+            alert("error");
         });
     };
 };
