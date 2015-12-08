@@ -1,4 +1,4 @@
-var addPadawanModule = angular.module("addPadawan", []);
+var addPadawanModule = angular.module("coachManagement", []);
 
 addPadawanModule.factory("DataService", function () {
 
