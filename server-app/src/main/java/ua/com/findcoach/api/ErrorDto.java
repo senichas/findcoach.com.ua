@@ -3,11 +3,11 @@ package ua.com.findcoach.api;
 /**
  * Created by DENIS on 16.10.2015.
  */
-public class ErrorResponse {
+public class ErrorDto {
     private String errorMessege;
     private String exceptionMessege;
 
-    public ErrorResponse(String errorMessege, String exceptionMessege) {
+    public ErrorDto(String errorMessege, String exceptionMessege) {
         this.errorMessege = errorMessege;
         this.exceptionMessege = exceptionMessege;
     }

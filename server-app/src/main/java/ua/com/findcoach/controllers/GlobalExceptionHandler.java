@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ua.com.findcoach.api.ErrorResponse;
+import ua.com.findcoach.api.ErrorDto;
 import ua.com.findcoach.exception.StatusUpdateException;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 
@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = StatusUpdateException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public ErrorResponse statusUpdateExeption(Exception exception) {
-        return new ErrorResponse(messageResolver.getMessage("error.status.failure_update"),exception.getMessage());
+    public ErrorDto statusUpdateExeption(Exception exception) {
+        return new ErrorDto(messageResolver.getMessage("error.status.failure_update"),exception.getMessage());
     }
 }
