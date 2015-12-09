@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html ng-app="status">
+<html ng-app="coachManagement">
 <head lang="en">
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/main.css"/>
     <link rel="stylesheet" href="/css/coach.css"/>
     <title>Доска информации</title>
+    <script src="/js/libs/jquery-core/jquery-1.4.2.js"></script>
+    <script src="/js/libs/angularjs/angular.js"></script>
+    <script type="text/javascript"
+            src="/js/libs/angularjs/angular-resource.js"></script>
+    <script type="text/javascript" src="/js/angularJS/controllers.js"></script>
 </head>
 <body>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
-<script type="text/javascript"
-        src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-resource.js"></script>
-<script type="text/javascript" src="/js/angularJS/app.js"></script>
-<script type="text/javascript" src="/js/angularJS/controllers.js"></script>
-<div id="mainContainer" ng-controller="padawansList">
+<div id="mainContainer">
     <header id="coachHeader" ng-controller="statusListController">
         <div style="text-align: right;">
             <span>Статус:</span>
-            <select ng-model="currentStatus" ng-change="updateStatus()" ng-options="k as v for (k,v) in data" name="status" id="status"></select>
+            <select ng-model="currentStatus" ng-change="updateStatus()" ng-options="k as v for (k,v) in data"
+                    name="status" id="status"></select>
         </div>
         <div id="statusResponseHolder" style="text-align: right">
             <span id="statusMessege"></span>
@@ -32,7 +32,7 @@
         <a href="/findcoach/coach/${coachAlias}/program/1.html">Программа</a>
         <a href="" ng-click="click()">Список падаванов</a>
     </section>
-    <section>
+    <section ng-controller="padawansListController">
         <table ng-show="data">
             <tr class="header">
                 <td>#</td>
