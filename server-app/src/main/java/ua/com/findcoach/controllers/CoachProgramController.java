@@ -55,6 +55,21 @@ public class CoachProgramController {
 
 
         parameters.put("programName", program.getName());
+        parameters.put("programId", program.getProgramId());
+        parameters.put("coachAlias", coachAlias);
         return new ModelAndView("padawan-management/programDetails", parameters);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle.html")
+    public ModelAndView programCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId) {
+        Map<String, Object> parameters = new HashMap<>();
+
+        Program program = programService.findProgramById(programId);
+
+        parameters.put("programName", program.getName());
+        parameters.put("programId", program.getProgramId());
+
+
+        return new ModelAndView("padawan-management/programCycleDetails", parameters);
     }
 }

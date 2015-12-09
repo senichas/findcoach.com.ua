@@ -5,12 +5,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/main.css"/>
     <link rel="stylesheet" href="/css/coach.css"/>
-    <title>Доска информации</title>
+    <script type="text/javascript">
+        var loggedCoachAlias = '$coachAlias';
+        var programId = '$programId';
+    </script>
     <script src="/js/libs/jquery-core/jquery-1.4.2.js"></script>
     <script src="/js/libs/angularjs/angular.js"></script>
     <script type="text/javascript" src="/js/libs/angularjs/angular-resource.js"></script>
     <script type="text/javascript" src="/js/angularJS/coach-management.js"></script>
+    <script type="text/javascript" src="/js/angularJS/cycles.js"></script>
 
+    <title>Доска информации</title>
 </head>
 <body>
 <div id="mainContainer">
@@ -27,14 +32,34 @@
         ${message}
     </header>
     <section>
-        <h1>Детали для программы &laquo;${programName}&raquo;</h1>
+        <h1>Добавить цикл для программы &laquo;${programName}&raquo;</h1>
         <a href="/findcoach/coach/profile/calendar.html">Календарь</a>
         <a href="/findcoach/coach/${coachAlias}/padawan-management/add-padawan.html">Добавление падавана</a>
         <a href="" ng-click="click()">Список падаванов</a>
         <br/>
-        <a href="/findcoach/coach/${coachAlias}/program/${programId}/cycle.html">Добавить цикл</a>
+        <a href="/findcoach/coach/${coachAlias}/program/{programId}/cycle.html">Добавить цикл</a>
 
+        <form ng-controller="cycleController" ng-submit="saveCycle">
+            <fieldset>
+                <legend>Базовая информация о цикле</legend>
+                <p>Название</p>
 
+                <p><input type="text" name="cycleName" id="cycleName" ng-model="cycleData.name" value=""/></p>
+
+                <p>Дата начала</p>
+
+                <p><input type="date" name="cycleStartDate" id="cycleStartDate" ng-model="cycleData.startDate"/></p>
+
+                <p>Дата окончания</p>
+
+                <p><input type="date" name="cycleEndDate" id="cycleEndDate" ng-model="cycleData.endDate"/></p>
+
+                <p>Дополнительные заметки от тренера</p>
+
+                <p><textarea name="cycleNotes" id="cycleNotes" ng-model="cycleData.notes"></textarea></p>
+
+            </fieldset>
+        </form>
     </section>
 
 </div>
