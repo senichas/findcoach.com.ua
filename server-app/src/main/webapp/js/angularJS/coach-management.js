@@ -49,7 +49,6 @@ var saveCycleControllerHandler = function ($scope, DataService, $http) {
     var endDate = new Date();
     $scope.cycleData.endDate = new Date(endDate.setMonth(endDate.getMonth() + 3));
 
-
     $scope.saveCycle = function () {
 
         var cycleData = {};

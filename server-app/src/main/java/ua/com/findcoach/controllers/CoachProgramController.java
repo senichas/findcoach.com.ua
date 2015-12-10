@@ -2,12 +2,11 @@ package ua.com.findcoach.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ua.com.findcoach.api.CycleDto;
 import ua.com.findcoach.api.PadawanDTO;
+import ua.com.findcoach.api.RestResponse;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Program;
 import ua.com.findcoach.services.CoachService;
@@ -71,5 +70,13 @@ public class CoachProgramController {
 
 
         return new ModelAndView("padawan-management/programCycleDetails", parameters);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle")
+    @ResponseBody
+    public RestResponse saveCycle(@PathVariable String coachAlias, @PathVariable Integer programId, @RequestBody CycleDto cycleDto) {
+        RestResponse response = new RestResponse();
+
+        return response;
     }
 }

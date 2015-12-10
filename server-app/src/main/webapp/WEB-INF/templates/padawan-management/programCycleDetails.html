@@ -36,9 +36,9 @@
         <a href="/findcoach/coach/${coachAlias}/padawan-management/add-padawan.html">Добавление падавана</a>
         <a href="" ng-click="click()">Список падаванов</a>
         <br/>
-        <a href="/findcoach/coach/${coachAlias}/program/{programId}/cycle.html">Добавить цикл</a>
+        <a href="/findcoach/coach/${coachAlias}/program/${programId}/cycle.html">Добавить цикл</a>
 
-        <form ng-controller="cycleController" ng-submit="saveCycle">
+        <form ng-controller="cycleController" ng-submit="saveCycle()">
             <fieldset>
                 <legend>Базовая информация о цикле</legend>
                 <p>Название</p>
@@ -58,6 +58,7 @@
                 <p><textarea name="cycleNotes" id="cycleNotes" ng-model="cycleData.notes"></textarea></p>
 
             </fieldset>
+            <button type="submit">Сохранить</button>
         </form>
     </section>
 
