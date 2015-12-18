@@ -226,6 +226,40 @@
         </rollback>
     </changeSet>
 
+    <changeSet id="1.6" author="Andriy">
+        <createTable tableName="cycle">
+            <column name="cycle_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="character varying(100)"/>
+            <column name="notes" type="character varying(500)"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cycle"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.7" author="Andriy">
+        <createTable tableName="program_cycle_link">
+            <column name="program_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="cycle_program_program_id_fk"
+                             references=" &quot;program&quot; (program_id)"/>
+            </column>
+            <column name="cycle_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="cycle_program_cycle_id_fk"
+                             references=" &quot;cycle&quot; (cycle_id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="program_cycle_link"/>
+        </rollback>
+    </changeSet>
+
+
 
     <changeSet id="1.10" author="Andriy">
         <tagDatabase tag="version_0.0.1"/>

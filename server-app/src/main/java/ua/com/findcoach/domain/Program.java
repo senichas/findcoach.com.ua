@@ -1,7 +1,13 @@
 package ua.com.findcoach.domain;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -33,6 +39,14 @@ public class Program {
 
     @Column(name = "end_date")
     private Date endDate;
+
+    @Fetch(FetchMode.SELECT)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "program_cycle_link",
+            joinColumns = @JoinColumn(name = "program_id"),
+            inverseJoinColumns = @JoinColumn(name = "cycle_id")
+    )
+    private List<Cycle> cycles;
 
     public Integer getProgramId() {
         return programId;
@@ -88,5 +102,13 @@ public class Program {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Cycle> getCycles() {
+        return cycles;
+    }
+
+    public void setCycles(List<Cycle> cycles) {
+        this.cycles = cycles;
     }
 }

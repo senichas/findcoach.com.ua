@@ -52,11 +52,10 @@ var saveCycleControllerHandler = function ($scope, DataService, $http) {
     $scope.saveCycle = function () {
 
         var cycleData = {};
-        cycleData.name = $scope.name;
-        cycleData.notes = $scope.notes;
-        cycleData.startDate = $scope.startDate;
-        cycleData.endDate = $scope.endDate;
-        cycleData.notes = $scope.notes;
+        cycleData.name = $scope.cycleData.name;
+        cycleData.notes = $scope.cycleData.notes;
+        cycleData.startDate = $scope.cycleData.startDate.getTime();
+        cycleData.endDate = $scope.cycleData.endDate.getTime();
 
         $http({
             method: 'POST',

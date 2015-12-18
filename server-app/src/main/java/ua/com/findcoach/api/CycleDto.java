@@ -1,11 +1,9 @@
 package ua.com.findcoach.api;
 
-import java.time.LocalDate;
-
 public class CycleDto {
     private String name;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Long startDate;
+    private Long endDate;
     private String notes;
 
     public String getName() {
@@ -16,19 +14,19 @@ public class CycleDto {
         this.name = name;
     }
 
-    public LocalDate getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Long endDate) {
         this.endDate = endDate;
     }
 
