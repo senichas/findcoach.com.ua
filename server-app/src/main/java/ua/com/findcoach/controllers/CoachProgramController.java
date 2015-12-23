@@ -15,6 +15,7 @@ import ua.com.findcoach.services.ProgramService;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -52,10 +53,11 @@ public class CoachProgramController {
 
         Program program = programService.findProgramById(programId);
 
-
         parameters.put("programName", program.getName());
         parameters.put("programId", program.getProgramId());
         parameters.put("coachAlias", coachAlias);
+        parameters.put("cycles", program.getCycles());
+        parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         return new ModelAndView("padawan-management/programDetails", parameters);
     }
 
@@ -98,5 +100,25 @@ public class CoachProgramController {
         RestResponse response = new RestResponse();
 
         return response;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training.html")
+    public ModelAndView addTrainingForm(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId) {
+        Map<String, Object> parameters = new HashMap<>();
+
+        Program program = programService.findProgramById(programId);
+
+        parameters.put("coachAlias", coachAlias);
+        parameters.put("programName", program.getName());
+        parameters.put("programId", program.getProgramId());
+        for (Cycle cycle : program.getCycles()) {
+            if (cycle.getCycleId().compareTo(cycleId) == 0) {
+                parameters.put("cycleId", cycle.getCycleId());
+                parameters.put("cycleName", cycle.getName());
+                break;
+            }
+        }
+
+        return new ModelAndView("padawan-management/trainingDetails", parameters);
     }
 }

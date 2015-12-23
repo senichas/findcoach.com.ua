@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html ng-app="coachManagement">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/main.css"/>
+    <link rel="stylesheet" href="/css/coach.css"/>
+    <script type="text/javascript">
+        var loggedCoachAlias = '$coachAlias';
+        var programId = '$programId';
+        var cycleId = '$cycleId';
+    </script>
+    <script src="/js/libs/jquery-core/jquery-1.4.2.js"></script>
+    <script src="/js/libs/angularjs/angular.js"></script>
+    <script type="text/javascript" src="/js/libs/angularjs/angular-resource.js"></script>
+    <script type="text/javascript" src="/js/angularJS/coach-management.js"></script>
+
+    <title>Доска информации</title>
+</head>
+<body>
+<div id="mainContainer">
+    <header id="coachHeader" ng-controller="statusListController">
+        <div style="text-align: right;">
+            <span>Статус:</span>
+            <select ng-model="currentStatus" ng-change="updateStatus()" ng-options="k as v for (k,v) in data"
+                    name="status" id="status"></select>
+        </div>
+        <div id="statusResponseHolder" style="text-align: right">
+            <span id="statusMessege"></span>
+        </div>
+        Welcome to coach page!<br>
+        ${message}
+    </header>
+    <section>
+        <h1>Программа &laquo;${programName}&raquo;, цикл &laquo;${cycleName}&raquo;</h1>
+        <a href="/findcoach/coach/profile/calendar.html">Календарь</a>
+        <a href="/findcoach/coach/${coachAlias}/padawan-management/add-padawan.html">Добавление падавана</a>
+        <a href="" ng-click="click()">Список падаванов</a>
+        <br/>
+        <a href="/findcoach/coach/${coachAlias}/program/${programId}/cycle.html">Добавить цикл</a>
+
+        <form ng-controller="trainingController" ng-submit="saveTraining()">
+            <fieldset>
+                <legend>Информация о тренировке</legend>
+
+                <p>Время начала</p>
+
+                <p><input type="datetime-local" name="trainingStartDateTime" id="trainingStartDateTime" ng-model="trainingData.startDateTime"/></p>
+
+                <p>Продолжительность</p>
+
+                <p><select name="trainingDuration" id="trainingDuration" ng-model="trainingData.duration">
+                    <option value="30">30 мин.</option>
+                    <option value="45">45 мин.</option>
+                    <option value="60">1 ч.</option>
+                    <option value="75">1 ч. 15 мин.</option>
+                    <option value="90">1 ч. 30 мин.</option>
+                    <option value="105">1 ч. 45 мин.</option>
+                    <option value="120">2 ч.</option>
+                    <option value="135">2 ч. 15 мин.</option>
+                    <option value="150">2 ч. 30 мин.</option>
+                    <option value="165">2 ч. 45 мин.</option>
+                </select></p>
+
+                <p>Содержание тренировки</p>
+
+                <p><textarea name="trainingContent" id="trainingContent" ng-model="trainingData.content"></textarea></p>
+
+            </fieldset>
+            <button type="submit">Сохранить</button>
+        </form>
+    </section>
+
+</div>
+
+</body>
+</html>

@@ -34,7 +34,22 @@
         <br/>
         <a href="/findcoach/coach/${coachAlias}/program/${programId}/cycle.html">Добавить цикл</a>
 
-
+        <table>
+            <tr>
+                <th>Название цикла</th>
+                <th>Старт</th>
+                <th>Конец</th>
+                <th>&nbsp;</th>
+            </tr>
+            #foreach ($cycle in ${cycles})
+            <tr>
+                <td>$cycle.name</td>
+                <td>$cycle.startDate.format(${formatter})</td>
+                <td>$cycle.endDate.format(${formatter})</td>
+                <td><a href="/findcoach/coach/${coachAlias}/program/${programId}/cycle/$cycle.cycleId/training.html">Добавить тренировку</a></td>
+            </tr>
+            #end
+        </table>
     </section>
 
 </div>

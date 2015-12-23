@@ -123,3 +123,48 @@ var addPadawanControllerHandler = function ($scope, AddPadawanDataService, $http
 };
 
 coachManagementApplication.controller("addPadawanController", ["$scope", "AddPadawanDataService", "$http", addPadawanControllerHandler]);
+
+
+coachManagementApplication.factory("TrainingDataService", function () {
+
+    return {
+        loggedCoachAlias: loggedCoachAlias,
+        programId: programId,
+        cycleId: cycleId
+    };
+});
+
+var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
+    $scope.endPoint = "/findcoach/coach/" + TrainingDataService.loggedCoachAlias + "/program/" + TrainingDataService.programId + "/cycle/" + cycleId + "/training"
+    alert($scope.endPoint);
+    $scope.trainingData = {};
+    $scope.trainingData.startDateTime = new Date();
+    $scope.trainingData.duration = "60";
+    $scope.trainingData.content = "qqq";
+
+
+    $scope.trainingData.startDate = new Date();
+    var endDate = new Date();
+
+
+    $scope.saveTraining = function () {
+
+       /* var addPadawanData = {};
+        addPadawanData.padawanData = $scope.padawanData;
+        addPadawanData.padawanMeasurement = $scope.padawanMeasurement;
+        addPadawanData.padawanProgram = $scope.padawanProgram;
+
+        $http({
+            method: 'POST',
+            url: $scope.endPoint,
+            data: addPadawanData
+
+        }).then(function successCallback(response) {
+            alert("success");
+        }, function errorCallback(response) {
+            alert("error");
+        });*/
+    };
+};
+
+coachManagementApplication.controller("trainingController", ["$scope", "TrainingDataService", "$http", trainingControllerHandler]);
