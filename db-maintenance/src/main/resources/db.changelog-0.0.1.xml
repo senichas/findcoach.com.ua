@@ -259,6 +259,24 @@
         </rollback>
     </changeSet>
 
+    <changeSet id="1.8" author="Andriy">
+        <createTable tableName="cycle_event_link">
+          <column name="cycle_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="cycle_event_cycle_id_fk"
+                             references=" &quot;cycle&quot; (cycle_id)"/>
+            </column>
+            <column name="event_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="cycle_event_event_id_fk"
+                             references=" &quot;event&quot; (event_id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="program_cycle_link"/>
+        </rollback>
+    </changeSet>
+
 
 
     <changeSet id="1.10" author="Andriy">
