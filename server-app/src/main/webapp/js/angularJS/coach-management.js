@@ -136,34 +136,30 @@ coachManagementApplication.factory("TrainingDataService", function () {
 
 var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
     $scope.endPoint = "/findcoach/coach/" + TrainingDataService.loggedCoachAlias + "/program/" + TrainingDataService.programId + "/cycle/" + cycleId + "/training"
-    alert($scope.endPoint);
     $scope.trainingData = {};
-    $scope.trainingData.startDateTime = new Date();
+    var currentDate = new Date();
+    $scope.trainingData.startDateTime = new Date(currentDate.getYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
     $scope.trainingData.duration = "60";
     $scope.trainingData.content = "qqq";
 
-
-    $scope.trainingData.startDate = new Date();
-    var endDate = new Date();
-
-
     $scope.saveTraining = function () {
 
-       /* var addPadawanData = {};
-        addPadawanData.padawanData = $scope.padawanData;
-        addPadawanData.padawanMeasurement = $scope.padawanMeasurement;
-        addPadawanData.padawanProgram = $scope.padawanProgram;
+        var trainingData = {};
+        trainingData.startDateTime = $scope.trainingData.startDateTime.getTime();
+        trainingData.duration = $scope.trainingData.duration;
+        alert(trainingData.duration);
+        trainingData.content= $scope.trainingData.content;
 
         $http({
             method: 'POST',
             url: $scope.endPoint,
-            data: addPadawanData
+            data: trainingData
 
         }).then(function successCallback(response) {
             alert("success");
         }, function errorCallback(response) {
             alert("error");
-        });*/
+        });
     };
 };
 

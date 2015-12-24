@@ -1,7 +1,11 @@
 package ua.com.findcoach.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "cycle")
@@ -23,6 +27,14 @@ public class Cycle {
 
     @Column(name = "end_date")
     private LocalDate endDate;
+
+    @Fetch(FetchMode.SELECT)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "cycle_event_link",
+            joinColumns = @JoinColumn(name = "cycle_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private List<Event> events;
 
     public Integer getCycleId() {
         return cycleId;
@@ -62,5 +74,13 @@ public class Cycle {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }

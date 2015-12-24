@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.CycleDto;
 import ua.com.findcoach.api.PadawanDTO;
 import ua.com.findcoach.api.RestResponse;
+import ua.com.findcoach.api.TrainingDto;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Cycle;
 import ua.com.findcoach.domain.Program;
@@ -120,5 +121,15 @@ public class CoachProgramController {
         }
 
         return new ModelAndView("padawan-management/trainingDetails", parameters);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training")
+    @ResponseBody
+    public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId, @RequestBody TrainingDto trainingDto) {
+
+        Program program = programService.findProgramById(programId);
+
+        RestResponse response = new RestResponse();
+        return response;
     }
 }
