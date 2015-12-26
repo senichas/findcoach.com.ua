@@ -30,9 +30,11 @@ public class CoachProgramController {
     private ProgramService programService;
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawan")
-    public List<PadawanDTO> recieveCoachProgramPadawans(@PathVariable String coachAlias) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans")
+    public ModelAndView recieveCoachProgramPadawans(@PathVariable String coachAlias) {
+        Map<String, Object> params = new HashMap<>();
         Coach currentCoach = coachService.retrieveCurrentCoach();
+        params.put("coachAlias", currentCoach.getAlias());
         List<PadawanDTO> padawans = new ArrayList<>();
         currentCoach
                 .getProgramList()
@@ -45,7 +47,8 @@ public class CoachProgramController {
                         , program.getPadawan().getGender()
                         , program.getProgramId()
                 )));
-        return padawans;
+        params.put("padawansList", padawans);
+        return new ModelAndView("padawan-management/padawans", params);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}.html")

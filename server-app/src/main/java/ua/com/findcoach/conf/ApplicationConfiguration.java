@@ -52,7 +52,6 @@ public class ApplicationConfiguration {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-
         factory.setPackagesToScan("ua.com.findcoach.domain");
         factory.setDataSource(dataSource());
         factory.setJpaProperties(hibernateProperties());
