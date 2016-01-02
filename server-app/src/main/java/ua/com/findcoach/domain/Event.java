@@ -1,5 +1,8 @@
 package ua.com.findcoach.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -26,15 +29,9 @@ public class Event {
     @Column(name = "location", length = 60)
     private String location;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.MERGE)
+    @Fetch(FetchMode.SELECT)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventRecurrence> recurrences;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.MERGE)
-    private List<EventCoachParticipant> coaches;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.MERGE)
-    private List<EventPadawanParticipant> padawans;
-
 
     public Integer getEventId() {
         return eventId;
@@ -84,19 +81,4 @@ public class Event {
         this.recurrences = recurrences;
     }
 
-    public List<EventCoachParticipant> getCoaches() {
-        return coaches;
-    }
-
-    public void setCoaches(List<EventCoachParticipant> coaches) {
-        this.coaches = coaches;
-    }
-
-    public List<EventPadawanParticipant> getPadawans() {
-        return padawans;
-    }
-
-    public void setPadawans(List<EventPadawanParticipant> padawans) {
-        this.padawans = padawans;
-    }
 }

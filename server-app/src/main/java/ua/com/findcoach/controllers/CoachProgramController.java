@@ -2,18 +2,21 @@ package ua.com.findcoach.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.CycleDto;
 import ua.com.findcoach.api.PadawanDTO;
 import ua.com.findcoach.api.RestResponse;
 import ua.com.findcoach.api.TrainingDto;
-import ua.com.findcoach.domain.Coach;
-import ua.com.findcoach.domain.Cycle;
-import ua.com.findcoach.domain.Program;
+import ua.com.findcoach.domain.*;
 import ua.com.findcoach.services.CoachService;
+import ua.com.findcoach.services.CycleService;
+import ua.com.findcoach.services.EventService;
 import ua.com.findcoach.services.ProgramService;
+import ua.com.findcoach.utils.Formatters;
 
+import javax.validation.Valid;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +31,12 @@ public class CoachProgramController {
 
     @Autowired
     private ProgramService programService;
+
+    @Autowired
+    private CycleService cycleService;
+
+    @Autowired
+    private EventService eventService;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans")
@@ -128,9 +137,31 @@ public class CoachProgramController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training")
     @ResponseBody
-    public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId, @RequestBody TrainingDto trainingDto) {
+    public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId,
+                                        @RequestBody @Valid TrainingDto trainingDto, BindingResult bindingResult) {
 
         Program program = programService.findProgramById(programId);
+
+        final Event event = new Event();
+        event.setDescription(trainingDto.getContent());
+
+        List<EventRecurrence> eventRecurrences = new ArrayList<>();
+        EventRecurrence recurrence = new EventRecurrence();
+        recurrence.setAllDay(Boolean.FALSE);
+        LocalDateTime startDateTime = LocalDateTime.parse(trainingDto.getStartDateTime(), Formatters.SIMPLE_DATE_TIME_FORMATTER);
+        recurrence.setStartDate(startDateTime);
+        recurrence.setEndDate(startDateTime.plusMinutes(trainingDto.getDuration()));
+        recurrence.setEvent(event);
+
+        eventRecurrences.add(recurrence);
+        event.setRecurrences(eventRecurrences);
+
+        eventService.save(event);
+
+        program.getCycles().stream().filter(cycle -> cycle.getCycleId().compareTo(cycleId) == 0).forEach(cycle -> {
+            cycle.getEvents().add(event);
+            cycleService.save(cycle);
+        });
 
         RestResponse response = new RestResponse();
         return response;

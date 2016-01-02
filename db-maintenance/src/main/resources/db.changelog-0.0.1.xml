@@ -113,52 +113,14 @@
             <column name="end_date" type="timestamp"/>
         </createTable>
 
-        <createTable tableName="event_coach_participant">
-            <column name="event_coach_participant_id" type="serial" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="event_id" type="integer">
-                <constraints nullable="false"
-                             foreignKeyName="event_coach_participant_event_id_fk"
-                             references=" &quot;event&quot; (event_id)"/>
-            </column>
-            <column name="coach_id" type="integer">
-                <constraints nullable="false"
-                             foreignKeyName="event_participant_coach_id_fk"
-                             references=" coach (coach_id)"/>
-            </column>
-            <column name="participant_role" type="character varying(15)"/>
-        </createTable>
-
-        <createTable tableName="event_padawan_participant">
-            <column name="event_padawan_participant_id" type="serial" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="event_id" type="integer">
-                <constraints nullable="false"
-                             foreignKeyName="event_padawan_participant_event_id_fk"
-                             references=" &quot;event&quot; (event_id)"/>
-            </column>
-            <column name="padawan_id" type="integer">
-                <constraints nullable="false"
-                             foreignKeyName="event_participant_padawan_id_fk"
-                             references=" padawan (padawan_id)"/>
-            </column>
-            <column name="participant_role" type="character varying(15)"/>
-        </createTable>
-
         <loadData encoding="UTF-8"
                   file="data/event.csv"
                   tableName="event"/>
         <loadData encoding="UTF-8"
                   file="data/event_recurrence.csv"
                   tableName="event_recurrence"/>
-        <loadData encoding="UTF-8"
-                  file="data/event_coach_participant.csv"
-                  tableName="event_coach_participant"/>
 
         <rollback>
-            <dropTable tableName="event_participant"/>
             <dropTable tableName="event_recurrence"/>
             <dropTable tableName="event"/>
         </rollback>

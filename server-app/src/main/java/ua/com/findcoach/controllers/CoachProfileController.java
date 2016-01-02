@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.findcoach.api.CalendarEvent;
 import ua.com.findcoach.api.CalendarResponse;
 import ua.com.findcoach.domain.Coach;
-import ua.com.findcoach.domain.Event;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.ConverterService;
@@ -16,7 +14,6 @@ import ua.com.findcoach.services.EventService;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -57,11 +54,11 @@ public class CoachProfileController {
     @ResponseBody
     public CalendarResponse coachCalendarHandler(@RequestParam("method") String method) {
 
-        List<Event> events = eventService.findEventsForLoggedInUser();
-        List<CalendarEvent> calendarEvents = converterService.convertEventToCalendarEvent(events);
+       /* List<Event> events = eventService.findEventsForLoggedInUser();
+        List<CalendarEvent> calendarEvents = converterService.convertEventToCalendarEvent(events);*/
 
         CalendarResponse response = new CalendarResponse();
-        response.setEvents(calendarEvents);
+//        response.setEvents(calendarEvents);
         return response;
     }
 

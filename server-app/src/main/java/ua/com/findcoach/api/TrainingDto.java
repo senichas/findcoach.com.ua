@@ -1,15 +1,21 @@
 package ua.com.findcoach.api;
 
+import javax.validation.constraints.Pattern;
+
 public class TrainingDto {
-    private Long startDateTime;
+
+    @Pattern(regexp = "((19|20)[0-9]{2})([-])(0[1-9]|1[012])([-])(0[1-9]|[12][0-9]|3[01]) ([01][0-9]|2[0-3]):([0-5][0-9])")
+    private String startDateTime;
+
     private Integer duration;
+
     private String content;
 
-    public Long getStartDateTime() {
+    public String getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(Long startDateTime) {
+    public void setStartDateTime(String startDateTime) {
         this.startDateTime = startDateTime;
     }
 

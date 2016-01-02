@@ -138,16 +138,18 @@ var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
     $scope.endPoint = "/findcoach/coach/" + TrainingDataService.loggedCoachAlias + "/program/" + TrainingDataService.programId + "/cycle/" + cycleId + "/training"
     $scope.trainingData = {};
     var currentDate = new Date();
-    $scope.trainingData.startDateTime = new Date(currentDate.getYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
+    $scope.trainingData.startDateTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
     $scope.trainingData.duration = "60";
     $scope.trainingData.content = "qqq";
 
     $scope.saveTraining = function () {
 
         var trainingData = {};
-        trainingData.startDateTime = $scope.trainingData.startDateTime.getTime();
+        var trainingStartDateTime = $scope.trainingData.startDateTime;
+        trainingData.startDateTime = trainingStartDateTime.getFullYear() + "-" + ("0" + trainingStartDateTime.getMonth()).slice(-2) + "-" + ("0" + trainingStartDateTime.getDate()).slice(-2) + " " +
+            ("0" + trainingStartDateTime.getHours()).slice(-2) + ":" + ("0" + trainingStartDateTime.getMinutes()).slice(-2);
+        alert(trainingData.startDateTime);
         trainingData.duration = $scope.trainingData.duration;
-        alert(trainingData.duration);
         trainingData.content= $scope.trainingData.content;
 
         $http({
