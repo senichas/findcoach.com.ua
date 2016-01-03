@@ -39,7 +39,7 @@ public class CoachProgramController {
     private EventService eventService;
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans")
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans.html")
     public ModelAndView recieveCoachProgramPadawans(@PathVariable String coachAlias) {
         Map<String, Object> params = new HashMap<>();
         Coach currentCoach = coachService.retrieveCurrentCoach();
