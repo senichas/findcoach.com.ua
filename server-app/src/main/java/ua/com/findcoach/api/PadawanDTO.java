@@ -26,7 +26,7 @@ public class PadawanDTO {
         padawanProgramDTOList = new ArrayList<PadawanProgramDTO>();
     }
 
-    public class PadawanProgramDTO{
+    public static class PadawanProgramDTO{
         private String programName;
         private Goal goal;
         private Integer programId;

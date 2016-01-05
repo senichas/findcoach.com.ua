@@ -41,17 +41,21 @@
                 <td>$padawan.lastName</td>
                 <td>$padawan.email</td>
                 <td>$padawan.gender</td>
-                <table>
-                    #foreach($padawanProgram in $padawan.padawanProgramDTOList)
-                    <tr>
-                        <td>$padawanProgram.programName</td>
-                        <td>$padawanProgram.goal</td>
-                        <td>$padawanProgram.programStartDate</td>
-                        <td>$padawanProgram.programFinishDate</td>
-                        <td><a href="/findcoach/coach/${coachAlias}/program/${padawanProgram.programId}.html">$padawanProgram.programId</a></td>
-                    </tr>
-                    #end
-                </table>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <table>
+                        #foreach($padawanProgram in $padawan.padawanProgramDTOList)
+                        <tr>
+                            <td>$padawanProgram.programName</td>
+                            <td>$padawanProgram.goal</td>
+                            <td>$padawanProgram.programStartDate</td>
+                            <td>$padawanProgram.programFinishDate</td>
+                            <td><a href="/findcoach/coach/${coachAlias}/program/${padawanProgram.programId}.html">$padawanProgram.programId</a></td>
+                        </tr>
+                        #end
+                    </table>
+                </td>
             </tr>
             #end
         </table>
