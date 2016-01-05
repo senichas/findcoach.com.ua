@@ -137,7 +137,8 @@ coachManagementApplication.factory("TrainingDataService", function () {
 });
 
 var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
-    $scope.endPoint = "/findcoach/coach/" + TrainingDataService.loggedCoachAlias + "/program/" + TrainingDataService.programId + "/cycle/" + cycleId + "/training"
+    $scope.endPoint = "/findcoach/coach/" + TrainingDataService.loggedCoachAlias + "/program/" + TrainingDataService.programId + "/cycle/" + TrainingDataService.cycleId + "/training";
+    $scope.successRedirectUrl = "/findcoach/coach/" + TrainingDataService.loggedCoachAlias + "/program/" + TrainingDataService.programId + ".html";
     $scope.trainingData = {};
     var currentDate = new Date();
     $scope.trainingData.startDateTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes());
@@ -148,9 +149,8 @@ var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
 
         var trainingData = {};
         var trainingStartDateTime = $scope.trainingData.startDateTime;
-        trainingData.startDateTime = trainingStartDateTime.getFullYear() + "-" + ("0" + trainingStartDateTime.getMonth()).slice(-2) + "-" + ("0" + trainingStartDateTime.getDate()).slice(-2) + " " +
+        trainingData.startDateTime = trainingStartDateTime.getFullYear() + "-" + ("0" + (trainingStartDateTime.getMonth() + 1)).slice(-2) + "-" + ("0" + trainingStartDateTime.getDate()).slice(-2) + " " +
             ("0" + trainingStartDateTime.getHours()).slice(-2) + ":" + ("0" + trainingStartDateTime.getMinutes()).slice(-2);
-        alert(trainingData.startDateTime);
         trainingData.duration = $scope.trainingData.duration;
         trainingData.content = $scope.trainingData.content;
 
@@ -160,7 +160,7 @@ var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
             data: trainingData
 
         }).then(function successCallback(response) {
-            alert("success");
+            window.location.href = $scope.successRedirectUrl;
         }, function errorCallback(response) {
             alert("error");
         });
