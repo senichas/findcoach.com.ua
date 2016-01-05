@@ -18,7 +18,7 @@ var padawansListControllerHandler = function ($scope, $resource) {
         ;
     };
 };
-coachManagementApplication.controller('padawansListController',  ["$scope", "$resource", padawansListControllerHandler])
+coachManagementApplication.controller('padawansListController', ["$scope", "$resource", padawansListControllerHandler])
 
 var profileControllerHandler = function ($scope, $resource) {
     $scope.profileAttributes = $resource('/findcoach/coach/profile/coachProfileAttributes').get();
@@ -28,7 +28,7 @@ var profileControllerHandler = function ($scope, $resource) {
         });
     }
 };
-coachManagementApplication.controller('profileController',  ["$scope", "$resource", profileControllerHandler])
+coachManagementApplication.controller('profileController', ["$scope", "$resource", profileControllerHandler])
 
 
 coachManagementApplication.factory("DataService", function () {
@@ -41,6 +41,7 @@ coachManagementApplication.factory("DataService", function () {
 
 var saveCycleControllerHandler = function ($scope, DataService, $http) {
     $scope.endPoint = "/findcoach/coach/" + DataService.loggedCoachAlias + "/program/" + DataService.programId + "/cycle/";
+    $scope.successRedirectUrl = "/findcoach/coach/" + DataService.loggedCoachAlias + "/program/" + DataService.programId + ".html";
 
     $scope.cycleData = {};
     $scope.cycleData.name = "Вводный цикл";
@@ -63,7 +64,7 @@ var saveCycleControllerHandler = function ($scope, DataService, $http) {
             data: cycleData
 
         }).then(function successCallback(response) {
-            alert("success");
+            window.location.href = $scope.successRedirectUrl;
         }, function errorCallback(response) {
             alert("error");
         });
@@ -81,7 +82,8 @@ coachManagementApplication.factory("AddPadawanDataService", function () {
 });
 
 var addPadawanControllerHandler = function ($scope, AddPadawanDataService, $http) {
-    $scope.endPoint = "/findcoach/coach/" + AddPadawanDataService.loggedCoachAlias + "/padawan-management/basic-info"
+    $scope.endPoint = "/findcoach/coach/" + AddPadawanDataService.loggedCoachAlias + "/padawan-management/basic-info";
+    $scope.successRedirectUrl = "/findcoach/coach/" + AddPadawanDataService.loggedCoachAlias + "/padawans.html";
     $scope.padawanData = {};
     $scope.padawanData.name = "Pertro Vasechkin";
     $scope.padawanData.email = "padawan@test.com";
@@ -115,7 +117,7 @@ var addPadawanControllerHandler = function ($scope, AddPadawanDataService, $http
             data: addPadawanData
 
         }).then(function successCallback(response) {
-            alert("success");
+            window.location.href = $scope.successRedirectUrl;
         }, function errorCallback(response) {
             alert("error");
         });
@@ -150,7 +152,7 @@ var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
             ("0" + trainingStartDateTime.getHours()).slice(-2) + ":" + ("0" + trainingStartDateTime.getMinutes()).slice(-2);
         alert(trainingData.startDateTime);
         trainingData.duration = $scope.trainingData.duration;
-        trainingData.content= $scope.trainingData.content;
+        trainingData.content = $scope.trainingData.content;
 
         $http({
             method: 'POST',
