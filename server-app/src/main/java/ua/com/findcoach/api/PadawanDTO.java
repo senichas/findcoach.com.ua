@@ -1,25 +1,86 @@
 package ua.com.findcoach.api;
 
 import ua.com.findcoach.domain.Gender;
+import ua.com.findcoach.domain.Goal;
 
-/**
- * Created by DENIS on 28.11.2015.
- */
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class PadawanDTO {
     private Integer padawanId;
     private String firstName;
     private String lastName;
     private String email;
     private Gender gender;
-    private Integer programId;
+    private List<PadawanProgramDTO> padawanProgramDTOList;
 
-    public PadawanDTO(Integer padawanId, String firstName, String lastName, String email, Gender gender, Integer programId) {
+
+    public PadawanDTO(Integer padawanId, String firstName, String lastName, String email, Gender gender) {
         this.padawanId = padawanId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
-        this.programId = programId;
+        padawanProgramDTOList = new ArrayList<PadawanProgramDTO>();
+    }
+
+    public class PadawanProgramDTO{
+        private String programName;
+        private Goal goal;
+        private Integer programId;
+        private String programStartDate;
+        private String programFinishDate;
+        private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+        public PadawanProgramDTO(String programName, Goal goal, Integer programId, Date programStartDate, Date programFinishDate) {
+            this.programName = programName;
+            this.goal = goal;
+            this.programId = programId;
+            this.programStartDate = simpleDateFormat.format(programStartDate);
+            this.programFinishDate = simpleDateFormat.format(programFinishDate);
+        }
+
+        public String getProgramStartDate() {
+            return programStartDate;
+        }
+
+        public void setProgramStartDate(String programStartDate) {
+            this.programStartDate = programStartDate;
+        }
+
+        public String getProgramFinishDate() {
+            return programFinishDate;
+        }
+
+        public void setProgramFinishDate(String programFinishDate) {
+            this.programFinishDate = programFinishDate;
+        }
+
+        public String getProgramName() {
+            return programName;
+        }
+
+        public void setProgramName(String programName) {
+            this.programName = programName;
+        }
+
+        public Goal getGoal() {
+            return goal;
+        }
+
+        public void setGoal(Goal goal) {
+            this.goal = goal;
+        }
+
+        public Integer getProgramId() {
+            return programId;
+        }
+
+        public void setProgramId(Integer programId) {
+            this.programId = programId;
+        }
     }
 
     public Integer getPadawanId() {
@@ -62,11 +123,11 @@ public class PadawanDTO {
         this.gender = gender;
     }
 
-    public Integer getProgramId() {
-        return programId;
+    public List<PadawanProgramDTO> getPadawanProgramDTOList() {
+        return padawanProgramDTOList;
     }
 
-    public void setProgramId(Integer programId) {
-        this.programId = programId;
+    public void setPadawanProgramDTOList(List<PadawanProgramDTO> padawanProgramDTOList) {
+        this.padawanProgramDTOList = padawanProgramDTOList;
     }
 }

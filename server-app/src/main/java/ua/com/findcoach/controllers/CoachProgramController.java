@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/coach")
@@ -39,14 +40,28 @@ public class CoachProgramController {
         currentCoach
                 .getProgramList()
                 .stream()
-                .forEach(program -> padawans.add(new PadawanDTO(
-                        program.getPadawan().getPadawanId()
-                        , program.getPadawan().getFirstName()
-                        , program.getPadawan().getLastName()
-                        , program.getPadawan().getEmail()
-                        , program.getPadawan().getGender()
-                        , program.getProgramId()
-                )));
+                .collect(Collectors.groupingBy(p -> p.getPadawan()))
+                .entrySet().stream()
+                .forEach(entry ->
+                {
+                    PadawanDTO padawanDTO = new PadawanDTO(
+                            entry.getKey().getPadawanId(),
+                            entry.getKey().getFirstName(),
+                            entry.getKey().getLastName(),
+                            entry.getKey().getEmail(),
+                            entry.getKey().getGender());
+                    entry.getValue().stream()
+                            .forEach(program -> padawanDTO.getPadawanProgramDTOList()
+                                    .add(padawanDTO
+                                            .new PadawanProgramDTO(program.getName()
+                                            , program.getGoal()
+                                            , program.getProgramId()
+                                            , program.getStartDate()
+                                            , program.getEndDate())));
+                    padawans.add(padawanDTO);
+                });
+
+
         params.put("padawansList", padawans);
         return new ModelAndView("padawan-management/padawans", params);
     }
