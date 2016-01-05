@@ -71,6 +71,7 @@ public class CoachProgramController {
         parameters.put("coachAlias", coachAlias);
         parameters.put("cycles", program.getCycles());
         parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+        parameters.put("timeFormatter", DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
         return new ModelAndView("padawan-management/programDetails", parameters);
     }
 
@@ -144,6 +145,7 @@ public class CoachProgramController {
 
         final Event event = new Event();
         event.setDescription(trainingDto.getContent());
+        event.setType(EventType.TRAINING);
 
         List<EventRecurrence> eventRecurrences = new ArrayList<>();
         EventRecurrence recurrence = new EventRecurrence();

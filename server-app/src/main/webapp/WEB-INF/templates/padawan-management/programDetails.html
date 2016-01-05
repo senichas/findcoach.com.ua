@@ -48,6 +48,21 @@
                 <td>$cycle.endDate.format(${formatter})</td>
                 <td><a href="/findcoach/coach/${coachAlias}/program/${programId}/cycle/$cycle.cycleId/training.html">Добавить тренировку</a></td>
             </tr>
+            <tr>
+                <td colspan="4">
+                    <table>
+                        #foreach ($event in $cycle.events)
+                        <tr>
+                            <td>$!event.title</td>
+                            <td>$event.description</td>
+                            <td>$!event.type</td>
+                            <td>$event.recurrences.get(0).startDate.format(${timeFormatter})</td>
+                            <td>$event.recurrences.get(0).endDate.format(${timeFormatter})</td>
+                        </tr>
+                        #end
+                    </table>
+                </td>
+            </tr>
             #end
         </table>
     </section>
