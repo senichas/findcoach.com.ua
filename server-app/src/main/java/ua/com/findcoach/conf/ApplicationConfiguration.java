@@ -69,6 +69,7 @@ public class ApplicationConfiguration {
                 setProperty("hibernate.hbm2ddl.auto", "validate");
                 setProperty("hibernate.physical_naming_strategy", "ua.com.findcoach.utils.CamelCaseNamingStrategy");
                 setProperty("hibernate.enable_lazy_load_no_trans", "true");
+                setProperty("hibernate.id.new_generator_mappings", "false");
             }
         };
     }
