@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.findcoach.api.CycleDto;
-import ua.com.findcoach.api.PadawanDTO;
-import ua.com.findcoach.api.RestResponse;
-import ua.com.findcoach.api.TrainingDto;
+import ua.com.findcoach.api.*;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Cycle;
 import ua.com.findcoach.domain.Program;
@@ -52,7 +49,7 @@ public class CoachProgramController {
                             entry.getKey().getGender());
                     entry.getValue().stream()
                             .forEach(program -> padawanDTO.getPadawanProgramDTOList()
-                                    .add(new PadawanDTO.PadawanProgramDTO(program.getName()
+                                    .add(new ProgramDTO(program.getName()
                                             , program.getGoal()
                                             , program.getProgramId()
                                             , program.getStartDate()
