@@ -68,6 +68,7 @@ public class CoachProgramController {
 
 
         params.put("padawansList", padawans);
+        params.put("menu", "padawan-management/menu.vm");
         return new ModelAndView("padawan-management/padawans", params);
     }
 
