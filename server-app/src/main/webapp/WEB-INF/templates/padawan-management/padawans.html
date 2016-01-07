@@ -28,12 +28,11 @@
     <section>
         <table>
             <tr class="header">
-                <td>#</td>
-                <td>FirstName</td>
-                <td>LastName</td>
-                <td>Email</td>
-                <td>Gender</td>
-                <td>ProgramId</td>
+                <th>#</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Email</th>
+                <th>Пол</th>
             </tr>
             #foreach($padawan in $padawansList)
             <tr>
@@ -42,7 +41,21 @@
                 <td>$padawan.lastName</td>
                 <td>$padawan.email</td>
                 <td>$padawan.gender</td>
-                <td>$padawan.programId</td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <table>
+                        #foreach($padawanProgram in $padawan.padawanProgramDTOList)
+                        <tr>
+                            <td>$padawanProgram.programName</td>
+                            <td>$padawanProgram.goal</td>
+                            <td>$padawanProgram.programStartDate</td>
+                            <td>$padawanProgram.programFinishDate</td>
+                            <td><a href="/findcoach/coach/${coachAlias}/program/${padawanProgram.programId}.html">$padawanProgram.programId</a></td>
+                        </tr>
+                        #end
+                    </table>
+                </td>
             </tr>
             #end
         </table>

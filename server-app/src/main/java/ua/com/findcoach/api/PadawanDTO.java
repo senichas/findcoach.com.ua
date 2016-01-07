@@ -1,25 +1,25 @@
 package ua.com.findcoach.api;
 
 import ua.com.findcoach.domain.Gender;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by DENIS on 28.11.2015.
- */
 public class PadawanDTO {
     private Integer padawanId;
     private String firstName;
     private String lastName;
     private String email;
     private Gender gender;
-    private Integer programId;
+    private List<ProgramDTO> padawanProgramDTOList;
 
-    public PadawanDTO(Integer padawanId, String firstName, String lastName, String email, Gender gender, Integer programId) {
+
+    public PadawanDTO(Integer padawanId, String firstName, String lastName, String email, Gender gender) {
         this.padawanId = padawanId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
-        this.programId = programId;
+        padawanProgramDTOList = new ArrayList<ProgramDTO>();
     }
 
     public Integer getPadawanId() {
@@ -62,11 +62,11 @@ public class PadawanDTO {
         this.gender = gender;
     }
 
-    public Integer getProgramId() {
-        return programId;
+    public List<ProgramDTO> getPadawanProgramDTOList() {
+        return padawanProgramDTOList;
     }
 
-    public void setProgramId(Integer programId) {
-        this.programId = programId;
+    public void setPadawanProgramDTOList(List<ProgramDTO> padawanProgramDTOList) {
+        this.padawanProgramDTOList = padawanProgramDTOList;
     }
 }
