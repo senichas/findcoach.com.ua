@@ -32,9 +32,7 @@
     </header>
     <section>
         <h1>Добавить цикл для программы &laquo;${programName}&raquo;</h1>
-        <a href="/findcoach/coach/profile/calendar.html">Календарь</a>
-        <a href="/findcoach/coach/${coachAlias}/padawan-management/add-padawan.html">Добавление падавана</a>
-        <a href="" ng-click="click()">Список падаванов</a>
+        #parse("padawan-management/menu.vm")
         <br/>
         <a href="/findcoach/coach/${coachAlias}/program/${programId}/cycle.html">Добавить цикл</a>
 

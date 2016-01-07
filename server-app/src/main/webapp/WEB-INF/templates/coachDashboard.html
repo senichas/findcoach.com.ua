@@ -26,12 +26,7 @@
         Welcome to coach page!<br>
         ${message}
     </header>
-    <section>
-        <a href="/findcoach/coach/profile/calendar.html">Календарь</a>
-        <a href="/findcoach/coach/${coachAlias}/padawan-management/add-padawan.html">Добавление падавана</a>
-        <a href="/findcoach/coach/${coachAlias}/program/1.html">Программа</a>
-        <a href="/findcoach/coach/${coachAlias}/padawans.html">Список падаванов</a>
-    </section>
+    #parse("padawan-management/menu.vm")
 </div>
 
 </body>
