@@ -38,7 +38,6 @@ public class CoachProfileController {
         Map<String, Object> params = new HashMap<>();
         params.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
         params.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
-        params.put("menu", "padawan-management/menu.vm");
         return new ModelAndView("coachDashboard", params);
     }
 
