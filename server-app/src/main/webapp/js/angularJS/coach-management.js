@@ -81,6 +81,7 @@ coachManagementApplication.factory("AddPadawanDataService", function () {
     };
 });
 
+
 var addPadawanControllerHandler = function ($scope, AddPadawanDataService, $http) {
     $scope.endPoint = "/findcoach/coach/" + AddPadawanDataService.loggedCoachAlias + "/padawan-management/basic-info";
     $scope.successRedirectUrl = "/findcoach/coach/" + AddPadawanDataService.loggedCoachAlias + "/padawans.html";
@@ -123,8 +124,43 @@ var addPadawanControllerHandler = function ($scope, AddPadawanDataService, $http
         });
     };
 };
-
 coachManagementApplication.controller("addPadawanController", ["$scope", "AddPadawanDataService", "$http", addPadawanControllerHandler]);
+
+coachManagementApplication.factory("EditPadawanDataService", function () {
+
+    return {
+        loggedCoachAlias: loggedCoachAlias,
+        loggedPadawanId: loggedPadawanId,
+        dateBirthDay: dateBirthDay
+    };
+})
+;
+
+var editPadawanControllerHandler = function ($scope, EditPadawanDataService, $http) {
+    $scope.padawanData = {};
+    $scope.birthday = "";
+    $scope.endPoint = "/findcoach/coach/" + EditPadawanDataService.loggedCoachAlias + "/padawan-management/" + EditPadawanDataService.loggedPadawanId + "/edit-padawan.html";
+    $scope.successRedirectUrl = "/findcoach/coach/" + EditPadawanDataService.loggedCoachAlias + "/padawans.html";
+    var padawanBirthday = new Date(EditPadawanDataService.dateBirthDay);
+    $scope.padawanData.birthday = padawanBirthday;
+
+    $scope.submitEditPadawan = function () {
+
+        $http({
+            method: 'POST',
+            url: $scope.endPoint,
+            data: $scope.padawanData
+
+        }).then(function successCallback(response) {
+            window.location.href = $scope.successRedirectUrl;
+        }, function errorCallback(response) {
+            alert("error");
+        });
+    };
+};
+
+
+coachManagementApplication.controller("editPadawanController", ["$scope", "EditPadawanDataService", "$http", editPadawanControllerHandler]);
 
 
 coachManagementApplication.factory("TrainingDataService", function () {
@@ -150,7 +186,7 @@ var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
         var trainingData = {};
         var trainingStartDateTime = $scope.trainingData.startDateTime;
         trainingData.startDateTime = trainingStartDateTime.getFullYear() + "-" + ("0" + (trainingStartDateTime.getMonth() + 1)).slice(-2) + "-" + ("0" + trainingStartDateTime.getDate()).slice(-2) + " " +
-            ("0" + trainingStartDateTime.getHours()).slice(-2) + ":" + ("0" + trainingStartDateTime.getMinutes()).slice(-2);
+        ("0" + trainingStartDateTime.getHours()).slice(-2) + ":" + ("0" + trainingStartDateTime.getMinutes()).slice(-2);
         trainingData.duration = $scope.trainingData.duration;
         trainingData.content = $scope.trainingData.content;
 

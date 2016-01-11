@@ -1,6 +1,7 @@
 package ua.com.findcoach.domain;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,6 +29,9 @@ public class Padawan implements User {
     @Enumerated(EnumType.STRING)
     @Column
     private Gender gender;
+
+    @Column
+    private Date birthday;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "created_by_coach_id")
@@ -138,5 +142,13 @@ public class Padawan implements User {
 
     public void setProgramList(List<Program> programList) {
         this.programList = programList;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthbay) {
+        this.birthday = birthbay;
     }
 }

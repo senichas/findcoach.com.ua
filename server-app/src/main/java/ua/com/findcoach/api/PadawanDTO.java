@@ -1,7 +1,10 @@
 package ua.com.findcoach.api;
 
 import ua.com.findcoach.domain.Gender;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PadawanDTO {
@@ -10,15 +13,17 @@ public class PadawanDTO {
     private String lastName;
     private String email;
     private Gender gender;
+    private String birthday;
     private List<ProgramDTO> padawanProgramDTOList;
 
 
-    public PadawanDTO(Integer padawanId, String firstName, String lastName, String email, Gender gender) {
+    public PadawanDTO(Integer padawanId, String firstName, String lastName, String email, Gender gender, Date birthday) {
         this.padawanId = padawanId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
+        this.birthday = new SimpleDateFormat("MM/dd/yy").format(birthday);
         padawanProgramDTOList = new ArrayList<ProgramDTO>();
     }
 
@@ -64,6 +69,14 @@ public class PadawanDTO {
 
     public List<ProgramDTO> getPadawanProgramDTOList() {
         return padawanProgramDTOList;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public void setPadawanProgramDTOList(List<ProgramDTO> padawanProgramDTOList) {

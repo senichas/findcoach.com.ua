@@ -55,7 +55,8 @@ public class CoachProgramController {
                             entry.getKey().getFirstName(),
                             entry.getKey().getLastName(),
                             entry.getKey().getEmail(),
-                            entry.getKey().getGender());
+                            entry.getKey().getGender(),
+                            entry.getKey().getBirthday());
                     entry.getValue().stream()
                             .forEach(program -> padawanDTO.getPadawanProgramDTOList()
                                     .add(new ProgramDTO(program.getName()

@@ -28,6 +28,7 @@
                 <th>Фамилия</th>
                 <th>Email</th>
                 <th>Пол</th>
+                <th>&nbsp;</th>
             </tr>
             #foreach($padawan in $padawansList)
             <tr>
@@ -36,9 +37,12 @@
                 <td>$padawan.lastName</td>
                 <td>$padawan.email</td>
                 <td>$padawan.gender</td>
+                <td><form action="/findcoach/coach/${coachAlias}/padawan-management/${padawan.padawanId}/edit-padawan.html", method="get">
+                    <button type="submit">Редактировать</button>
+                </form></td>
             </tr>
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <table>
                         #foreach($padawanProgram in $padawan.padawanProgramDTOList)
                         <tr>

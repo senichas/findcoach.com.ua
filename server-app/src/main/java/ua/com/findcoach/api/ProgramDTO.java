@@ -14,7 +14,7 @@ public class ProgramDTO {
         private Integer programId;
         private String programStartDate;
         private String programFinishDate;
-        private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yy");
 
         public ProgramDTO(String programName, Goal goal, Integer programId, Date programStartDate, Date programFinishDate) {
             this.programName = programName;
