@@ -42,17 +42,7 @@ public class CoachProfileController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/calendar.html")
-    public ModelAndView coachCalendarPage() {
-        Map<String, Object> paramerters = new HashMap<>();
-        paramerters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
 
-        return new ModelAndView("padawan-management/coachCalendarPage", paramerters);
-    }
-
-    /**
-     * TODO - refactor JS and code to use methods POST, GET, PUT, DELETE instead request parameter method
-     */
     @RequestMapping(method = RequestMethod.POST, value = "/calendar")
     @ResponseBody
     public CalendarResponse coachCalendarHandler(@RequestParam("method") String method) {
