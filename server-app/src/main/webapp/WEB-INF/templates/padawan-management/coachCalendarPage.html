@@ -24,13 +24,17 @@
     <script src="/js/libs/plugins/jquery.ifrmdailog.js" defer="defer" type="text/javascript"></script>
     <script src="/js/libs/plugins/wdCalendar_lang_US.js" type="text/javascript"></script>
     <script src="/js/libs/plugins/jquery.calendar.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var loggedCoachAlias = '${coachAlias}';
+    </script>
     #[[
     <script type="text/javascript">
 
         $(document).ready(function () {
             var view = "week";
 
-            var DATA_FEED_URL = "/findcoach/coach/profile/calendar";
+            var DATA_FEED_URL = "/findcoach/coach/" + loggedCoachAlias + "/calendar";
+            alert(DATA_FEED_URL);
             var op = {
                 view: view,
                 theme: 3,
