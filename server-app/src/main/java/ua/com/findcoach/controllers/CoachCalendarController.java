@@ -2,19 +2,16 @@ package ua.com.findcoach.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.CalendarEvent;
 import ua.com.findcoach.api.CalendarResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/coach/{coachUserName}")
-public class CoachPublicViewController {
+public class CoachCalendarController {
     // TODO - replace with Enum
     private static final String METHOD_LIST = "list";
 
