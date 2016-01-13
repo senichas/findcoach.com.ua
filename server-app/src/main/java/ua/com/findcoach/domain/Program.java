@@ -16,7 +16,7 @@ public class Program {
     @Id
     @Column(name = "program_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "program_seq_gen")
-    @SequenceGenerator(name = "program_seq_gen", sequenceName = "program_program_id_seq")
+    @SequenceGenerator(name = "program_seq_gen", sequenceName = "program_program_id_seq", allocationSize = 1)
     private Integer programId;
 
     @ManyToOne

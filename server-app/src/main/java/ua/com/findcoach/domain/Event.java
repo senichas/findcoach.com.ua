@@ -13,7 +13,7 @@ public class Event {
     @Id
     @Column(name = "event_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_event_seq_gen")
-    @SequenceGenerator(name = "event_event_seq_gen", sequenceName = "event_event_id_seq")
+    @SequenceGenerator(name = "event_event_seq_gen", sequenceName = "event_event_id_seq", allocationSize = 1)
     private Integer eventId;
 
     @Column(name = "title", length = 60)

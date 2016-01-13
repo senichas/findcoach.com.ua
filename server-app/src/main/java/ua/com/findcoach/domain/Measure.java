@@ -9,7 +9,7 @@ public class Measure {
     @Id
     @Column(name = "measure_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "measure_id_seq_gen")
-    @SequenceGenerator(name = "measure_id_seq_gen", sequenceName = "measure_measure_id_seq")
+    @SequenceGenerator(name = "measure_id_seq_gen", sequenceName = "measure_measure_id_seq", allocationSize = 1)
     private Integer measureId;
 
     @ManyToOne(cascade = CascadeType.MERGE)

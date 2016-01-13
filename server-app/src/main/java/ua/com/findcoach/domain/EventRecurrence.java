@@ -9,7 +9,7 @@ public class EventRecurrence {
     @Id
     @Column(name = "event_recurrence_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_recurrence_seq_gen")
-    @SequenceGenerator(name = "event_recurrence_seq_gen", sequenceName = "event_recurrence_event_recurrence_id_seq")
+    @SequenceGenerator(name = "event_recurrence_seq_gen", sequenceName = "event_recurrence_event_recurrence_id_seq", allocationSize = 1)
     private Integer eventRecurrenceId;
 
     @ManyToOne
