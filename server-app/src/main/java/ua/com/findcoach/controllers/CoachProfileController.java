@@ -44,7 +44,10 @@ public class CoachProfileController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/calendar.html")
     public ModelAndView coachCalendarPage() {
-        return new ModelAndView("coachCalendarPage");
+        Map<String, Object> paramerters = new HashMap<>();
+        paramerters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
+
+        return new ModelAndView("padawan-management/coachCalendarPage", paramerters);
     }
 
     /**
