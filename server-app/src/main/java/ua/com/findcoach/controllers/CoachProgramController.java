@@ -42,7 +42,7 @@ public class CoachProgramController {
         Map<String, Object> params = new HashMap<>();
         Coach currentCoach = coachService.retrieveCurrentCoach();
         params.put("coachAlias", currentCoach.getAlias());
-        List<PadawanDTO> padawans = new ArrayList<>();
+        List<PadawanDto> padawans = new ArrayList<>();
         currentCoach
                 .getProgramList()
                 .stream()
@@ -50,16 +50,17 @@ public class CoachProgramController {
                 .entrySet().stream()
                 .forEach(entry ->
                 {
-                    PadawanDTO padawanDTO = new PadawanDTO(
+                    PadawanDto padawanDTO = new PadawanDto(
                             entry.getKey().getPadawanId(),
                             entry.getKey().getFirstName(),
                             entry.getKey().getLastName(),
                             entry.getKey().getEmail(),
                             entry.getKey().getGender(),
-                            entry.getKey().getBirthday());
+                            entry.getKey().getBirthday(),
+                            entry.getKey().isActive());
                     entry.getValue().stream()
                             .forEach(program -> padawanDTO.getPadawanProgramDTOList()
-                                    .add(new ProgramDTO(program.getName()
+                                    .add(new ProgramDto(program.getName()
                                             , program.getGoal()
                                             , program.getProgramId()
                                             , program.getStartDate()
@@ -69,6 +70,7 @@ public class CoachProgramController {
 
 
         params.put("padawansList", padawans);
+        params.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         return new ModelAndView("padawan-management/padawans", params);
     }
 

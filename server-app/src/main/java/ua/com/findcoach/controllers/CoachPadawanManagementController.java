@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AddPadawanBasicInfo;
-import ua.com.findcoach.api.EditPadawanInfo;
-import ua.com.findcoach.api.PadawanDTO;
+import ua.com.findcoach.api.EditPadawanInfoRequest;
+import ua.com.findcoach.api.PadawanDto;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Measure;
 import ua.com.findcoach.domain.Padawan;
@@ -17,10 +17,9 @@ import ua.com.findcoach.services.ProgramService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/coach/{userAlias}/padawan-management")
@@ -83,39 +82,34 @@ public class CoachPadawanManagementController {
         return "";
     }
 
-    @RequestMapping (value = "/{padawanId}/edit-padawan.html", method = RequestMethod.GET)
-    public ModelAndView editPadawanPage(@PathVariable Integer padawanId){
+    @RequestMapping(value = "/{padawanId}/edit-padawan.html", method = RequestMethod.GET)
+    public ModelAndView editPadawanPage(@PathVariable Integer padawanId) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
-        Coach currentCoach = coachService.retrieveCurrentCoach();
+        Padawan padawan = padawanService.findById(padawanId);
 
-        Padawan padawan = currentCoach.getProgramList()
-        .stream()
-        .filter(program -> program.getPadawan().getPadawanId() == padawanId)
-        .findAny().get().getPadawan();
-        parameters.put("padawan", new PadawanDTO(padawan.getPadawanId(),
+        parameters.put("padawan", new PadawanDto(padawan.getPadawanId(),
                 padawan.getFirstName(),
                 padawan.getLastName(),
                 padawan.getEmail(),
                 padawan.getGender(),
-                padawan.getBirthday()));
+                padawan.getBirthday(),
+                padawan.isActive()));
+        parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         return new ModelAndView("padawan-management/edit-padawan", parameters);
     }
 
     @RequestMapping(value = "/{padawanId}/edit-padawan.html", method = RequestMethod.POST)
     @ResponseBody
-    public String updatePadawan(@PathVariable Integer padawanId, @RequestBody EditPadawanInfo editPadawanInfo){
-        Coach currentCoach = coachService.retrieveCurrentCoach();
+    public String updatePadawan(@PathVariable Integer padawanId, @RequestBody EditPadawanInfoRequest editPadawanInfoRequest) {
+        Padawan padawan = padawanService.findById(padawanId);
 
-        Padawan padawan = currentCoach.getProgramList()
-                .stream()
-                .filter(program -> program.getPadawan().getPadawanId() == padawanId)
-                .findAny().get().getPadawan();
-        padawan.setFirstName(editPadawanInfo.getFirstName());
-        padawan.setLastName(editPadawanInfo.getLastName());
-        padawan.setEmail(editPadawanInfo.getEmail());
-        padawan.setGender(editPadawanInfo.getGender());
-        padawan.setBirthday(editPadawanInfo.getBirthday());
+        padawan.setFirstName(editPadawanInfoRequest.getFirstName());
+        padawan.setLastName(editPadawanInfoRequest.getLastName());
+        padawan.setEmail(editPadawanInfoRequest.getEmail());
+        padawan.setGender(editPadawanInfoRequest.getGender());
+        padawan.setBirthday(editPadawanInfoRequest.getBirthday());
+        padawan.setActive(editPadawanInfoRequest.isActive());
         Padawan savedPadawan = padawanService.saveAndFlush(padawan);
         return "";
     }

@@ -7,7 +7,7 @@
     <script type="text/javascript">
         var loggedCoachAlias = '$coachAlias';
         var loggedPadawanId = '$padawan.padawanId';
-        var dateBirthDay = '$padawan.birthday';
+        var dateBirthDay = '$padawan.birthday.format(${formatter})';
     </script>
     <script src="/js/libs/angularjs/angular.js"></script>
     <script src="/js/libs/angularjs/angular-resource.js"></script>
@@ -24,13 +24,15 @@
     #parse("padawan-management/menu.vm")
     <section>
         <form ng-controller="editPadawanController" ng-submit="submitEditPadawan()" ng-init="padawanData.firstName= '$padawan.firstName';
-        padawanData.lastName = '$padawan.lastName'; padawanData.email = '$padawan.email'; padawanData.gender = '$padawan.gender'">
+        padawanData.lastName = '$padawan.lastName'; padawanData.email = '$padawan.email'; padawanData.gender = '$padawan.gender';
+        padawanData.active = '$padawan.padawanActive'">
 
             <fieldset>
                 <legend>Информация о падаване</legend>
                 <p>Имя</p>
 
-                <p><input type="text" name="padawanFirstName" id="padawanFirstName" ng-model="padawanData.firstName"/></p>
+                <p><input type="text" name="padawanFirstName" id="padawanFirstName" ng-model="padawanData.firstName"/>
+                </p>
 
                 <p>Фамилия</p>
 
@@ -41,15 +43,24 @@
                 <p><input type="email" name="padawanEmail" id="padawanEmail" ng-model="padawanData.email"/></p>
 
                 <p>Пол</p>
+
                 <p><input type="radio" name="padawanGender" value="MALE" id="padawanGenderMale"
-                          ng-model="padawanData.gender" />&nbsp;<label for="padawanGenderMale">Мужской</label></p>
+                          ng-model="padawanData.gender"/>&nbsp;<label for="padawanGenderMale">Мужской</label></p>
 
                 <p><input type="radio" name="padawanGender" value="FEMALE" id="padawanGenderFemale"
-                          ng-model="padawanData.gender" />&nbsp;<label for="padawanGenderFemale">Женский</label></p>
+                          ng-model="padawanData.gender"/>&nbsp;<label for="padawanGenderFemale">Женский</label></p>
 
                 <p>Год рождения</p>
 
                 <p><input type="date" name="padawanYear" id="padawanYear" ng-model="padawanData.birthday"/></p>
+
+                <p>Активность</p>
+
+                <p><input type="radio" name="padawanActive" value="true" id="padawanActiveTrue"
+                          ng-model="padawanData.active"/>&nbsp;<label for="padawanActiveTrue">Активен</label></p>
+
+                <p><input type="radio" name="padawanActive" value="false" id="padawanActiveFalse"
+                          ng-model="padawanData.active"/>&nbsp;<label for="padawanActiveFalse">Неактивен</label></p>
             </fieldset>
 
             <button type="submit">Обновить</button>
