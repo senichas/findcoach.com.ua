@@ -1,20 +1,18 @@
 package ua.com.findcoach.api;
 
 import ua.com.findcoach.domain.Gender;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by DENIS on 11.01.2016.
  */
-public class EditPadawanInfo {
+public class EditPadawanInfoRequest {
     private String firstName;
     private String lastName;
     private String email;
     private Gender gender;
     private Date birthday;
+    private boolean active;
 
 
     public String getFirstName() {
@@ -55,6 +53,14 @@ public class EditPadawanInfo {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
 
