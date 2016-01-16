@@ -60,16 +60,16 @@ public class Program {
         return coach;
     }
 
-    public void setCoach(Coach coachId) {
-        this.coach = coachId;
+    public void setCoach(Coach coach) {
+        this.coach = coach;
     }
 
     public Padawan getPadawan() {
         return padawan;
     }
 
-    public void setPadawan(Padawan padawanId) {
-        this.padawan = padawanId;
+    public void setPadawan(Padawan padawan) {
+        this.padawan = padawan;
     }
 
     public Goal getGoal() {
