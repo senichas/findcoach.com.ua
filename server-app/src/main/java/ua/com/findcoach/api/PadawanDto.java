@@ -2,7 +2,8 @@ package ua.com.findcoach.api;
 
 import ua.com.findcoach.domain.Gender;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,20 +14,20 @@ public class PadawanDto {
     private String lastName;
     private String email;
     private Gender gender;
-    private String birthday;
-    private List<ProgramDto> padawanProgramDtoList;
-    private boolean active;
+    private LocalDate birthday;
+    private boolean padawanActive;
+    private List<ProgramDto> padawanProgramDTOList;
 
 
-    public PadawanDto(Integer padawanId, String firstName, String lastName, String email, Gender gender, Date birthday, Boolean active) {
+    public PadawanDto(Integer padawanId, String firstName, String lastName, String email, Gender gender, Date birthday, boolean padawanActive) {
         this.padawanId = padawanId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
-        this.birthday = new SimpleDateFormat("MM/dd/yy").format(birthday);
-        padawanProgramDtoList = new ArrayList<ProgramDto>();
-        this.active = active;
+        this.birthday = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        this.padawanActive = padawanActive;
+        padawanProgramDTOList = new ArrayList<ProgramDto>();
     }
 
     public Integer getPadawanId() {
@@ -69,27 +70,27 @@ public class PadawanDto {
         this.gender = gender;
     }
 
-    public List<ProgramDto> getPadawanProgramDtoList() {
-        return padawanProgramDtoList;
+    public List<ProgramDto> getPadawanProgramDTOList() {
+        return padawanProgramDTOList;
     }
 
-    public String getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    public void setPadawanProgramDtoList(List<ProgramDto> padawanProgramDtoList) {
-        this.padawanProgramDtoList = padawanProgramDtoList;
+    public boolean isPadawanActive() {
+        return padawanActive;
     }
 
-    public boolean isActive() {
-        return active;
+    public void setPadawanActive(boolean padawanActive) {
+        this.padawanActive = padawanActive;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setPadawanProgramDTOList(List<ProgramDto> padawanProgramDTOList) {
+        this.padawanProgramDTOList = padawanProgramDTOList;
     }
 }

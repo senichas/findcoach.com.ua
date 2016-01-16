@@ -50,7 +50,7 @@ public class CoachProgramController {
                 .entrySet().stream()
                 .forEach(entry ->
                 {
-                    PadawanDto padawanDTO = new PadawanDto(
+                    PadawanDto padawanDto = new PadawanDto(
                             entry.getKey().getPadawanId(),
                             entry.getKey().getFirstName(),
                             entry.getKey().getLastName(),
@@ -59,13 +59,13 @@ public class CoachProgramController {
                             entry.getKey().getBirthday(),
                             entry.getKey().isActive());
                     entry.getValue().stream()
-                            .forEach(program -> padawanDTO.getPadawanProgramDtoList()
+                            .forEach(program -> padawanDto.getPadawanProgramDTOList()
                                     .add(new ProgramDto(program.getName()
                                             , program.getGoal()
                                             , program.getProgramId()
                                             , program.getStartDate()
                                             , program.getEndDate())));
-                    padawans.add(padawanDTO);
+                    padawans.add(padawanDto);
                 });
 
 
