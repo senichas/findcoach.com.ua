@@ -7,24 +7,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PadawanDTO {
+public class PadawanDto {
     private Integer padawanId;
     private String firstName;
     private String lastName;
     private String email;
     private Gender gender;
     private String birthday;
-    private List<ProgramDTO> padawanProgramDTOList;
+    private List<ProgramDto> padawanProgramDtoList;
+    private boolean active;
 
 
-    public PadawanDTO(Integer padawanId, String firstName, String lastName, String email, Gender gender, Date birthday) {
+    public PadawanDto(Integer padawanId, String firstName, String lastName, String email, Gender gender, Date birthday, Boolean active) {
         this.padawanId = padawanId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
         this.birthday = new SimpleDateFormat("MM/dd/yy").format(birthday);
-        padawanProgramDTOList = new ArrayList<ProgramDTO>();
+        padawanProgramDtoList = new ArrayList<ProgramDto>();
+        this.active = active;
     }
 
     public Integer getPadawanId() {
@@ -67,8 +69,8 @@ public class PadawanDTO {
         this.gender = gender;
     }
 
-    public List<ProgramDTO> getPadawanProgramDTOList() {
-        return padawanProgramDTOList;
+    public List<ProgramDto> getPadawanProgramDtoList() {
+        return padawanProgramDtoList;
     }
 
     public String getBirthday() {
@@ -79,7 +81,15 @@ public class PadawanDTO {
         this.birthday = birthday;
     }
 
-    public void setPadawanProgramDTOList(List<ProgramDTO> padawanProgramDTOList) {
-        this.padawanProgramDTOList = padawanProgramDTOList;
+    public void setPadawanProgramDtoList(List<ProgramDto> padawanProgramDtoList) {
+        this.padawanProgramDtoList = padawanProgramDtoList;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

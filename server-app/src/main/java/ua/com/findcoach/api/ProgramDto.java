@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by DENIS on 06.01.2016.
  */
-public class ProgramDTO {
+public class ProgramDto {
         private String programName;
         private Goal goal;
         private Integer programId;
@@ -16,7 +16,7 @@ public class ProgramDTO {
         private String programFinishDate;
         private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yy");
 
-        public ProgramDTO(String programName, Goal goal, Integer programId, Date programStartDate, Date programFinishDate) {
+        public ProgramDto(String programName, Goal goal, Integer programId, Date programStartDate, Date programFinishDate) {
             this.programName = programName;
             this.goal = goal;
             this.programId = programId;
