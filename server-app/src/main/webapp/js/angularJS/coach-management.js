@@ -131,7 +131,12 @@ coachManagementApplication.factory("EditPadawanDataService", function () {
     return {
         loggedCoachAlias: loggedCoachAlias,
         loggedPadawanId: loggedPadawanId,
-        dateBirthDay: dateBirthDay
+        dateBirthDay: dateBirthDay,
+        padawanFirstName: padawanFirstName,
+        padawanLastName: padawanLastName,
+        padawanEmail: padawanEmail,
+        padawanGender: padawanGender,
+        padawanActive: padawanActive
     };
 })
 ;
@@ -143,6 +148,12 @@ var editPadawanControllerHandler = function ($scope, EditPadawanDataService, $ht
     $scope.successRedirectUrl = "/findcoach/coach/" + EditPadawanDataService.loggedCoachAlias + "/padawans.html";
     var padawanBirthday = new Date(EditPadawanDataService.dateBirthDay);
     $scope.padawanData.birthday = padawanBirthday;
+    $scope.padawanData.firstName = EditPadawanDataService.padawanFirstName;
+    $scope.padawanData.lastName = EditPadawanDataService.padawanLastName;
+    $scope.padawanData.email = EditPadawanDataService.padawanEmail;
+    $scope.padawanData.gender = EditPadawanDataService.padawanGender;
+    $scope.padawanData.active = EditPadawanDataService.padawanActive;
+
 
     $scope.submitEditPadawan = function () {
 

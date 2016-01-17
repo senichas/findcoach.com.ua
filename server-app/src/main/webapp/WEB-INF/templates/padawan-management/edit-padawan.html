@@ -8,6 +8,11 @@
         var loggedCoachAlias = '$coachAlias';
         var loggedPadawanId = '$padawan.padawanId';
         var dateBirthDay = '$padawan.birthday.format(${formatter})';
+        var padawanFirstName = '$padawan.firstName';
+        var padawanLastName = '$padawan.lastName';
+        var padawanEmail = '$padawan.email';
+        var padawanGender = '$padawan.gender';
+        var padawanActive = $padawan.padawanActive;
     </script>
     <script src="/js/libs/angularjs/angular.js"></script>
     <script src="/js/libs/angularjs/angular-resource.js"></script>
@@ -23,9 +28,7 @@
     </header>
     #parse("padawan-management/menu.vm")
     <section>
-        <form ng-controller="editPadawanController" ng-submit="submitEditPadawan()" ng-init="padawanData.firstName= '$padawan.firstName';
-        padawanData.lastName = '$padawan.lastName'; padawanData.email = '$padawan.email'; padawanData.gender = '$padawan.gender';
-        padawanData.active = '$padawan.padawanActive'">
+        <form ng-controller="editPadawanController" ng-submit="submitEditPadawan()">
 
             <fieldset>
                 <legend>Информация о падаване</legend>
@@ -54,13 +57,10 @@
 
                 <p><input type="date" name="padawanYear" id="padawanYear" ng-model="padawanData.birthday"/></p>
 
-                <p>Активность</p>
+                <p><label for="padawanActive">Активность</label>&nbsp;<input type="checkbox"
+                                                                             name="padawanActive" id="padawanActive"
+                                                                             ng-model="padawanData.active"/></p>
 
-                <p><input type="radio" name="padawanActive" value="true" id="padawanActiveTrue"
-                          ng-model="padawanData.active"/>&nbsp;<label for="padawanActiveTrue">Активен</label></p>
-
-                <p><input type="radio" name="padawanActive" value="false" id="padawanActiveFalse"
-                          ng-model="padawanData.active"/>&nbsp;<label for="padawanActiveFalse">Неактивен</label></p>
             </fieldset>
 
             <button type="submit">Обновить</button>
