@@ -31,7 +31,7 @@
                              unique="true"
                              uniqueConstraintName="coach_alias_uc"/>
             </column>
-            <column name="is_active" type="boolean" defaultValue="false"/>
+            <column name="active" type="boolean" defaultValue="false"/>
             <column name="status" type="character varying(20)"/>
             <column name="gender" type="character varying(10)"/>
             <column name="title" type="character varying(60)"/>
@@ -59,7 +59,7 @@
                              unique="true"
                              uniqueConstraintName="padawan_alias_uc"/>
             </column>-->
-            <column name="is_active" type="boolean" defaultValue="false"/>
+            <column name="active" type="boolean" defaultValue="false"/>
             <column name="gender" type="character varying(10)"/>
             <column name="birthday" type="timestamp"/>
             <column name="created_by_coach_id" type="integer">

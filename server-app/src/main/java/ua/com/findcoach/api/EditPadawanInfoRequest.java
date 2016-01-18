@@ -1,6 +1,9 @@
 package ua.com.findcoach.api;
 
 import ua.com.findcoach.domain.Gender;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -11,7 +14,7 @@ public class EditPadawanInfoRequest {
     private String lastName;
     private String email;
     private Gender gender;
-    private Date birthday;
+    private LocalDate birthday;
     private boolean active;
 
 
@@ -47,12 +50,12 @@ public class EditPadawanInfoRequest {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
     public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+        this.birthday = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public boolean isActive() {

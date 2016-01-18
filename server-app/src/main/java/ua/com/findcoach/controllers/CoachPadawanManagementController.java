@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AddPadawanBasicInfo;
 import ua.com.findcoach.api.EditPadawanInfoRequest;
-import ua.com.findcoach.api.PadawanDto;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Measure;
 import ua.com.findcoach.domain.Padawan;
@@ -88,13 +87,7 @@ public class CoachPadawanManagementController {
         parameters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
         Padawan padawan = padawanService.findById(padawanId);
 
-        parameters.put("padawan", new PadawanDto(padawan.getPadawanId(),
-                padawan.getFirstName(),
-                padawan.getLastName(),
-                padawan.getEmail(),
-                padawan.getGender(),
-                padawan.getBirthday(),
-                padawan.isActive()));
+        parameters.put("padawan", padawan);
         parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         return new ModelAndView("padawan-management/edit-padawan", parameters);
     }

@@ -3,9 +3,7 @@ package ua.com.findcoach.api;
 import ua.com.findcoach.domain.Gender;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class PadawanDto {
@@ -19,13 +17,13 @@ public class PadawanDto {
     private List<ProgramDto> padawanProgramDTOList;
 
 
-    public PadawanDto(Integer padawanId, String firstName, String lastName, String email, Gender gender, Date birthday, boolean padawanActive) {
+    public PadawanDto(Integer padawanId, String firstName, String lastName, String email, Gender gender, LocalDate birthday, boolean padawanActive) {
         this.padawanId = padawanId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
-        this.birthday = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        this.birthday = birthday;
         this.padawanActive = padawanActive;
         padawanProgramDTOList = new ArrayList<ProgramDto>();
     }
@@ -78,8 +76,8 @@ public class PadawanDto {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public boolean isPadawanActive() {

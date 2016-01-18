@@ -12,7 +12,7 @@
         var padawanLastName = '$padawan.lastName';
         var padawanEmail = '$padawan.email';
         var padawanGender = '$padawan.gender';
-        var padawanActive = $padawan.padawanActive;
+        var padawanActive = $padawan.active;
     </script>
     <script src="/js/libs/angularjs/angular.js"></script>
     <script src="/js/libs/angularjs/angular-resource.js"></script>
@@ -28,8 +28,7 @@
     </header>
     #parse("padawan-management/menu.vm")
     <section>
-        <form ng-controller="editPadawanController" ng-submit="submitEditPadawan()">
-
+        <form ng-controller="editPadawanController" ng-submit="submitEditPadawan()" ng-init="test = $padawan.birthday">
             <fieldset>
                 <legend>Информация о падаване</legend>
                 <p>Имя</p>

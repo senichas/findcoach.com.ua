@@ -1,4 +1,4 @@
-coach_id,first_name,last_name,email,alias,is_active,status,gender,title,description
+coach_id,first_name,last_name,email,alias,active,status,gender,title,description
 1,VASA,PETROVICH,vasa@mail.com,vasa_petrovich,true,LOOKING_FOR_PADAWAN,MALE,Vasya Petrovich,"Обладаю мощной базой знаний и опытом работы, за плечами десятки людей, достигших поставленных целей."
 2,DIMA,IVANOV,dima@mail.com,dima_ivanov,true,ON_LEAVE,MALE,Dmitrii Ivanov,"Сертифицированный специалист в области лечебного массажа и ЛФК"
 3,KOLYA,SHPIC,kolya@mail.com,kolya_shpic,true,ON_SICK_LEAVE,MALE,Kolya Shpitc,"Работаю на результат! Со мной вы достигнете поставленных целей максимально безопасным путем в кратчайшие сроки!"
