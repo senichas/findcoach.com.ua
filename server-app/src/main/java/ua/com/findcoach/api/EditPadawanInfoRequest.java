@@ -6,9 +6,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-/**
- * Created by DENIS on 11.01.2016.
- */
 public class EditPadawanInfoRequest {
     private String firstName;
     private String lastName;
