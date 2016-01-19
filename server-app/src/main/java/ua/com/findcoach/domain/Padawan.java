@@ -1,6 +1,7 @@
 package ua.com.findcoach.domain;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -23,11 +24,14 @@ public class Padawan implements User {
     private String email;
 
     @Column
-    private boolean isActive;
+    private boolean active;
 
     @Enumerated(EnumType.STRING)
     @Column
     private Gender gender;
+
+    @Column
+    private LocalDate birthday;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "created_by_coach_id")
@@ -74,12 +78,12 @@ public class Padawan implements User {
 
     @Override
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     @Override
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Gender getGender() {
@@ -138,5 +142,13 @@ public class Padawan implements User {
 
     public void setProgramList(List<Program> programList) {
         this.programList = programList;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthbay) {
+        this.birthday = birthbay;
     }
 }

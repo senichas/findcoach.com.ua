@@ -10,4 +10,7 @@ import java.util.List;
  */
 public interface PadawanRepository extends CrudRepository<Padawan, Integer> {
     List<Padawan> findAll();
+    Padawan findByPadawanId(Integer padawanId);
+    Padawan saveAndFlush(Padawan padawan);
+
 }

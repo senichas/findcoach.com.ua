@@ -21,6 +21,9 @@ public class PadawanService {
         return padawanRepository.save(padawan);
     }
 
+    public Padawan saveAndFlush(Padawan padawan){ return  padawanRepository.saveAndFlush(padawan);}
+    public Padawan findById(Integer padawanId){return padawanRepository.findByPadawanId(padawanId);}
+
     public Padawan addMeasureToPadawan(Padawan padawan, Measure measure) {
         measure.setPadawan(padawan);
         if (padawan.getMeasures() == null) {

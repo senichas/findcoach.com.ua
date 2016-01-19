@@ -1,25 +1,31 @@
 package ua.com.findcoach.api;
 
 import ua.com.findcoach.domain.Gender;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PadawanDTO {
+public class PadawanDto {
     private Integer padawanId;
     private String firstName;
     private String lastName;
     private String email;
     private Gender gender;
-    private List<ProgramDTO> padawanProgramDTOList;
+    private LocalDate birthday;
+    private boolean padawanActive;
+    private List<ProgramDto> padawanProgramDTOList;
 
 
-    public PadawanDTO(Integer padawanId, String firstName, String lastName, String email, Gender gender) {
+    public PadawanDto(Integer padawanId, String firstName, String lastName, String email, Gender gender, LocalDate birthday, boolean padawanActive) {
         this.padawanId = padawanId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
-        padawanProgramDTOList = new ArrayList<ProgramDTO>();
+        this.birthday = birthday;
+        this.padawanActive = padawanActive;
+        padawanProgramDTOList = new ArrayList<ProgramDto>();
     }
 
     public Integer getPadawanId() {
@@ -62,11 +68,27 @@ public class PadawanDTO {
         this.gender = gender;
     }
 
-    public List<ProgramDTO> getPadawanProgramDTOList() {
+    public List<ProgramDto> getPadawanProgramDTOList() {
         return padawanProgramDTOList;
     }
 
-    public void setPadawanProgramDTOList(List<ProgramDTO> padawanProgramDTOList) {
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    public boolean isPadawanActive() {
+        return padawanActive;
+    }
+
+    public void setPadawanActive(boolean padawanActive) {
+        this.padawanActive = padawanActive;
+    }
+
+    public void setPadawanProgramDTOList(List<ProgramDto> padawanProgramDTOList) {
         this.padawanProgramDTOList = padawanProgramDTOList;
     }
 }

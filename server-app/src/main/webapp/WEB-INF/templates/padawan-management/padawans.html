@@ -28,6 +28,8 @@
                 <th>Фамилия</th>
                 <th>Email</th>
                 <th>Пол</th>
+                <th>Активность</th>
+                <th>&nbsp;</th>
             </tr>
             #foreach($padawan in $padawansList)
             <tr>
@@ -36,16 +38,25 @@
                 <td>$padawan.lastName</td>
                 <td>$padawan.email</td>
                 <td>$padawan.gender</td>
+                <td>#if($padawan.padawanActive)
+                    Активен
+                    #else
+                    Неактивен
+                    #end
+                </td>
+                <td>
+                    <a href="/findcoach/coach/${coachAlias}/padawan-management/${padawan.padawanId}/edit-padawan.html">Редактировать</a>
+                </td>
             </tr>
             <tr>
-                <td colspan="5">
+                <td colspan="7">
                     <table>
                         #foreach($padawanProgram in $padawan.padawanProgramDTOList)
                         <tr>
                             <td>$padawanProgram.programName</td>
                             <td>$padawanProgram.goal</td>
-                            <td>$padawanProgram.programStartDate</td>
-                            <td>$padawanProgram.programFinishDate</td>
+                            <td>$padawanProgram.programStartDate.format($formatter)</td>
+                            <td>$padawanProgram.programFinishDate.format($formatter)</td>
                             <td><a href="/findcoach/coach/${coachAlias}/program/${padawanProgram.programId}.html">$padawanProgram.programId</a>
                             </td>
                         </tr>

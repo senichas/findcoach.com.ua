@@ -1,8 +1,5 @@
 package ua.com.findcoach.api;
 
-/**
- * Created by DENIS on 16.10.2015.
- */
 public class ErrorDto {
     private String errorMessege;
     private String exceptionMessege;

@@ -26,7 +26,7 @@ public class Coach implements User {
     private String email;
 
     @Column
-    private boolean isActive;
+    private boolean active;
 
     @Column
     @Length(max = 60)
@@ -114,12 +114,12 @@ public class Coach implements User {
 
     @Override
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     @Override
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override
