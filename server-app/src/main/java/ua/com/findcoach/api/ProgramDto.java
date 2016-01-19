@@ -6,9 +6,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-/**
- * Created by DENIS on 06.01.2016.
- */
 public class ProgramDto {
     private String programName;
     private Goal goal;
