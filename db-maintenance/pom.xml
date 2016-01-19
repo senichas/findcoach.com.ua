@@ -62,6 +62,15 @@
                 <database.password>postgres</database.password>
             </properties>
         </profile>
+        <profile>
+            <id>local-test</id>
+            <properties>
+                <database.driverClassName>org.postgresql.Driver</database.driverClassName>
+                <database.url>jdbc:postgresql://localhost:5432/findcoach-test</database.url>
+                <database.user>postgres</database.user>
+                <database.password>postgres</database.password>
+            </properties>
+        </profile>
     </profiles>
 
     <dependencies>

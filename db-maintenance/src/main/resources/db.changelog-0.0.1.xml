@@ -88,12 +88,24 @@
                 columnName="coach_id"
                 defaultValueSequenceNext="coach_coach_id_seq"
                 tableName="coach"/>
-        <loadData encoding="UTF-8"
-                  file="data/padawan.csv"
-                  tableName="padawan"/>
     </changeSet>
 
     <changeSet id="1.3" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/padawan.csv"
+                  tableName="padawan"/>
+        <dropSequence
+                sequenceName="padawan_padawan_id_seq"/>
+        <createSequence
+                sequenceName="padawan_padawan_id_seq"
+                startValue="15"/>
+        <addDefaultValue
+                columnName="padawan_id"
+                defaultValueSequenceNext="padawan_padawan_id_seq"
+                tableName="padawan"/>
+    </changeSet>
+
+    <changeSet id="1.4" author="Andriy">
         <createTable tableName="event">
             <column name="event_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -130,7 +142,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.4" author="Andriy">
+    <changeSet id="1.5" author="Andriy">
         <createTable tableName="program">
             <column name="program_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -158,7 +170,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.5" author="Andriy">
+    <changeSet id="1.6" author="Andriy">
         <createTable tableName="measure">
             <column name="measure_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -195,7 +207,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.6" author="Andriy">
+    <changeSet id="1.7" author="Andriy">
         <createTable tableName="cycle">
             <column name="cycle_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -210,7 +222,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.7" author="Andriy">
+    <changeSet id="1.8" author="Andriy">
         <createTable tableName="program_cycle_link">
             <column name="program_id" type="integer">
                 <constraints nullable="false"
@@ -228,7 +240,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.8" author="Andriy">
+    <changeSet id="1.9" author="Andriy">
         <createTable tableName="cycle_event_link">
           <column name="cycle_id" type="integer">
                 <constraints nullable="false"

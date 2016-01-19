@@ -13,7 +13,7 @@ public class Coach implements User {
     @Id
     @Column(name = "coach_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "coach_seq_gen")
-    @SequenceGenerator(name = "coach_seq_gen", sequenceName = "coach_coach_id_seq")
+    @SequenceGenerator(name = "coach_seq_gen", sequenceName = "coach_coach_id_seq", allocationSize = 1)
     private Integer coachId;
 
     @Column(name = "first_name")

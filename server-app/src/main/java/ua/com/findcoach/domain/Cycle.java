@@ -13,7 +13,7 @@ public class Cycle {
     @Id
     @Column(name = "cycle_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cycle_seq_gen")
-    @SequenceGenerator(name = "cycle_seq_gen", sequenceName = "cycle_cycle_id_seq")
+    @SequenceGenerator(name = "cycle_seq_gen", sequenceName = "cycle_cycle_id_seq", allocationSize = 1)
     private Integer cycleId;
 
     @Column(length = 100)

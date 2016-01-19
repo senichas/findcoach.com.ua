@@ -16,7 +16,7 @@ public class Program {
     @Id
     @Column(name = "program_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "program_seq_gen")
-    @SequenceGenerator(name = "program_seq_gen", sequenceName = "program_program_id_seq")
+    @SequenceGenerator(name = "program_seq_gen", sequenceName = "program_program_id_seq", allocationSize = 1)
     private Integer programId;
 
     @ManyToOne
@@ -60,16 +60,16 @@ public class Program {
         return coach;
     }
 
-    public void setCoach(Coach coachId) {
-        this.coach = coachId;
+    public void setCoach(Coach coach) {
+        this.coach = coach;
     }
 
     public Padawan getPadawan() {
         return padawan;
     }
 
-    public void setPadawan(Padawan padawanId) {
-        this.padawan = padawanId;
+    public void setPadawan(Padawan padawan) {
+        this.padawan = padawan;
     }
 
     public Goal getGoal() {
