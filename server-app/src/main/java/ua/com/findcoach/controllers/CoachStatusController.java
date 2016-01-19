@@ -13,9 +13,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by DENIS on 07.11.2015.
- */
 @RestController
 @RequestMapping("/coach/profile")
 public class CoachStatusController {

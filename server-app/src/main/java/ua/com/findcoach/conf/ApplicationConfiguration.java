@@ -22,9 +22,6 @@ import ua.com.findcoach.utils.EmailValidator;
 import javax.persistence.EntityManagerFactory;
 import java.util.Properties;
 
-/**
- * Created by DENIS on 26.09.2015.
- */
 @Configuration
 @ComponentScan({"ua.com.findcoach.controllers", "ua.com.findcoach.services"})
 @PropertySource({"classpath:jdbc.properties"})

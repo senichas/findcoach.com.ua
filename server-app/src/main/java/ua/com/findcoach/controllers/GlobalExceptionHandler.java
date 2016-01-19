@@ -10,9 +10,6 @@ import ua.com.findcoach.api.ErrorDto;
 import ua.com.findcoach.exception.StatusUpdateException;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 
-/**
- * Created by DENIS on 15.10.2015.
- */
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @Autowired

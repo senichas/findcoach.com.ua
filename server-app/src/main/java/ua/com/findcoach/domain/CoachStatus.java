@@ -1,8 +1,6 @@
 package ua.com.findcoach.domain;
 
-/**
- * Created by DENIS on 10.10.2015.
- */
+
 public enum CoachStatus {
     LOOKING_FOR_PADAWAN("looking_for_padawan"),
     ON_LEAVE("on_leave"),

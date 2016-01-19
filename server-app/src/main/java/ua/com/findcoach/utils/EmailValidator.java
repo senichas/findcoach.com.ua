@@ -3,9 +3,6 @@ package ua.com.findcoach.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by DENIS on 19.09.2015.
- */
 public class EmailValidator {
     private static Pattern pattern;
     private static Matcher matcher;

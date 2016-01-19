@@ -15,9 +15,6 @@ import ua.com.findcoach.services.CoachService;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created by senich on 10/2/2015.
- */
 public class CoachAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private CoachService coachService;

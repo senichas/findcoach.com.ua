@@ -18,9 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-/**
- * Created by DENIS on 14.10.2015.
- */
+
 @Service
 public class CoachService {
     private final static String COACH_REDIRECT = "/findcoach/coach/profile/dashboard.html";

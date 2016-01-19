@@ -10,9 +10,6 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
-/**
- * Created by senich on 10/1/2015.
- */
 @Configuration
 @ComponentScan("ua.com.findcoach.i18n")
 public class LocalizationConfig {

@@ -5,9 +5,7 @@ import ua.com.findcoach.domain.CoachStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by DENIS on 11.10.2015.
- */
+
 public class CoachStatusHolder {
     private final static Map<Enum, String> MESSEGES_KEYS_HOLDER = new HashMap<>();
     static {

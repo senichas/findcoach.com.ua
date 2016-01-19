@@ -1,5 +1,6 @@
 package ua.com.findcoach.api;
 
+
 public class ErrorDto {
     private String errorMessege;
     private String exceptionMessege;
