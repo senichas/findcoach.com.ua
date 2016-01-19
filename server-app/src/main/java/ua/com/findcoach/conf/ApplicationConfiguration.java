@@ -3,8 +3,8 @@ package ua.com.findcoach.conf;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
@@ -17,6 +17,7 @@ import java.util.Properties;
  * Created by DENIS on 26.09.2015.
  */
 @Configuration
+@PropertySource({"classpath:jdbc.properties"})
 @ComponentScan({"ua.com.findcoach.controllers", "ua.com.findcoach.services"})
 @EnableWebMvc
 public class ApplicationConfiguration {
