@@ -106,43 +106,6 @@
     </changeSet>
 
     <changeSet id="1.4" author="Andriy">
-        <createTable tableName="event">
-            <column name="event_id" type="serial" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="title" type="character varying(60)"/>
-            <column name="description" type="character varying(140)"/>
-            <column name="type" type="character varying(15)"/>
-            <column name="location" type="character varying(60)"/>
-        </createTable>
-        <createTable tableName="event_recurrence">
-            <column name="event_recurrence_id" type="serial" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="event_id" type="integer">
-                <constraints nullable="false"
-                             foreignKeyName="event_recurrence_id_fk"
-                             references=" &quot;event&quot; (event_id)"/>
-            </column>
-            <column name="all_day" type="boolean"/>
-            <column name="start_date" type="timestamp"/>
-            <column name="end_date" type="timestamp"/>
-        </createTable>
-
-        <loadData encoding="UTF-8"
-                  file="data/event.csv"
-                  tableName="event"/>
-        <loadData encoding="UTF-8"
-                  file="data/event_recurrence.csv"
-                  tableName="event_recurrence"/>
-
-        <rollback>
-            <dropTable tableName="event_recurrence"/>
-            <dropTable tableName="event"/>
-        </rollback>
-    </changeSet>
-
-    <changeSet id="1.5" author="Andriy">
         <createTable tableName="program">
             <column name="program_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -168,7 +131,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.6" author="Andriy">
+    <changeSet id="1.5" author="Andriy">
         <loadData encoding="UTF-8"
                   file="data/program.csv"
                   tableName="program"/>
@@ -183,7 +146,7 @@
                 tableName="program"/>
     </changeSet>
 
-    <changeSet id="1.7" author="Andriy">
+    <changeSet id="1.6" author="Andriy">
         <createTable tableName="measure">
             <column name="measure_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -220,7 +183,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.8" author="Andriy">
+    <changeSet id="1.7" author="Andriy">
         <createTable tableName="cycle">
             <column name="cycle_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -235,7 +198,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.9" author="Andriy">
+    <changeSet id="1.8" author="Andriy">
         <loadData encoding="UTF-8"
                   file="data/cycle.csv"
                   tableName="cycle"/>
@@ -250,7 +213,7 @@
                 tableName="cycle"/>
     </changeSet>
 
-    <changeSet id="1.10" author="Andriy">
+    <changeSet id="1.9" author="Andriy">
         <createTable tableName="program_cycle_link">
             <column name="program_id" type="integer">
                 <constraints nullable="false"
@@ -268,16 +231,73 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.11" author="Andriy">
+    <changeSet id="1.10" author="Andriy">
         <loadData encoding="UTF-8"
                   file="data/program_cycle_link.csv"
                   tableName="program_cycle_link"/>
     </changeSet>
 
+    <changeSet id="1.11" author="Andriy">
+        <createTable tableName="event">
+            <column name="event_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="character varying(60)"/>
+            <column name="description" type="character varying(140)"/>
+            <column name="type" type="character varying(15)"/>
+            <column name="location" type="character varying(60)"/>
+        </createTable>
+        <createTable tableName="event_recurrence">
+            <column name="event_recurrence_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="event_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="event_recurrence_id_fk"
+                             references=" &quot;event&quot; (event_id)"/>
+            </column>
+            <column name="all_day" type="boolean"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="event_recurrence"/>
+            <dropTable tableName="event"/>
+        </rollback>
+    </changeSet>
 
     <changeSet id="1.12" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/event.csv"
+                  tableName="event"/>
+        <dropSequence
+                sequenceName="event_event_id_seq"/>
+        <createSequence
+                sequenceName="event_event_id_seq"
+                startValue="3"/>
+        <addDefaultValue
+                columnName="event_id"
+                defaultValueSequenceNext="event_event_id_seq"
+                tableName="event"/>
+
+        <loadData encoding="UTF-8"
+                  file="data/event_recurrence.csv"
+                  tableName="event_recurrence"/>
+        <dropSequence
+                sequenceName="event_recurrence_event_recurrence_id_seq"/>
+        <createSequence
+                sequenceName="event_recurrence_event_recurrence_id_seq"
+                startValue="5"/>
+        <addDefaultValue
+                columnName="event_recurrence_id"
+                defaultValueSequenceNext="event_recurrence_event_recurrence_id_seq"
+                tableName="event_recurrence"/>
+    </changeSet>
+
+    <changeSet id="1.15" author="Andriy">
         <createTable tableName="cycle_event_link">
-          <column name="cycle_id" type="integer">
+            <column name="cycle_id" type="integer">
                 <constraints nullable="false"
                              foreignKeyName="cycle_event_cycle_id_fk"
                              references=" &quot;cycle&quot; (cycle_id)"/>
@@ -288,12 +308,13 @@
                              references=" &quot;event&quot; (event_id)"/>
             </column>
         </createTable>
+        <loadData encoding="UTF-8"
+                  file="data/cycle_event_link.csv"
+                  tableName="cycle_event_link"/>
         <rollback>
-            <dropTable tableName="program_cycle_link"/>
+            <dropTable tableName="cycle_event_link"/>
         </rollback>
     </changeSet>
-
-
 
     <changeSet id="1.20" author="Andriy">
         <tagDatabase tag="version_0.0.1"/>
