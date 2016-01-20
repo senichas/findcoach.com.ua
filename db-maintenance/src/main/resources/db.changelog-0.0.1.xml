@@ -162,15 +162,28 @@
             <column name="start_date" type="timestamp"/>
             <column name="end_date" type="timestamp"/>
         </createTable>
-        <loadData encoding="UTF-8"
-                  file="data/program.csv"
-                  tableName="program"/>
+
         <rollback>
             <dropTable tableName="program"/>
         </rollback>
     </changeSet>
 
     <changeSet id="1.6" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/program.csv"
+                  tableName="program"/>
+        <dropSequence
+                sequenceName="program_program_id_seq"/>
+        <createSequence
+                sequenceName="program_program_id_seq"
+                startValue="5"/>
+        <addDefaultValue
+                columnName="program_id"
+                defaultValueSequenceNext="program_program_id_seq"
+                tableName="program"/>
+    </changeSet>
+
+    <changeSet id="1.7" author="Andriy">
         <createTable tableName="measure">
             <column name="measure_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -207,7 +220,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.7" author="Andriy">
+    <changeSet id="1.8" author="Andriy">
         <createTable tableName="cycle">
             <column name="cycle_id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -222,7 +235,22 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.8" author="Andriy">
+    <changeSet id="1.9" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/cycle.csv"
+                  tableName="cycle"/>
+        <dropSequence
+                sequenceName="cycle_cycle_id_seq"/>
+        <createSequence
+                sequenceName="cycle_cycle_id_seq"
+                startValue="3"/>
+        <addDefaultValue
+                columnName="cycle_id"
+                defaultValueSequenceNext="cycle_cycle_id_seq"
+                tableName="cycle"/>
+    </changeSet>
+
+    <changeSet id="1.10" author="Andriy">
         <createTable tableName="program_cycle_link">
             <column name="program_id" type="integer">
                 <constraints nullable="false"
@@ -240,7 +268,14 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="1.9" author="Andriy">
+    <changeSet id="1.11" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/program_cycle_link.csv"
+                  tableName="program_cycle_link"/>
+    </changeSet>
+
+
+    <changeSet id="1.12" author="Andriy">
         <createTable tableName="cycle_event_link">
           <column name="cycle_id" type="integer">
                 <constraints nullable="false"
@@ -260,7 +295,7 @@
 
 
 
-    <changeSet id="1.10" author="Andriy">
+    <changeSet id="1.20" author="Andriy">
         <tagDatabase tag="version_0.0.1"/>
     </changeSet>
 
