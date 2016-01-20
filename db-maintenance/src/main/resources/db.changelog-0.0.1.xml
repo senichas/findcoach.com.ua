@@ -206,7 +206,7 @@
                 sequenceName="cycle_cycle_id_seq"/>
         <createSequence
                 sequenceName="cycle_cycle_id_seq"
-                startValue="3"/>
+                startValue="5"/>
         <addDefaultValue
                 columnName="cycle_id"
                 defaultValueSequenceNext="cycle_cycle_id_seq"
@@ -275,7 +275,7 @@
                 sequenceName="event_event_id_seq"/>
         <createSequence
                 sequenceName="event_event_id_seq"
-                startValue="3"/>
+                startValue="5"/>
         <addDefaultValue
                 columnName="event_id"
                 defaultValueSequenceNext="event_event_id_seq"

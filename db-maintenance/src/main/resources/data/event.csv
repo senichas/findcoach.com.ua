@@ -1,3 +1,5 @@
 event_id,title,description,type,location
 1,Улучшение моторики,Бегаем прыгаем отжимаемся,TRAINING,AT&T Gym
 2,Растяжка,Стретчинг плавный,TRAINING,AT&T Gym
+3,Тренеруем хват,таскаем ящики и мячи,TRAINING,AT&T Gym
+4,Тренеруем подъём,Заброс на высоту,TRAINING,AT&T Gym
