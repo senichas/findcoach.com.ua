@@ -1,6 +1,6 @@
 padawan_id,first_name,last_name,email,active,gender,birthday,created_by_coach_id
-1,TELL,NET,tell@mail.com,true,MALE,1978-02-22,1
-2,YA,MOGU,ya@mail.com,true,FEMALE,1978-02-22,1
+1,Вася,Дрыщ,tell@mail.com,true,MALE,1978-02-22,1
+2,Мега,Кач,ya@mail.com,true,FEMALE,1978-02-22,2
 3,LADA,CUBE,lada@mail.com,true,FEMALE,1978-02-22,1
 4,TEST,TEST,test@mail.com,true,MALE,1978-02-22,1
 5,GALINA,IVANOVNA,galina@mail.com,true,FEMALE,1978-02-22,1
