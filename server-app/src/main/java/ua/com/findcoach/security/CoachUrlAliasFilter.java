@@ -20,7 +20,7 @@ public class CoachUrlAliasFilter extends OncePerRequestFilter {
     public static final String COACH_URL_ADD_PADAWAN_WIZARD = "^/*[a-z]*/coach/([a-zA-Z0-9_-]+)/add-padawan-wizard/.+$";
     public static final String COACH_URL_PROGRAM = "^/*[a-z]*/coach/([a-zA-Z0-9_-]+)/program/.+$";
 
-    private static final String COACH_ALIAS_EXTRACT =  "^/*[a-z]*/coach/([a-zA-Z0-9_-]+)/.+$";
+    private static final String COACH_ALIAS_EXTRACT = "^/*[a-z]*/coach/([a-zA-Z0-9_-]+)/.+$";
 
     @Autowired
     private CoachService coachService;
@@ -48,4 +48,6 @@ public class CoachUrlAliasFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
+
+
 }
