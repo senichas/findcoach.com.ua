@@ -173,6 +173,50 @@ var editPadawanControllerHandler = function ($scope, EditPadawanDataService, $ht
 
 coachManagementApplication.controller("editPadawanController", ["$scope", "EditPadawanDataService", "$http", editPadawanControllerHandler]);
 
+coachManagementApplication.factory("EditProgramDataService", function () {
+
+    return {
+        loggedCoachAlias: loggedCoachAlias,
+        loggedProgramId: loggedProgramId,
+        programGoal: programGoal,
+        programStartDate: programStartDate,
+        programFinishDate: programFinishDate,
+        programPadawanId: programPadawanId,
+        programName: programName
+    };
+})
+;
+
+var editProgramControllerHandler = function ($scope, EditProgramDataService, $http) {
+    $scope.programData = {};
+    $scope.endPoint = "/findcoach/coach/" + EditProgramDataService.loggedCoachAlias + "/program/" + EditProgramDataService.loggedProgramId + "/edit-program.html";
+    $scope.successRedirectUrl = "/findcoach/coach/" + EditProgramDataService.loggedCoachAlias + "/padawans.html";
+    $scope.programData.name = EditProgramDataService.programName;
+    $scope.programData.goal = EditProgramDataService.programGoal;
+    $scope.programData.padawanId = EditProgramDataService.programPadawanId;
+    var startDate = new Date(EditProgramDataService.programStartDate);
+    var endDate = new Date(EditProgramDataService.programFinishDate);
+    $scope.programData.start = startDate;
+    $scope.programData.finish = endDate;
+
+    $scope.submitEditProgram = function () {
+
+        $http({
+            method: 'POST',
+            url: $scope.endPoint,
+            data: $scope.programData
+
+        }).then(function successCallback(response) {
+            window.location.href = $scope.successRedirectUrl;
+        }, function errorCallback(response) {
+            alert("error");
+        });
+    };
+};
+
+
+coachManagementApplication.controller("editProgramController", ["$scope", "EditProgramDataService", "$http", editProgramControllerHandler]);
+
 
 coachManagementApplication.factory("TrainingDataService", function () {
 

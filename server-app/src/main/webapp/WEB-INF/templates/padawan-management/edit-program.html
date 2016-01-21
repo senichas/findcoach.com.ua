@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="coachManagement">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/main.css"/>
+    <script type="text/javascript">
+        var loggedCoachAlias = '$coachAlias';
+        var programName = '$program.name';
+        var programGoal = '$program.goal';
+        var loggedProgramId = '$program.programId';
+        var programStartDate = '$program.startDate';
+        var programFinishDate = '$program.endDate';
+        var programPadawanId = '$program.padawan.padawanId';
+
+
+    </script>
+    <script src="/js/libs/angularjs/angular.js"></script>
+    <script src="/js/libs/angularjs/angular-resource.js"></script>
+    <script src="/js/libs/jquery-core/jquery-1.4.2.js"></script>
+    <script src="/js/angularJS/coach-management.js"></script>
+    <link rel="stylesheet" href="/css/coach.css"/>
+    <title>Редактирование падавана</title>
+</head>
+<body>
+<div id="mainContainer">
+    <header id="coachHeader">
+        <h1><a href="/findcoach/coach/profile/dashboard.html">Редактирование программы</a></h1>
+    </header>
+    #parse("padawan-management/menu.vm")
+    <section>
+        <form ng-controller="editProgramController" ng-submit="submitEditProgram()">
+            <fieldset>
+                <legend>Информация о программе</legend>
+                <p>Название</p>
+
+                <p><input type="text" name="programName" id="programName" ng-model="programData.name"/>
+                </p>
+
+                <p>Цель программы</p>
+
+                <p><select ng-model="programData.goal">#foreach($goal in $goalList)
+                    <option value="$goal">$goal</option>
+                    >
+                    #end</select></p>
+
+                <p>Падаван</p>
+
+                <p><select ng-model="programData.padawanId">#foreach($entry in $padawanList.entrySet())
+                    <option value="$entry.getKey()">$entry.getValue()</option>
+                    #end</select></p>
+
+                <p>Начало программы</p>
+
+                <p><input type="date" name="programStart" id="programStart" ng-model="programData.start"/></p>
+
+                <p>Конец программы</p>
+
+                <p><input type="date" name="programFinish" id="programFinish" ng-model="programData.finish"/></p>
+
+            </fieldset>
+
+            <button type="submit">Обновить</button>
+
+        </form>
+    </section>
+</div>
+
+</body>
+</html>
