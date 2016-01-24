@@ -11,7 +11,6 @@
         var loggedProgramId = '$program.programId';
         var programStartDate = '$program.startDate';
         var programFinishDate = '$program.endDate';
-        var programPadawanId = '$program.padawan.padawanId';
 
 
     </script>
@@ -41,13 +40,6 @@
 
                 <p><select ng-model="programData.goal">#foreach($goal in $goalList)
                     <option value="$goal">$goal</option>
-                    >
-                    #end</select></p>
-
-                <p>Падаван</p>
-
-                <p><select ng-model="programData.padawanId">#foreach($entry in $padawanList.entrySet())
-                    <option value="$entry.getKey()">$entry.getValue()</option>
                     #end</select></p>
 
                 <p>Начало программы</p>

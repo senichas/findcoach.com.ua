@@ -1,13 +1,14 @@
 package ua.com.findcoach.api;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import ua.com.findcoach.domain.Goal;
 
 import java.util.Date;
 
 public class EditProgramInfoRequest {
+    @NotEmpty(message = "Write the name. please")
     private String name;
     private Goal goal;
-    private Integer padawanId;
     private Date start;
     private Date finish;
 
@@ -25,14 +26,6 @@ public class EditProgramInfoRequest {
 
     public void setGoal(Goal goal) {
         this.goal = goal;
-    }
-
-    public Integer getPadawanId() {
-        return padawanId;
-    }
-
-    public void setPadawanId(Integer padawanId) {
-        this.padawanId = padawanId;
     }
 
     public Date getStart() {

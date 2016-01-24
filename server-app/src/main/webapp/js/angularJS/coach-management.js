@@ -181,7 +181,6 @@ coachManagementApplication.factory("EditProgramDataService", function () {
         programGoal: programGoal,
         programStartDate: programStartDate,
         programFinishDate: programFinishDate,
-        programPadawanId: programPadawanId,
         programName: programName
     };
 })
@@ -193,7 +192,6 @@ var editProgramControllerHandler = function ($scope, EditProgramDataService, $ht
     $scope.successRedirectUrl = "/findcoach/coach/" + EditProgramDataService.loggedCoachAlias + "/padawans.html";
     $scope.programData.name = EditProgramDataService.programName;
     $scope.programData.goal = EditProgramDataService.programGoal;
-    $scope.programData.padawanId = EditProgramDataService.programPadawanId;
     var startDate = new Date(EditProgramDataService.programStartDate);
     var endDate = new Date(EditProgramDataService.programFinishDate);
     $scope.programData.start = startDate;

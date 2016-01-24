@@ -9,7 +9,6 @@ import ua.com.findcoach.api.*;
 import ua.com.findcoach.domain.*;
 import ua.com.findcoach.services.*;
 import ua.com.findcoach.utils.Formatters;
-import ua.com.findcoach.utils.ProgramGoalHolder;
 
 import javax.validation.Valid;
 import java.time.Instant;
@@ -191,30 +190,18 @@ public class CoachProgramController {
         Program program = programService.findProgramById(programId);
         parameters.put("coachAlias", currentCoach.getAlias());
         parameters.put("program", program);
-        Map<Integer, String> padawanList = new HashMap<>();
-        currentCoach.getProgramList()
-                .stream()
-                .collect(Collectors.groupingBy(p -> p.getPadawan()))
-                .entrySet()
-                .stream()
-                .forEach(entry ->
-                {
-                    padawanList.put(entry.getKey().getPadawanId(), entry.getKey().getLastName() + " " + entry.getKey().getFirstName());
-                });
-        parameters.put("padawanList", padawanList);
-        parameters.put("goalList", ProgramGoalHolder.getGoalList());
+        parameters.put("goalList", Arrays.asList(Goal.values()));
 
         return new ModelAndView("padawan-management/edit-program", parameters);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/edit-program.html")
     @ResponseBody
-    public String updateProgram(@RequestBody EditProgramInfoRequest editProgramInfoRequest, @PathVariable String coachAlias,
+    public String updateProgram(@Valid @RequestBody EditProgramInfoRequest editProgramInfoRequest, @PathVariable String coachAlias,
                                 @PathVariable Integer programId) {
         Program program = programService.findProgramById(programId);
         program.setName(editProgramInfoRequest.getName());
         program.setGoal(editProgramInfoRequest.getGoal());
-        program.setPadawan(padawanService.findById(editProgramInfoRequest.getPadawanId()));
         program.setStartDate(editProgramInfoRequest.getStart());
         program.setEndDate(editProgramInfoRequest.getFinish());
         Program savedProgram = programService.saveProgram(program);
