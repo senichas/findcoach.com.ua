@@ -31,24 +31,30 @@ var profileControllerHandler = function ($scope, $resource) {
 coachManagementApplication.controller('profileController', ["$scope", "$resource", profileControllerHandler])
 
 
-coachManagementApplication.factory("DataService", function () {
+coachManagementApplication.factory("CycleDataService", function () {
 
     return {
         loggedCoachAlias: loggedCoachAlias,
-        programId: programId
+        programId: programId,
+        cycleName: cycleName,
+        cycleStartDate: cycleStartDate,
+        cycleEndDate: cycleEndDate,
+        cycleNotes: cycleNotes,
+        cycleId: cycleId
     };
 });
 
-var saveCycleControllerHandler = function ($scope, DataService, $http) {
-    $scope.endPoint = "/findcoach/coach/" + DataService.loggedCoachAlias + "/program/" + DataService.programId + "/cycle/";
-    $scope.successRedirectUrl = "/findcoach/coach/" + DataService.loggedCoachAlias + "/program/" + DataService.programId + ".html";
+var saveCycleControllerHandler = function ($scope, CycleDataService, $http) {
+    $scope.endPoint = "/findcoach/coach/" + CycleDataService.loggedCoachAlias + "/program/" + CycleDataService.programId + "/cycle/";
+    $scope.successRedirectUrl = "/findcoach/coach/" + CycleDataService.loggedCoachAlias + "/program/" + CycleDataService.programId + ".html";
 
     $scope.cycleData = {};
-    $scope.cycleData.name = "Вводный цикл";
-    $scope.cycleData.notes = "УУууууу";
-    $scope.cycleData.startDate = new Date();
+    $scope.cycleData.name = CycleDataService.cycleName.indexOf("cycle") > -1  ? "" : CycleDataService.cycleName;
+    $scope.cycleData.notes = CycleDataService.cycleNotes.indexOf("cycle") > -1 ? "" : CycleDataService.cycleNotes;
+    $scope.cycleData.startDate = CycleDataService.cycleStartDate.indexOf("cycle") > -1 ? new Date() : parseDateFromString(CycleDataService.cycleStartDate);
     var endDate = new Date();
-    $scope.cycleData.endDate = new Date(endDate.setMonth(endDate.getMonth() + 3));
+    $scope.cycleData.endDate = CycleDataService.cycleEndDate.indexOf("cycle") > -1 ? new Date(endDate.setMonth(endDate.getMonth() + 3)) : parseDateFromString(CycleDataService.cycleEndDate);
+    $scope.cycleData.cycleId = CycleDataService.cycleId.indexOf("cycle") > -1 ? null : CycleDataService.cycleId;
 
     $scope.saveCycle = function () {
 
@@ -57,6 +63,7 @@ var saveCycleControllerHandler = function ($scope, DataService, $http) {
         cycleData.notes = $scope.cycleData.notes;
         cycleData.startDate = $scope.cycleData.startDate.getTime();
         cycleData.endDate = $scope.cycleData.endDate.getTime();
+        cycleData.cycleId = $scope.cycleData.cycleId;
 
         $http({
             method: 'POST',
@@ -71,7 +78,7 @@ var saveCycleControllerHandler = function ($scope, DataService, $http) {
     };
 };
 
-coachManagementApplication.controller("cycleController", ["$scope", "DataService", "$http", saveCycleControllerHandler]);
+coachManagementApplication.controller("cycleController", ["$scope", "CycleDataService", "$http", saveCycleControllerHandler]);
 
 
 coachManagementApplication.factory("AddPadawanDataService", function () {
@@ -215,3 +222,12 @@ var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
 };
 
 coachManagementApplication.controller("trainingController", ["$scope", "TrainingDataService", "$http", trainingControllerHandler]);
+
+function parseDateFromString(str){
+    // str format should be yyyy/mm/dd. Separator can be anything e.g. / or -.
+    var yr   = parseInt(str.substring(0, 4));
+    var mon  = parseInt(str.substring(5, 7));
+    var dt   = parseInt(str.substring(8, 10));
+    var date = new Date(yr, mon - 1, dt);
+    return date;
+}

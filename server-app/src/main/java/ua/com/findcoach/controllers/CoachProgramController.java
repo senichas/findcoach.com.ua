@@ -1,185 +1,222 @@
 package ua.com.findcoach.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import ua.com.findcoach.api.*;
-import ua.com.findcoach.domain.*;
+import ua.com.findcoach.api.CycleDto;
+import ua.com.findcoach.api.PadawanDto;
+import ua.com.findcoach.api.ProgramDto;
+import ua.com.findcoach.api.RestResponse;
+import ua.com.findcoach.api.TrainingDto;
+import ua.com.findcoach.domain.Coach;
+import ua.com.findcoach.domain.Cycle;
+import ua.com.findcoach.domain.Event;
+import ua.com.findcoach.domain.EventRecurrence;
+import ua.com.findcoach.domain.EventType;
+import ua.com.findcoach.domain.Program;
+import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.CycleService;
 import ua.com.findcoach.services.EventService;
 import ua.com.findcoach.services.ProgramService;
 import ua.com.findcoach.utils.Formatters;
 
-import javax.validation.Valid;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/coach")
 public class CoachProgramController {
 
-    @Autowired
-    private CoachService coachService;
+	@Autowired
+	private LocalizedMessageResolver messageResolver;
 
-    @Autowired
-    private ProgramService programService;
+	@Autowired
+	private CoachService coachService;
 
-    @Autowired
-    private CycleService cycleService;
+	@Autowired
+	private ProgramService programService;
 
-    @Autowired
-    private EventService eventService;
+	@Autowired
+	private CycleService cycleService;
 
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans.html")
-    public ModelAndView receiveCoachProgramPadawans(@PathVariable String coachAlias) {
-        Map<String, Object> params = new HashMap<>();
-        Coach currentCoach = coachService.retrieveCurrentCoach();
-        params.put("coachAlias", currentCoach.getAlias());
-        List<PadawanDto> padawans = new ArrayList<>();
-        currentCoach
-                .getProgramList()
-                .stream()
-                .collect(Collectors.groupingBy(p -> p.getPadawan()))
-                .entrySet().stream()
-                .forEach(entry ->
-                {
-                    PadawanDto padawanDto = new PadawanDto(
-                            entry.getKey().getPadawanId(),
-                            entry.getKey().getFirstName(),
-                            entry.getKey().getLastName(),
-                            entry.getKey().getEmail(),
-                            entry.getKey().getGender(),
-                            entry.getKey().getBirthday(),
-                            entry.getKey().isActive());
-                    entry.getValue().stream()
-                            .forEach(program -> padawanDto.getPadawanProgramDTOList()
-                                    .add(new ProgramDto(program.getName()
-                                            , program.getGoal()
-                                            , program.getProgramId()
-                                            , program.getStartDate()
-                                            , program.getEndDate())));
-                    padawans.add(padawanDto);
-                });
+	@Autowired
+	private EventService eventService;
 
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans.html")
+	public ModelAndView receiveCoachProgramPadawans(@PathVariable String coachAlias) {
+		Map<String, Object> params = new HashMap<>();
+		Coach currentCoach = coachService.retrieveCurrentCoach();
+		params.put("coachAlias", currentCoach.getAlias());
+		List<PadawanDto> padawans = new ArrayList<>();
+		currentCoach.getProgramList().stream().collect(Collectors.groupingBy(p -> p.getPadawan())).entrySet().stream()
+				.forEach(entry -> {
+					PadawanDto padawanDto = new PadawanDto(entry.getKey().getPadawanId(), entry.getKey().getFirstName(),
+							entry.getKey().getLastName(), entry.getKey().getEmail(), entry.getKey().getGender(),
+							entry.getKey().getBirthday(), entry.getKey().isActive());
+					entry.getValue().stream()
+							.forEach(program -> padawanDto.getPadawanProgramDTOList().add(new ProgramDto(program.getName(),
+									program.getGoal(), program.getProgramId(), program.getStartDate(), program.getEndDate())));
+					padawans.add(padawanDto);
+				});
 
-        params.put("padawansList", padawans);
-        params.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-        return new ModelAndView("padawan-management/padawans", params);
-    }
+		params.put("padawansList", padawans);
+		params.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+		return new ModelAndView("padawan-management/padawans", params);
+	}
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}.html")
-    public ModelAndView programDetailPage(@PathVariable String coachAlias, @PathVariable Integer programId) {
-        Map<String, Object> parameters = new HashMap<>();
+	@RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}.html")
+	public ModelAndView programDetailPage(@PathVariable String coachAlias, @PathVariable Integer programId) {
+		Map<String, Object> parameters = new HashMap<>();
 
-        Program program = programService.findProgramById(programId);
+		Program program = programService.findProgramById(programId);
 
-        parameters.put("programName", program.getName());
-        parameters.put("programId", program.getProgramId());
-        parameters.put("coachAlias", coachAlias);
-        parameters.put("cycles", program.getCycles());
-        parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-        parameters.put("timeFormatter", DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
-        return new ModelAndView("padawan-management/programDetails", parameters);
-    }
+		parameters.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
+		parameters.put("programName", program.getName());
+		parameters.put("programId", program.getProgramId());
+		parameters.put("coachAlias", coachAlias);
+		parameters.put("cycles", program.getCycles());
+		parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+		parameters.put("timeFormatter", DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
+		return new ModelAndView("padawan-management/programDetails", parameters);
+	}
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle.html")
-    public ModelAndView programCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId) {
-        Map<String, Object> parameters = new HashMap<>();
+	@RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle.html")
+	public ModelAndView createProgramCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId) {
+		Map<String, Object> parameters = new HashMap<>();
 
-        Program program = programService.findProgramById(programId);
+		Program program = programService.findProgramById(programId);
 
-        parameters.put("programName", program.getName());
-        parameters.put("programId", program.getProgramId());
+		parameters.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
+		parameters.put("programName", program.getName());
+		parameters.put("programId", program.getProgramId());
 
+		Cycle cycle = new Cycle();
+		parameters.put("cycle", cycle);
+		parameters.put("cycleAction", "Добавить");
 
-        return new ModelAndView("padawan-management/programCycleDetails", parameters);
-    }
+		return new ModelAndView("padawan-management/programCycleDetails", parameters);
+	}
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle")
-    @ResponseBody
-    public RestResponse saveCycle(@PathVariable String coachAlias, @PathVariable Integer programId, @RequestBody CycleDto cycleDto) {
-        Program program = programService.findProgramById(programId);
+	@RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/cycle.html")
+	public ModelAndView updateProgramCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId,
+			@PathVariable Integer cycleId) {
+		Map<String, Object> parameters = new HashMap<>();
 
-        Cycle cycle = new Cycle();
-        cycle.setName(cycleDto.getName());
-        cycle.setNotes(cycleDto.getNotes());
-        Instant startInstant = Instant.ofEpochMilli(cycleDto.getStartDate());
-        LocalDateTime startDateTime = LocalDateTime.ofInstant(startInstant, TimeZone.getDefault().toZoneId());
-        cycle.setStartDate(startDateTime.toLocalDate());
+		Program program = programService.findProgramById(programId);
 
-        Instant endInstant = Instant.ofEpochMilli(cycleDto.getEndDate());
-        LocalDateTime endDateTime = LocalDateTime.ofInstant(endInstant, TimeZone.getDefault().toZoneId());
-        cycle.setEndDate(endDateTime.toLocalDate());
+		parameters.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
+		parameters.put("programName", program.getName());
+		parameters.put("programId", program.getProgramId());
+		parameters.put("cycle", cycleService.findCycleById(cycleId));
+		parameters.put("cycleAction", "Изменить");
 
-        if (program.getCycles() == null) {
-            program.setCycles(new ArrayList<>());
+		return new ModelAndView("padawan-management/programCycleDetails", parameters);
+	}
 
-        }
-        program.getCycles().add(cycle);
-        programService.saveProgram(program);
+	@RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle")
+	@ResponseBody
+	public RestResponse saveCycle(@PathVariable String coachAlias, @PathVariable Integer programId,
+			@RequestBody CycleDto cycleDto) {
+		Program program = programService.findProgramById(programId);
 
-        RestResponse response = new RestResponse();
+		Cycle existingCycle = cycleService.findCycleById(cycleDto.getCycleId());
 
-        return response;
-    }
+		Cycle cycleToSave = existingCycle == null ? new Cycle() : existingCycle;
+		cycleToSave.setName(cycleDto.getName());
+		cycleToSave.setNotes(cycleDto.getNotes());
+		Instant startInstant = Instant.ofEpochMilli(cycleDto.getStartDate());
+		LocalDateTime startDateTime = LocalDateTime.ofInstant(startInstant, TimeZone.getDefault().toZoneId());
+		cycleToSave.setStartDate(startDateTime.toLocalDate());
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training.html")
-    public ModelAndView addTrainingForm(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId) {
-        Map<String, Object> parameters = new HashMap<>();
+		Instant endInstant = Instant.ofEpochMilli(cycleDto.getEndDate());
+		LocalDateTime endDateTime = LocalDateTime.ofInstant(endInstant, TimeZone.getDefault().toZoneId());
+		cycleToSave.setEndDate(endDateTime.toLocalDate());
 
-        Program program = programService.findProgramById(programId);
+		if (program.getCycles() == null) {
+			program.setCycles(new ArrayList<>());
+		}
 
-        parameters.put("coachAlias", coachAlias);
-        parameters.put("programName", program.getName());
-        parameters.put("programId", program.getProgramId());
-        for (Cycle cycle : program.getCycles()) {
-            if (cycle.getCycleId().compareTo(cycleId) == 0) {
-                parameters.put("cycleId", cycle.getCycleId());
-                parameters.put("cycleName", cycle.getName());
-                break;
-            }
-        }
+		if (cycleToSave.getCycleId() != null) {
+			program.getCycles().removeIf(cycleObject -> cycleObject.getCycleId().equals(cycleToSave.getCycleId()));
+		}
+		program.getCycles().add(cycleToSave);
 
-        return new ModelAndView("padawan-management/trainingDetails", parameters);
-    }
+		programService.saveProgram(program);
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training")
-    @ResponseBody
-    public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId,
-                                        @RequestBody @Valid TrainingDto trainingDto, BindingResult bindingResult) {
+		RestResponse response = new RestResponse();
 
-        Program program = programService.findProgramById(programId);
+		return response;
+	}
 
-        final Event event = new Event();
-        event.setDescription(trainingDto.getContent());
-        event.setType(EventType.TRAINING);
+	@RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training.html")
+	public ModelAndView addTrainingForm(@PathVariable String coachAlias, @PathVariable Integer programId,
+			@PathVariable Integer cycleId) {
+		Map<String, Object> parameters = new HashMap<>();
 
-        List<EventRecurrence> eventRecurrences = new ArrayList<>();
-        EventRecurrence recurrence = new EventRecurrence();
-        recurrence.setAllDay(Boolean.FALSE);
-        LocalDateTime startDateTime = LocalDateTime.parse(trainingDto.getStartDateTime(), Formatters.SIMPLE_DATE_TIME_FORMATTER);
-        recurrence.setStartDate(startDateTime);
-        recurrence.setEndDate(startDateTime.plusMinutes(trainingDto.getDuration()));
-        recurrence.setEvent(event);
+		Program program = programService.findProgramById(programId);
 
-        eventRecurrences.add(recurrence);
-        event.setRecurrences(eventRecurrences);
+		parameters.put("coachAlias", coachAlias);
+		parameters.put("programName", program.getName());
+		parameters.put("programId", program.getProgramId());
+		for (Cycle cycle : program.getCycles()) {
+			if (cycle.getCycleId().compareTo(cycleId) == 0) {
+				parameters.put("cycleId", cycle.getCycleId());
+				parameters.put("cycleName", cycle.getName());
+				break;
+			}
+		}
 
-        eventService.save(event);
+		return new ModelAndView("padawan-management/trainingDetails", parameters);
+	}
 
-        program.getCycles().stream().filter(cycle -> cycle.getCycleId().compareTo(cycleId) == 0).forEach(cycle -> {
-            cycle.getEvents().add(event);
-            cycleService.save(cycle);
-        });
+	@RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training")
+	@ResponseBody
+	public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId,
+			@PathVariable Integer cycleId, @RequestBody @Valid TrainingDto trainingDto, BindingResult bindingResult) {
 
-        RestResponse response = new RestResponse();
-        return response;
-    }
+		Program program = programService.findProgramById(programId);
+
+		final Event event = new Event();
+		event.setDescription(trainingDto.getContent());
+		event.setType(EventType.TRAINING);
+
+		List<EventRecurrence> eventRecurrences = new ArrayList<>();
+		EventRecurrence recurrence = new EventRecurrence();
+		recurrence.setAllDay(Boolean.FALSE);
+		LocalDateTime startDateTime = LocalDateTime.parse(trainingDto.getStartDateTime(), Formatters.SIMPLE_DATE_TIME_FORMATTER);
+		recurrence.setStartDate(startDateTime);
+		recurrence.setEndDate(startDateTime.plusMinutes(trainingDto.getDuration()));
+		recurrence.setEvent(event);
+
+		eventRecurrences.add(recurrence);
+		event.setRecurrences(eventRecurrences);
+
+		eventService.save(event);
+
+		program.getCycles().stream().filter(cycle -> cycle.getCycleId().compareTo(cycleId) == 0).forEach(cycle -> {
+			cycle.getEvents().add(event);
+			cycleService.save(cycle);
+		});
+
+		RestResponse response = new RestResponse();
+		return response;
+	}
 }

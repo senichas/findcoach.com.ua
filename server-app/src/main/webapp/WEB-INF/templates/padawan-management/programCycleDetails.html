@@ -8,6 +8,11 @@
     <script type="text/javascript">
         var loggedCoachAlias = '$coachAlias';
         var programId = '$programId';
+        var cycleName = '$cycle.name';
+        var cycleStartDate = '$cycle.startDate';
+        var cycleEndDate = '$cycle.endDate';
+        var cycleNotes = '$cycle.notes';
+        var cycleId = '$cycle.cycleId';
     </script>
     <script src="/js/libs/jquery-core/jquery-1.4.2.js"></script>
     <script src="/js/libs/angularjs/angular.js"></script>
@@ -25,13 +30,13 @@
                     name="status" id="status"></select>
         </div>
         <div id="statusResponseHolder" style="text-align: right">
-            <span id="statusMessege"></span>
+            <span id="statusMessage"></span>
         </div>
         Welcome to coach page!<br>
         ${message}
     </header>
     <section>
-        <h1>Добавить цикл для программы &laquo;${programName}&raquo;</h1>
+        <h1>${cycleAction} цикл для программы &laquo;${programName}&raquo;</h1>
         #parse("padawan-management/menu.vm")
         <br/>
         <a href="/findcoach/coach/${coachAlias}/program/${programId}/cycle.html">Добавить цикл</a>
