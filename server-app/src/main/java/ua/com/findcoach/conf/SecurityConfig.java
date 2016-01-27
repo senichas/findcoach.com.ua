@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.findcoach.security.CoachAuthenticationProvider;
+import ua.com.findcoach.security.CoachProgramFilter;
 import ua.com.findcoach.security.CoachUrlAliasFilter;
 
 import java.util.ArrayList;
@@ -64,6 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CoachUrlAliasFilter coachUrlAliasFilter() {
         return new CoachUrlAliasFilter();
     }
+    @Bean
+    public CoachProgramFilter coachProgramFilter() {
+        return new CoachProgramFilter();
+    }
 
     @Bean
     public FilterChainProxy customSpringSecurityFilterChain() {
@@ -75,9 +80,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         securityFilterChains.add(new DefaultSecurityFilterChain(
                 new RegexRequestMatcher(CoachUrlAliasFilter.COACH_URL_ADD_PADAWAN_WIZARD, RequestMethod.GET.name()),
                 coachUrlAliasFilter()));
-        securityFilterChains.add(new DefaultSecurityFilterChain(
+        /*securityFilterChains.add(new DefaultSecurityFilterChain(
                 new RegexRequestMatcher(CoachUrlAliasFilter.COACH_URL_PROGRAM, RequestMethod.GET.name()),
-                coachUrlAliasFilter()));
+                coachUrlAliasFilter()));*/
+        securityFilterChains.add(new DefaultSecurityFilterChain(
+                new RegexRequestMatcher(CoachProgramFilter.COACH_URL_PROGRAM, null),
+                coachUrlAliasFilter(), coachProgramFilter()));
+
         return new FilterChainProxy(securityFilterChains);
 
     }

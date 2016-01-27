@@ -20,4 +20,8 @@ public class ProgramService {
     public Program findProgramById(Integer programId) {
         return programRepository.findOneByProgramId(programId);
     }
+
+    public Program findOneByProgramIdAndCoachAlias(Integer programId, String coachAlias) {
+        return programRepository.findOneByProgramIdAndCoachAlias(programId, coachAlias);
+    }
 }

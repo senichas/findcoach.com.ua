@@ -5,12 +5,11 @@ import ua.com.findcoach.domain.Program;
 
 import java.util.List;
 
-/**
- * Created by DENIS on 16.11.2015.
- */
 public interface ProgramRepository extends CrudRepository<Program, Integer> {
 
     List<Program> findAll();
 
     Program findOneByProgramId(Integer programId);
+
+    Program findOneByProgramIdAndCoachAlias(Integer programId, String coachAlias);
 }

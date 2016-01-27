@@ -8,7 +8,9 @@ import ua.com.findcoach.api.CalendarEvent;
 import ua.com.findcoach.api.CalendarResponse;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.services.CoachService;
+import ua.com.findcoach.utils.DateUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +43,9 @@ public class CoachCalendarController {
     @ResponseBody
     CalendarResponse fetchEventsForCoach(@PathVariable("coachAlias") String coachUserName, @RequestParam("method") String method) {
         Coach currentCoach = coachService.retrieveCurrentCoach();
+
+        LocalDate firstDayOfTheCurrentWeek = DateUtils.calculateFirstDayOfCurrentWeek();
+        LocalDate lastDayOfTheCurrentWeek = DateUtils.calculateLastDayOfCurrentWeek();
 
         CalendarResponse response = new CalendarResponse();
         if (METHOD_LIST.equals(method)) {
