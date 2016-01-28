@@ -24,7 +24,7 @@ public class EventService {
 
     public List<EventRecurrence> findEventRecurrences(Coach coach, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         List<EventRecurrence> recurrences = new ArrayList<>();
-
+//        List<Event> events = eventRepository.findEventsInPeriodForCoach(startDateTime, endDateTime, coach.getAlias());
         return recurrences;
     }
 
