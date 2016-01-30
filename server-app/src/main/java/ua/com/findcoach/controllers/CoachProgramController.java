@@ -1,44 +1,25 @@
 package ua.com.findcoach.controllers;
 
-import ua.com.findcoach.api.CycleDto;
-import ua.com.findcoach.api.PadawanDto;
-import ua.com.findcoach.api.ProgramDto;
-import ua.com.findcoach.api.RestResponse;
-import ua.com.findcoach.api.TrainingDto;
-import ua.com.findcoach.domain.Coach;
-import ua.com.findcoach.domain.Cycle;
-import ua.com.findcoach.domain.Event;
-import ua.com.findcoach.domain.EventRecurrence;
-import ua.com.findcoach.domain.EventType;
-import ua.com.findcoach.domain.Program;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ua.com.findcoach.api.*;
+import ua.com.findcoach.domain.*;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.CycleService;
 import ua.com.findcoach.services.EventService;
 import ua.com.findcoach.services.ProgramService;
+import ua.com.findcoach.utils.DateUtils;
 import ua.com.findcoach.utils.Formatters;
 
-import java.time.Instant;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/coach")
@@ -66,16 +47,31 @@ public class CoachProgramController {
 		Coach currentCoach = coachService.retrieveCurrentCoach();
 		params.put("coachAlias", currentCoach.getAlias());
 		List<PadawanDto> padawans = new ArrayList<>();
-		currentCoach.getProgramList().stream().collect(Collectors.groupingBy(p -> p.getPadawan())).entrySet().stream()
-				.forEach(entry -> {
-					PadawanDto padawanDto = new PadawanDto(entry.getKey().getPadawanId(), entry.getKey().getFirstName(),
-							entry.getKey().getLastName(), entry.getKey().getEmail(), entry.getKey().getGender(),
-							entry.getKey().getBirthday(), entry.getKey().isActive());
+		currentCoach
+				.getProgramList()
+				.stream()
+				.collect(Collectors.groupingBy(p -> p.getPadawan()))
+				.entrySet().stream()
+				.forEach(entry ->
+				{
+					PadawanDto padawanDto = new PadawanDto(
+							entry.getKey().getPadawanId(),
+							entry.getKey().getFirstName(),
+							entry.getKey().getLastName(),
+							entry.getKey().getEmail(),
+							entry.getKey().getGender(),
+							entry.getKey().getBirthday(),
+							entry.getKey().isActive());
 					entry.getValue().stream()
-							.forEach(program -> padawanDto.getPadawanProgramDTOList().add(new ProgramDto(program.getName(),
-									program.getGoal(), program.getProgramId(), program.getStartDate(), program.getEndDate())));
+							.forEach(program -> padawanDto.getPadawanProgramDTOList()
+									.add(new ProgramDto(program.getName()
+											, program.getGoal()
+											, program.getProgramId()
+											, program.getStartDate()
+											, program.getEndDate())));
 					padawans.add(padawanDto);
 				});
+
 
 		params.put("padawansList", padawans);
 		params.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
@@ -109,15 +105,22 @@ public class CoachProgramController {
 		parameters.put("programId", program.getProgramId());
 
 		Cycle cycle = new Cycle();
+		cycle.setName("");
+		cycle.setNotes("");
+		cycle.setCycleId(-1);
+		cycle.setStartDate(DateUtils.dateToLocalDate(new Date()));
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, 3);
+		cycle.setEndDate(DateUtils.longToLocalDate(cal.getTimeInMillis()));
 		parameters.put("cycle", cycle);
 		parameters.put("cycleAction", "Добавить");
 
 		return new ModelAndView("padawan-management/programCycleDetails", parameters);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/cycle.html")
+	@RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}.html")
 	public ModelAndView updateProgramCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId,
-			@PathVariable Integer cycleId) {
+											   @PathVariable Integer cycleId) {
 		Map<String, Object> parameters = new HashMap<>();
 
 		Program program = programService.findProgramById(programId);
@@ -134,41 +137,32 @@ public class CoachProgramController {
 	@RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle")
 	@ResponseBody
 	public RestResponse saveCycle(@PathVariable String coachAlias, @PathVariable Integer programId,
-			@RequestBody CycleDto cycleDto) {
-		Program program = programService.findProgramById(programId);
-
+								  @RequestBody CycleDto cycleDto) {
 		Cycle existingCycle = cycleService.findCycleById(cycleDto.getCycleId());
 
 		Cycle cycleToSave = existingCycle == null ? new Cycle() : existingCycle;
 		cycleToSave.setName(cycleDto.getName());
 		cycleToSave.setNotes(cycleDto.getNotes());
-		Instant startInstant = Instant.ofEpochMilli(cycleDto.getStartDate());
-		LocalDateTime startDateTime = LocalDateTime.ofInstant(startInstant, TimeZone.getDefault().toZoneId());
-		cycleToSave.setStartDate(startDateTime.toLocalDate());
-
-		Instant endInstant = Instant.ofEpochMilli(cycleDto.getEndDate());
-		LocalDateTime endDateTime = LocalDateTime.ofInstant(endInstant, TimeZone.getDefault().toZoneId());
-		cycleToSave.setEndDate(endDateTime.toLocalDate());
-
-		if (program.getCycles() == null) {
-			program.setCycles(new ArrayList<>());
-		}
+		cycleToSave.setStartDate(DateUtils.longToLocalDate(cycleDto.getStartDate()));
+		cycleToSave.setEndDate(DateUtils.longToLocalDate(cycleDto.getEndDate()));
 
 		if (cycleToSave.getCycleId() != null) {
-			program.getCycles().removeIf(cycleObject -> cycleObject.getCycleId().equals(cycleToSave.getCycleId()));
+			cycleService.save(cycleToSave);
+		} else {
+			Program program = programService.findProgramById(programId);
+			if (program.getCycles() == null) {
+				program.setCycles(new ArrayList<>());
+			}
+			program.getCycles().add(cycleToSave);
+			programService.saveProgram(program);
 		}
-		program.getCycles().add(cycleToSave);
-
-		programService.saveProgram(program);
 
 		RestResponse response = new RestResponse();
-
 		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training.html")
-	public ModelAndView addTrainingForm(@PathVariable String coachAlias, @PathVariable Integer programId,
-			@PathVariable Integer cycleId) {
+	public ModelAndView addTrainingForm(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId) {
 		Map<String, Object> parameters = new HashMap<>();
 
 		Program program = programService.findProgramById(programId);
@@ -189,8 +183,8 @@ public class CoachProgramController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training")
 	@ResponseBody
-	public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId,
-			@PathVariable Integer cycleId, @RequestBody @Valid TrainingDto trainingDto, BindingResult bindingResult) {
+	public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId,
+										@RequestBody @Valid TrainingDto trainingDto, BindingResult bindingResult) {
 
 		Program program = programService.findProgramById(programId);
 

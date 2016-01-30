@@ -49,13 +49,11 @@ var saveCycleControllerHandler = function ($scope, CycleDataService, $http) {
     $scope.successRedirectUrl = "/findcoach/coach/" + CycleDataService.loggedCoachAlias + "/program/" + CycleDataService.programId + ".html";
 
     $scope.cycleData = {};
-    $scope.cycleData.name = CycleDataService.cycleName.indexOf("cycle") > -1  ? "" : CycleDataService.cycleName;
-    $scope.cycleData.notes = CycleDataService.cycleNotes.indexOf("cycle") > -1 ? "" : CycleDataService.cycleNotes;
-    $scope.cycleData.startDate = CycleDataService.cycleStartDate.indexOf("cycle") > -1 ? new Date() : parseDateFromString(CycleDataService.cycleStartDate);
-    var endDate = new Date();
-    $scope.cycleData.endDate = CycleDataService.cycleEndDate.indexOf("cycle") > -1 ? new Date(endDate.setMonth(endDate.getMonth() + 3)) : parseDateFromString(CycleDataService.cycleEndDate);
-    $scope.cycleData.cycleId = CycleDataService.cycleId.indexOf("cycle") > -1 ? null : CycleDataService.cycleId;
-
+    $scope.cycleData.name = CycleDataService.cycleName;
+    $scope.cycleData.notes = CycleDataService.cycleNotes;
+    $scope.cycleData.startDate = parseDateFromString(CycleDataService.cycleStartDate);
+    $scope.cycleData.endDate = parseDateFromString(CycleDataService.cycleEndDate);
+    $scope.cycleData.cycleId = CycleDataService.cycleId;
     $scope.saveCycle = function () {
 
         var cycleData = {};
@@ -225,6 +223,9 @@ coachManagementApplication.controller("trainingController", ["$scope", "Training
 
 function parseDateFromString(str){
     // str format should be yyyy/mm/dd. Separator can be anything e.g. / or -.
+    if (str == null)
+        return new Date();
+
     var yr   = parseInt(str.substring(0, 4));
     var mon  = parseInt(str.substring(5, 7));
     var dt   = parseInt(str.substring(8, 10));
