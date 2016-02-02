@@ -1,10 +1,19 @@
 package ua.com.findcoach.api;
 
 public class CycleDto {
+    private Integer cycleId;
     private String name;
     private Long startDate;
     private Long endDate;
     private String notes;
+
+    public Integer getCycleId() {
+        return cycleId;
+    }
+
+    public void setCycleId(Integer cycleId) {
+        this.cycleId = cycleId;
+    }
 
     public String getName() {
         return name;
