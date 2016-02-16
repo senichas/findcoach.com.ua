@@ -46,6 +46,7 @@
         <createTable tableName="coach_facebook_login">
             <column name="coach_id" type="integer">
                 <constraints nullable="false"
+                             primaryKey="true"
                              foreignKeyName="coach_facebook_login_coach_id_fk"
                              references=" &quot;coach&quot; (coach_id)"/>
             </column>
