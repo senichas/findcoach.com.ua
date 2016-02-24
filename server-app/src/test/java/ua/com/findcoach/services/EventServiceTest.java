@@ -27,6 +27,7 @@ public class EventServiceTest {
     private EventRepository eventRepository;
 
     @Test
+    //TO DO: rewrite after get events functionality will be ready
     public void testEventQuery() {
         LocalTime begin = LocalTime.of(0, 0, 0);
         LocalTime end = LocalTime.of(23, 59, 59);

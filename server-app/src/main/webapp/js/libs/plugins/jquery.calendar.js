@@ -169,7 +169,7 @@
              * {Array} event items for initialization.
              */   
             eventItems: [], 
-            method: "POST", 
+            method: "GET",
             /**
              * @description {Config} showday  
              * {Date} Current date. today by default.
@@ -1480,7 +1480,7 @@
                         { "name": "type", value: type}];
             var de = rebyKey(calid, true);
             option.onBeforeRequestData && option.onBeforeRequestData(3);
-            $.post(option.quickDeleteUrl, param, function(data) {
+            $.deleye(option.quickDeleteUrl, param, function(data) {
                 if (data) {
                     if (data.IsSuccess) {
                         de = null;
@@ -1707,7 +1707,7 @@
                 }
                 else {
                     option.onBeforeRequestData && option.onBeforeRequestData(4);
-                    $.post(option.quickUpdateUrl, param, function(data) {
+                    $.put(option.quickUpdateUrl, param, function(data) {
                         if (data) {
                             if (data.IsSuccess == true) {
                                 option.isloading = false;

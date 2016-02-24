@@ -19,7 +19,7 @@ public class CalendarEventSerializer extends JsonSerializer<CalendarEvent> {
         jsonGenerator.writeString(calendarEvent.getSubject());
         jsonGenerator.writeString(calendarEvent.getStartTime().format(formatter));
         jsonGenerator.writeString(calendarEvent.getEndTime().format(formatter));
-        jsonGenerator.writeNumber((calendarEvent.getAllDayEvent()?1:0));
+        jsonGenerator.writeNumber((calendarEvent.getAllDayEvent() ? 1 : 0));
         jsonGenerator.writeNumber(calendarEvent.getCrossDay());
         jsonGenerator.writeNumber(calendarEvent.getRecurringEvent());
         jsonGenerator.writeNumber(calendarEvent.getColor());
