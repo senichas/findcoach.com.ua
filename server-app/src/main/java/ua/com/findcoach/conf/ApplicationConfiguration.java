@@ -8,9 +8,12 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
+import ua.com.findcoach.domain.EventType;
 import ua.com.findcoach.utils.CoachStatusHolder;
 import ua.com.findcoach.utils.EmailValidator;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -18,7 +21,7 @@ import java.util.Properties;
  */
 @Configuration
 @PropertySource({"classpath:jdbc.properties"})
-@ComponentScan({"ua.com.findcoach.controllers", "ua.com.findcoach.services"})
+@ComponentScan({"ua.com.findcoach.controllers", "ua.com.findcoach.services", "ua.com.findcoach.converters"})
 @EnableWebMvc
 public class ApplicationConfiguration {
 
@@ -57,5 +60,13 @@ public class ApplicationConfiguration {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public Map<EventType, String> eventTypeLocalizationKeys() {
+        Map<EventType, String> keys = new HashMap<>();
+        keys.put(EventType.PUBLIC_TRAINING, "domain.public_training");
+        keys.put(EventType.TRAINING, "domain.training");
+        return keys;
     }
 }

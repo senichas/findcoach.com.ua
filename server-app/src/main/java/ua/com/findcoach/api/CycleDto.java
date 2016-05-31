@@ -1,11 +1,15 @@
 package ua.com.findcoach.api;
 
+import java.util.List;
+
 public class CycleDto {
     private Integer cycleId;
     private String name;
     private Long startDate;
     private Long endDate;
     private String notes;
+
+    private List<EventDto> events;
 
     public Integer getCycleId() {
         return cycleId;
@@ -45,5 +49,13 @@ public class CycleDto {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public List<EventDto> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<EventDto> events) {
+        this.events = events;
     }
 }
