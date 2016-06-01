@@ -3,9 +3,10 @@ package ua.com.findcoach.converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.findcoach.api.CycleDto;
-import ua.com.findcoach.api.EventDto;
+import ua.com.findcoach.api.TrainingDto;
 import ua.com.findcoach.domain.Cycle;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,9 +22,15 @@ public class CycleConverterService {
         cycleDto.setName(cycle.getName());
         cycleDto.setNotes(cycle.getNotes());
 
-        List<EventDto> eventDtos = cycle.getEvents().stream().map(event -> eventConverterService.convertEventToDto(event)).collect(Collectors.toList());
+        Comparator<TrainingDto> trainingDtoComparator = (trainingDto1, trainingDto2) -> trainingDto1.getStartDateTime().compareTo(trainingDto2.getStartDateTime());
 
-        cycleDto.setEvents(eventDtos);
+        List<TrainingDto> trainingDtosCollected = cycle.getEvents().stream()
+                .map(event -> eventConverterService.convertEventToTrainings(event))
+                .flatMap(trainingDtos -> trainingDtos.stream())
+                .sorted(trainingDtoComparator)
+                .collect(Collectors.toList());
+
+        cycleDto.setTrainings(trainingDtosCollected);
 
         return cycleDto;
     }

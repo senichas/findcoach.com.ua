@@ -50,13 +50,13 @@
             <tr>
                 <td colspan="4">
                     <table>
-                        #foreach ($event in $cycle.events)
+                        #foreach ($training in $cycle.trainings)
                         <tr>
-                            <td>$event.title</td>
-                            <td>$event.description</td>
-                            <td>$event.type</td>
-                            <td>$event.recurrences.get(0).startDate.format(${timeFormatter})</td>
-                            <td>$event.recurrences.get(0).endDate.format(${timeFormatter})</td>
+                            <td>$training.title</td>
+                            <td>$training.description</td>
+                            <td>$training.typeLocalized</td>
+                            <td>$training.startDateTime.format(${timeFormatter})</td>
+                            <td>$training.endDateTime.format(${timeFormatter})</td>
                         </tr>
                         #end
                     </table>

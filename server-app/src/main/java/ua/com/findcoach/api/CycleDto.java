@@ -9,7 +9,7 @@ public class CycleDto {
     private Long endDate;
     private String notes;
 
-    private List<EventDto> events;
+    private List<TrainingDto> trainings;
 
     public Integer getCycleId() {
         return cycleId;
@@ -51,11 +51,11 @@ public class CycleDto {
         this.notes = notes;
     }
 
-    public List<EventDto> getEvents() {
-        return events;
+    public List<TrainingDto> getTrainings() {
+        return trainings;
     }
 
-    public void setEvents(List<EventDto> events) {
-        this.events = events;
+    public void setTrainings(List<TrainingDto> trainings) {
+        this.trainings = trainings;
     }
 }
