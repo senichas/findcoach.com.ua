@@ -7,6 +7,7 @@ import ua.com.findcoach.domain.Event;
 import ua.com.findcoach.domain.EventType;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 @Service
@@ -14,7 +15,7 @@ public class EventConverterService {
     @Autowired
     private LocalizedMessageResolver messageResolver;
 
-    @Autowired
+    @Resource
     private Map<EventType, String> eventTypeLocalizationKeys;
 
     public EventDto convertEventToDto(Event event) {
@@ -26,6 +27,7 @@ public class EventConverterService {
         String key = eventTypeLocalizationKeys.get(event.getType());
         String msg = messageResolver.getMessage(key);
         eventDto.setTypeLocalized(msg);
+
         return eventDto;
     }
 }
