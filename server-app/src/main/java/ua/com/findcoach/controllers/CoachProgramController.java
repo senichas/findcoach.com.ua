@@ -95,7 +95,7 @@ public class CoachProgramController {
         List<CycleDto> cycleDtos = cycleConverterService.convertCyclesListToDtos(program.getCycles());
         parameters.put("cycles", cycleDtos);
         parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-        parameters.put("timeFormatter", DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
+        parameters.put("timeFormatter", DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
         return new ModelAndView("padawan-management/programDetails", parameters);
     }
 
