@@ -51,7 +51,7 @@ public class CoachProfileController {
         List<CalendarEvent> calendarEvents = converterService.convertEventToCalendarEvent(events);*/
 
         CalendarResponse response = new CalendarResponse();
-//        response.setEvents(calendarEvents);
+//        response.setTrainings(calendarEvents);
         return response;
     }
 

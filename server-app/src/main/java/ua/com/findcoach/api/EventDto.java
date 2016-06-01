@@ -1,11 +1,8 @@
 package ua.com.findcoach.api;
 
-import java.time.LocalDateTime;
+public class EventDto {
 
-public class TrainingDto {
     private Integer eventId;
-
-    private Integer eventRecurrenceId;
 
     private String title;
 
@@ -15,26 +12,12 @@ public class TrainingDto {
 
     private String location;
 
-    private Boolean allDay;
-
-    private LocalDateTime startDateTime;
-
-    private LocalDateTime endDateTime;
-
     public Integer getEventId() {
         return eventId;
     }
 
     public void setEventId(Integer eventId) {
         this.eventId = eventId;
-    }
-
-    public Integer getEventRecurrenceId() {
-        return eventRecurrenceId;
-    }
-
-    public void setEventRecurrenceId(Integer eventRecurrenceId) {
-        this.eventRecurrenceId = eventRecurrenceId;
     }
 
     public String getTitle() {
@@ -67,29 +50,5 @@ public class TrainingDto {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Boolean getAllDay() {
-        return allDay;
-    }
-
-    public void setAllDay(Boolean allDay) {
-        this.allDay = allDay;
-    }
-
-    public LocalDateTime getStartDateTime() {
-        return startDateTime;
-    }
-
-    public void setStartDateTime(LocalDateTime startDateTime) {
-        this.startDateTime = startDateTime;
-    }
-
-    public LocalDateTime getEndDateTime() {
-        return endDateTime;
-    }
-
-    public void setEndDateTime(LocalDateTime endDateTime) {
-        this.endDateTime = endDateTime;
     }
 }
