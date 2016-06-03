@@ -150,7 +150,7 @@
                 sequenceName="program_program_id_seq"/>
         <createSequence
                 sequenceName="program_program_id_seq"
-                startValue="5"/>
+                startValue="6"/>
         <addDefaultValue
                 columnName="program_id"
                 defaultValueSequenceNext="program_program_id_seq"
@@ -217,7 +217,7 @@
                 sequenceName="cycle_cycle_id_seq"/>
         <createSequence
                 sequenceName="cycle_cycle_id_seq"
-                startValue="5"/>
+                startValue="8"/>
         <addDefaultValue
                 columnName="cycle_id"
                 defaultValueSequenceNext="cycle_cycle_id_seq"
@@ -286,7 +286,7 @@
                 sequenceName="event_event_id_seq"/>
         <createSequence
                 sequenceName="event_event_id_seq"
-                startValue="5"/>
+                startValue="10"/>
         <addDefaultValue
                 columnName="event_id"
                 defaultValueSequenceNext="event_event_id_seq"
