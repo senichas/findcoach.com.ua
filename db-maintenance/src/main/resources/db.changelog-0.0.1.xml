@@ -201,8 +201,6 @@
             </column>
             <column name="name" type="character varying(100)"/>
             <column name="notes" type="character varying(500)"/>
-            <column name="start_date" type="timestamp"/>
-            <column name="end_date" type="timestamp"/>
         </createTable>
         <rollback>
             <dropTable tableName="cycle"/>

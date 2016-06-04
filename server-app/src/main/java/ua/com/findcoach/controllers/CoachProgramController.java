@@ -13,7 +13,6 @@ import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.CycleService;
 import ua.com.findcoach.services.EventService;
 import ua.com.findcoach.services.ProgramService;
-import ua.com.findcoach.utils.DateUtils;
 import ua.com.findcoach.utils.Formatters;
 
 import javax.validation.Valid;
@@ -113,10 +112,8 @@ public class CoachProgramController {
         cycle.setName("");
         cycle.setNotes("");
         cycle.setCycleId(-1);
-        cycle.setStartDate(DateUtils.dateToLocalDate(new Date()));
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, 3);
-        cycle.setEndDate(DateUtils.longToLocalDate(cal.getTimeInMillis()));
         parameters.put("cycle", cycle);
         parameters.put("cycleAction", "Добавить");
 
@@ -148,8 +145,6 @@ public class CoachProgramController {
         Cycle cycleToSave = existingCycle == null ? new Cycle() : existingCycle;
         cycleToSave.setName(cycleDto.getName());
         cycleToSave.setNotes(cycleDto.getNotes());
-        cycleToSave.setStartDate(DateUtils.longToLocalDate(cycleDto.getStartDate()));
-        cycleToSave.setEndDate(DateUtils.longToLocalDate(cycleDto.getEndDate()));
 
         if (cycleToSave.getCycleId() != null) {
             cycleService.save(cycleToSave);
