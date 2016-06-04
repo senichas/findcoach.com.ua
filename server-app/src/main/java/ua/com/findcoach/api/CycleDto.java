@@ -1,12 +1,13 @@
 package ua.com.findcoach.api;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class CycleDto {
     private Integer cycleId;
     private String name;
-    private Long startDate;
-    private Long endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private String notes;
 
     private List<TrainingDto> trainings;
@@ -27,22 +28,6 @@ public class CycleDto {
         this.name = name;
     }
 
-    public Long getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Long startDate) {
-        this.startDate = startDate;
-    }
-
-    public Long getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Long endDate) {
-        this.endDate = endDate;
-    }
-
     public String getNotes() {
         return notes;
     }
@@ -57,5 +42,21 @@ public class CycleDto {
 
     public void setTrainings(List<TrainingDto> trainings) {
         this.trainings = trainings;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 }

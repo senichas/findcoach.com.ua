@@ -6,6 +6,7 @@ import ua.com.findcoach.api.CycleDto;
 import ua.com.findcoach.api.TrainingDto;
 import ua.com.findcoach.domain.Cycle;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,6 +16,9 @@ public class CycleConverterService {
 
     @Autowired
     private EventConverterService eventConverterService;
+
+    @Autowired
+    private Comparator<LocalDateTime> localDateTimeComparator;
 
     public CycleDto convertCycleToDto(Cycle cycle) {
         CycleDto cycleDto = new CycleDto();
@@ -29,6 +33,24 @@ public class CycleConverterService {
                 .flatMap(trainingDtos -> trainingDtos.stream())
                 .sorted(trainingDtoComparator)
                 .collect(Collectors.toList());
+
+        LocalDateTime minTrainingDate = null;
+        LocalDateTime maxTrainingDate = null;
+
+        if (trainingDtosCollected.size() > 0) {
+            minTrainingDate = trainingDtosCollected.stream()
+                    .map(trainingDto -> trainingDto.getStartDateTime())
+                    .min(localDateTimeComparator)
+                    .get();
+
+            maxTrainingDate = trainingDtosCollected.stream()
+                    .map(trainingDto -> trainingDto.getStartDateTime())
+                    .max(localDateTimeComparator)
+                    .get();
+        }
+
+        cycleDto.setStartDate(minTrainingDate);
+        cycleDto.setEndDate(maxTrainingDate);
 
         cycleDto.setTrainings(trainingDtosCollected);
 
