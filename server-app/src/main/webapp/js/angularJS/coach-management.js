@@ -1,5 +1,13 @@
 var coachManagementApplication = angular.module('coachManagement', ["ngResource"]);
 
+coachManagementApplication.config(['$locationProvider', function ($locationProvider) {
+    $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+    });
+}]);
+
+
 var statusesModuleHandler = function ($scope, $resource, $http) {
     $scope.data = $resource('/findcoach/coach/profile/statuses').get();
     $http.get('/findcoach/coach/profile/status')
@@ -202,7 +210,7 @@ var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
         var trainingData = {};
         var trainingStartDateTime = $scope.trainingData.startDateTime;
         trainingData.startDateTime = trainingStartDateTime.getFullYear() + "-" + ("0" + (trainingStartDateTime.getMonth() + 1)).slice(-2) + "-" + ("0" + trainingStartDateTime.getDate()).slice(-2) + " " +
-        ("0" + trainingStartDateTime.getHours()).slice(-2) + ":" + ("0" + trainingStartDateTime.getMinutes()).slice(-2);
+            ("0" + trainingStartDateTime.getHours()).slice(-2) + ":" + ("0" + trainingStartDateTime.getMinutes()).slice(-2);
         trainingData.duration = $scope.trainingData.duration;
         trainingData.content = $scope.trainingData.content;
 
@@ -221,14 +229,40 @@ var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
 
 coachManagementApplication.controller("trainingController", ["$scope", "TrainingDataService", "$http", trainingControllerHandler]);
 
-function parseDateFromString(str){
+
+var programDetailsHandler = function ($scope, $location, $http) {
+    $scope.init = function () {
+        var path = $location.path();
+        var params = path.split("/");
+        var coachAlias = params[3];
+        var programId = params[5].split(".").shift();
+
+        console.log("coachAlias = " + coachAlias);
+        console.log("programId = " + programId);
+
+        var url = "/findcoach/coach/" + coachAlias + "/program/" + programId;
+
+        $http.get(url).then(function (response) {
+                var responseData = response.data;
+                $scope.programName = responseData.programName;
+            },
+            function (response) {
+            });
+
+    }
+
+};
+coachManagementApplication.controller("programDetailsController", ["$scope", "$location", "$http", programDetailsHandler]);
+
+
+function parseDateFromString(str) {
     // str format should be yyyy/mm/dd. Separator can be anything e.g. / or -.
     if (str == null)
         return new Date();
 
-    var yr   = parseInt(str.substring(0, 4));
-    var mon  = parseInt(str.substring(5, 7));
-    var dt   = parseInt(str.substring(8, 10));
+    var yr = parseInt(str.substring(0, 4));
+    var mon = parseInt(str.substring(5, 7));
+    var dt = parseInt(str.substring(8, 10));
     var date = new Date(yr, mon - 1, dt);
     return date;
 }
