@@ -16,7 +16,7 @@ public class ProgramConverterService {
         programDetailsDto.setGoal(program.getGoal());
         programDetailsDto.setProgramName(program.getName());
         programDetailsDto.setCoachAlias(program.getCoach().getAlias());
-        programDetailsDto.setCycleDtos(cycleConverterService.convertCyclesListToDtos(program.getCycles()));
+        programDetailsDto.setCycles(cycleConverterService.convertCyclesListToDtos(program.getCycles()));
         return programDetailsDto;
     }
 }

@@ -9,7 +9,7 @@ public class ProgramDetailsDto {
     private String programName;
     private Goal goal;
     private String coachAlias;
-    private List<CycleDto> cycleDtos;
+    private List<CycleDto> cycles;
 
     public Integer getProgramId() {
         return programId;
@@ -43,11 +43,11 @@ public class ProgramDetailsDto {
         this.coachAlias = coachAlias;
     }
 
-    public List<CycleDto> getCycleDtos() {
-        return cycleDtos;
+    public List<CycleDto> getCycles() {
+        return cycles;
     }
 
-    public void setCycleDtos(List<CycleDto> cycleDtos) {
-        this.cycleDtos = cycleDtos;
+    public void setCycles(List<CycleDto> cycles) {
+        this.cycles = cycles;
     }
 }
