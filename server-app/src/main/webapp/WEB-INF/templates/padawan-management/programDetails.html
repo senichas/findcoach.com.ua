@@ -54,11 +54,10 @@
             </tr>
             </thead>
             <tbody>
-            #foreach ($cycle in ${cycles})
-            <tr>
-                <td>$cycle.name</td>
-                <td>$!cycle.startDate.format(${formatter})</td>
-                <td>$!cycle.endDate.format(${formatter})</td>
+            <tr ng-repeat-start="cycle in cycles">
+                <td>{{cycle.name}}</td>
+                <td>{{cycle.startDate | dateTimeConversionFilter}}</td>
+                <td>{{cycle.endDate | dateTimeConversionFilter}}</td>
                 <td>
                     <button type="button" class="btn btn-default btn-sm"
                             onclick="location.href='/findcoach/coach/${coachAlias}/program/${programId}/cycle/${cycle.cycleId}/training.html'">
@@ -72,22 +71,19 @@
                     </button>
                 </td>
             </tr>
-            <tr>
+            <tr ng-repeat-end>
                 <td colspan="5">
                     <table class="table table-hover">
-                        #foreach ($training in $cycle.trainings)
-                        <tr>
-                            <td>$training.title</td>
-                            <td>$training.description</td>
-                            <td>$training.typeLocalized</td>
-                            <td>$training.startDateTime.format(${timeFormatter})</td>
-                            <td>$training.endDateTime.format(${timeFormatter})</td>
+                        <tr ng-repeat="training in cycle.trainings">
+                            <td>{{training.title}}</td>
+                            <td>{{training.description}}</td>
+                            <td>{{training.typeLocalized}}</td>
+                            <td>{{training.startDateTime | dateTimeConversionFilter}}</td>
+                            <td>{{training.endDateTime | dateTimeConversionFilter}}</td>
                         </tr>
-                        #end
                     </table>
                 </td>
             </tr>
-            #end
             </tbody>
         </table>
 

@@ -1,4 +1,19 @@
 var coachManagementApplication = angular.module('coachManagement', ["ngResource"]);
+coachManagementApplication.constant('CONFIG', {
+    dateTimeFormat: ''
+});
+
+coachManagementApplication.filter("dateTimeConversionFilter", function ($filter) {
+    var re = /[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}/;
+    return function (input) {
+        if (input == null)
+            return null;
+        if (re.test(input))
+            return $filter('date')(new Date(input), 'yyyy-MM-dd HH:mm');
+        else
+            return null;
+    };
+});
 
 coachManagementApplication.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode({
@@ -227,7 +242,8 @@ var trainingControllerHandler = function ($scope, TrainingDataService, $http) {
     };
 };
 
-coachManagementApplication.controller("trainingController", ["$scope", "TrainingDataService", "$http", trainingControllerHandler]);
+coachManagementApplication.controller("trainingController", ["$scope", "TrainingDataService", "$http", "CONFIG",
+    "dateTimeConversionFilter", trainingControllerHandler]);
 
 
 var programDetailsHandler = function ($scope, $location, $http) {
@@ -245,6 +261,7 @@ var programDetailsHandler = function ($scope, $location, $http) {
         $http.get(url).then(function (response) {
                 var responseData = response.data;
                 $scope.programName = responseData.programName;
+                $scope.cycles = responseData.cycles;
             },
             function (response) {
             });
