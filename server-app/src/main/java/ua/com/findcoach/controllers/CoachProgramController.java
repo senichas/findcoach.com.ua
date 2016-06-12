@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.*;
 import ua.com.findcoach.converters.CycleConverterService;
+import ua.com.findcoach.converters.ProgramConverterService;
 import ua.com.findcoach.domain.*;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
@@ -42,6 +43,9 @@ public class CoachProgramController {
 
     @Autowired
     private CycleConverterService cycleConverterService;
+
+    @Autowired
+    private ProgramConverterService programConverterService;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans.html")
@@ -87,7 +91,6 @@ public class CoachProgramController {
 
         Program program = programService.findProgramById(programId);
 
-        parameters.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
         parameters.put("programName", program.getName());
         parameters.put("programId", program.getProgramId());
         parameters.put("coachAlias", coachAlias);
@@ -96,6 +99,17 @@ public class CoachProgramController {
         parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
         parameters.put("timeFormatter", DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
         return new ModelAndView("padawan-management/programDetails", parameters);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}")
+    @ResponseBody
+    public ProgramDetailsDto programDetails(@PathVariable String coachAlias, @PathVariable Integer programId) {
+        Program program = programService.findProgramById(programId);
+
+        ProgramDetailsDto programDetailsDto = programConverterService.convertToDetailedDto(program);
+
+        return programDetailsDto;
+
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle.html")

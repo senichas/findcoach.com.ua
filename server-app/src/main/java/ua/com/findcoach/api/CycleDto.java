@@ -1,12 +1,17 @@
 package ua.com.findcoach.api;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ua.com.findcoach.api.serializers.DateTimeSerializer;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class CycleDto {
     private Integer cycleId;
     private String name;
+    @JsonSerialize(using = DateTimeSerializer.class)
     private LocalDateTime startDate;
+    @JsonSerialize(using = DateTimeSerializer.class)
     private LocalDateTime endDate;
     private String notes;
 

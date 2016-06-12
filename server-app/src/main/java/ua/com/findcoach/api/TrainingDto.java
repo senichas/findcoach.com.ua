@@ -1,5 +1,8 @@
 package ua.com.findcoach.api;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ua.com.findcoach.api.serializers.DateTimeSerializer;
+
 import java.time.LocalDateTime;
 
 public class TrainingDto {
@@ -17,8 +20,10 @@ public class TrainingDto {
 
     private Boolean allDay;
 
+    @JsonSerialize(using = DateTimeSerializer.class)
     private LocalDateTime startDateTime;
 
+    @JsonSerialize(using = DateTimeSerializer.class)
     private LocalDateTime endDateTime;
 
     public Integer getEventId() {

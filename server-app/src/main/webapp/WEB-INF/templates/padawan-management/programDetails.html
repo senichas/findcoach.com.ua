@@ -12,15 +12,12 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
           integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
             integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
             crossorigin="anonymous"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"
-            integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7"
-            crossorigin="anonymous"></script>
     <script src="/js/libs/angularjs/angular.js"></script>
     <script type="text/javascript" src="/js/libs/angularjs/angular-resource.js"></script>
     <script type="text/javascript" src="/js/angularJS/coach-management.js"></script>
@@ -40,8 +37,8 @@
         Welcome to coach page!<br>
         ${message}
     </header>
-    <section>
-        <h1>Детали для программы &laquo;${programName}&raquo;</h1>
+    <section ng-controller="programDetailsController" ng-init="init()">
+        <h1>Детали для программы &laquo;<span ng-bind="programName"></span>&raquo;</h1>
         #parse("padawan-management/menu.vm")
         <br/>
         <a href="/findcoach/coach/${coachAlias}/program/${programId}/cycle.html">Добавить цикл</a>
@@ -57,11 +54,10 @@
             </tr>
             </thead>
             <tbody>
-            #foreach ($cycle in ${cycles})
-            <tr>
-                <td>$cycle.name</td>
-                <td>$!cycle.startDate.format(${formatter})</td>
-                <td>$!cycle.endDate.format(${formatter})</td>
+            <tr ng-repeat-start="cycle in cycles">
+                <td>{{cycle.name}}</td>
+                <td>{{cycle.startDate | dateTimeConversionFilter}}</td>
+                <td>{{cycle.endDate | dateTimeConversionFilter}}</td>
                 <td>
                     <button type="button" class="btn btn-default btn-sm"
                             onclick="location.href='/findcoach/coach/${coachAlias}/program/${programId}/cycle/${cycle.cycleId}/training.html'">
@@ -75,22 +71,19 @@
                     </button>
                 </td>
             </tr>
-            <tr>
+            <tr ng-repeat-end>
                 <td colspan="5">
                     <table class="table table-hover">
-                        #foreach ($training in $cycle.trainings)
-                        <tr>
-                            <td>$training.title</td>
-                            <td>$training.description</td>
-                            <td>$training.typeLocalized</td>
-                            <td>$training.startDateTime.format(${timeFormatter})</td>
-                            <td>$training.endDateTime.format(${timeFormatter})</td>
+                        <tr ng-repeat="training in cycle.trainings">
+                            <td>{{training.title}}</td>
+                            <td>{{training.description}}</td>
+                            <td>{{training.typeLocalized}}</td>
+                            <td>{{training.startDateTime | dateTimeConversionFilter}}</td>
+                            <td>{{training.endDateTime | dateTimeConversionFilter}}</td>
                         </tr>
-                        #end
                     </table>
                 </td>
             </tr>
-            #end
             </tbody>
         </table>
 

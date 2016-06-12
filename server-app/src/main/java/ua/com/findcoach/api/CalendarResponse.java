@@ -1,6 +1,7 @@
 package ua.com.findcoach.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ua.com.findcoach.api.serializers.CalendarDateTimeSerializer;
 
 import java.time.LocalDateTime;
 import java.util.List;
