@@ -1,4 +1,4 @@
-var coachManagementApplication = angular.module('coachManagement', ["ngResource"]);
+var coachManagementApplication = angular.module('coachManagement', ["ngResource", "ui.bootstrap"]);
 coachManagementApplication.constant('CONFIG', {
     dateTimeFormat: ''
 });
@@ -246,7 +246,7 @@ coachManagementApplication.controller("trainingController", ["$scope", "Training
     "dateTimeConversionFilter", trainingControllerHandler]);
 
 
-var programDetailsHandler = function ($scope, $location, $http) {
+var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
     $scope.init = function () {
         var path = $location.path();
         var params = path.split("/");
@@ -266,10 +266,33 @@ var programDetailsHandler = function ($scope, $location, $http) {
             function (response) {
             });
 
+        $scope.open = function (size) {
+
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '/js/popup-templates/manage-training-popup.html',
+                controller: 'manageTrainingPopupController',
+                size: size,
+                resolve: {
+                    items: function () {
+                        return $scope.items;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                $scope.selected = selectedItem;
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
     }
 
 };
-coachManagementApplication.controller("programDetailsController", ["$scope", "$location", "$http", programDetailsHandler]);
+coachManagementApplication.controller("programDetailsController", ["$scope", "$location", "$http", '$uibModal', programDetailsHandler]);
+coachManagementApplication.controller("manageTrainingPopupController", ["$scope", "$http",  function($scope, $http) {
+    $scope.data1 = "qwerty";
+}]);
 
 
 function parseDateFromString(str) {
