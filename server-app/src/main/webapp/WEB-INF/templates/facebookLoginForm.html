@@ -9,12 +9,11 @@
     <script type="text/javascript" src="/js/angularJS/login-management.js"></script>
 </head>
 <body>
-    Findercoach. Find your destiny <br>
-    Input your email<br>
-    <form ng-controller="requestAuthorizationController" ng-submit="sendSimpleAuthorization()">
-        <input id="email" type="email" value="vasa@mail.com">
-        <input id="submit" type="submit" value="Submit" >
+    Facebook login: <br>
+    <form action="email" method="post">
+        <input id="login" type="email" value="vasa@mail.com">
+        <input id="password" type="password" value="***">
+        <input id="submit" type="submit" value="Submit">
     </form>
-    <img src="/resources/fb.png"/> <a href="/findcoach/authentication/facebook.html">Login via Facebook</a>
 </body>
 </html>

@@ -52,10 +52,15 @@ public class AuthenticationController {
         return new AuthentificationResponse(isAuthenticated, "", redirectLink);
     }
 
+    @RequestMapping("/facebook.html")
+    @ResponseBody
+    public ModelAndView loginWithFacebookPage() {
+        return new ModelAndView("facebookLoginForm");
+    }
+
     @RequestMapping("/index.html")
     public ModelAndView index() {
         return new ModelAndView("index");
     }
-
 }
 
