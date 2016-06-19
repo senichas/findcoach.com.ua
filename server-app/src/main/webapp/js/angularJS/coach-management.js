@@ -273,6 +273,7 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
                 templateUrl: '/js/popup-templates/manage-training-popup.html',
                 controller: 'manageTrainingPopupController',
                 size: size,
+                backdrop: 'static',
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -290,8 +291,19 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
 
 };
 coachManagementApplication.controller("programDetailsController", ["$scope", "$location", "$http", '$uibModal', programDetailsHandler]);
-coachManagementApplication.controller("manageTrainingPopupController", ["$scope", "$http",  function($scope, $http) {
-    $scope.data1 = "qwerty";
+coachManagementApplication.controller("manageTrainingPopupController", ["$scope", "$http", "$uibModalInstance", function ($scope, $http, $uibModalInstance) {
+    $scope.init = function () {
+        $('#startDate').datetimepicker({
+            format: "YYYY-MM-DD HH:mm",
+            stepping: 15
+        });
+
+        $('#trainingDescriptionEditor').summernote();
+        $scope.repeatTraining = true;
+    }
+    $scope.closeModal = function () {
+        $uibModalInstance.close();
+    }
 }]);
 
 
