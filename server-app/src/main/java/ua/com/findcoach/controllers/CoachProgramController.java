@@ -175,26 +175,6 @@ public class CoachProgramController {
         return response;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training.html")
-    public ModelAndView addTrainingForm(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId) {
-        Map<String, Object> parameters = new HashMap<>();
-
-        Program program = programService.findProgramById(programId);
-
-        parameters.put("coachAlias", coachAlias);
-        parameters.put("programName", program.getName());
-        parameters.put("programId", program.getProgramId());
-        for (Cycle cycle : program.getCycles()) {
-            if (cycle.getCycleId().compareTo(cycleId) == 0) {
-                parameters.put("cycleId", cycle.getCycleId());
-                parameters.put("cycleName", cycle.getName());
-                break;
-            }
-        }
-
-        return new ModelAndView("padawan-management/trainingDetails", parameters);
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training")
     @ResponseBody
     public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId,
