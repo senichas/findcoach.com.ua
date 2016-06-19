@@ -255,6 +255,8 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
 
         console.log("coachAlias = " + coachAlias);
         console.log("programId = " + programId);
+        $scope.coachAlias = coachAlias;
+        $scope.programId = programId;
 
         var url = "/findcoach/coach/" + coachAlias + "/program/" + programId;
 
@@ -266,14 +268,15 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
             function (response) {
             });
 
-        $scope.open = function (size) {
-
+        $scope.open = function (cycleId) {
+            console.info("Open modal to add training for cycle id = " + cycleId)
+            $scope.cycleId = cycleId;
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '/js/popup-templates/manage-training-popup.html',
                 controller: 'manageTrainingPopupController',
-                size: size,
                 backdrop: 'static',
+                scope: $scope,
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -291,20 +294,50 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
 
 };
 coachManagementApplication.controller("programDetailsController", ["$scope", "$location", "$http", '$uibModal', programDetailsHandler]);
-coachManagementApplication.controller("manageTrainingPopupController", ["$scope", "$http", "$uibModalInstance", function ($scope, $http, $uibModalInstance) {
-    $scope.init = function () {
-        $('#startDate').datetimepicker({
-            format: "YYYY-MM-DD HH:mm",
-            stepping: 15
-        });
 
-        $('#trainingDescriptionEditor').summernote();
-        $scope.repeatTraining = true;
-    }
-    $scope.closeModal = function () {
-        $uibModalInstance.close();
-    }
-}]);
+coachManagementApplication.controller("manageTrainingPopupController", ["$scope", "$http", "$uibModalInstance",
+    function ($scope, $http, $uibModalInstance) {
+
+
+        $scope.init = function () {
+            console.log("Modal controller coachAlias = " + $scope.coachAlias +
+                " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
+
+            $scope.url = $scope.composeUrlForSavingTraining();
+
+            $('#trainingStartDate').datetimepicker({
+                format: "YYYY-MM-DD HH:mm",
+                stepping: 15
+            });
+
+            $('#trainingDescriptionEditor').summernote();
+            $scope.repeatTraining = true;
+
+            $scope.training = {
+                duration: "60"
+            };
+
+        }
+
+        $scope.closeModal = function () {
+            $uibModalInstance.close();
+        }
+        $scope.composeUrlForSavingTraining = function () {
+            console.log("Composing URL for add training coachAlias = " + $scope.coachAlias +
+                " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
+            var url = "/findcoach/coach/" + $scope.coachAlias + "/program/" + $scope.programId + "/cycle/" + $scope.cycleId + "/training";
+            console.log("URL for saving train" + url);
+            return url;
+        }
+
+        $scope.submitNewTraining = function() {
+            console.log("Submit new training");
+            var trainingStartDate = $("#trainingStartDate").data('DateTimePicker').date();
+            console.log("Training start date = " + trainingStartDate);
+            console.log("Training duration = " + $scope.training.duration);
+
+        }
+    }]);
 
 
 function parseDateFromString(str) {
