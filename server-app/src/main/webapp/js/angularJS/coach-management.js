@@ -314,7 +314,9 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
             $scope.repeatTraining = true;
 
             $scope.training = {
-                duration: "60"
+                duration: "60",
+                title: "",
+                description: ""
             };
 
         }
@@ -335,6 +337,9 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
             var trainingStartDate = $("#trainingStartDate").data('DateTimePicker').date();
             console.log("Training start date = " + trainingStartDate);
             console.log("Training duration = " + $scope.training.duration);
+            console.log("Training title = " + $scope.training.title);
+            var trainingDescription = $("#trainingDescriptionEditor").summernote("code");
+            console.log("Training description = " + trainingDescription);
 
         }
     }]);
