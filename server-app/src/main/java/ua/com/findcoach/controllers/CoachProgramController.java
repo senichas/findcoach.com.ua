@@ -175,7 +175,8 @@ public class CoachProgramController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training")
     @ResponseBody
-    public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId) {
+    public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId,
+                                        @RequestBody AddNewTrainingRequest addNewTrainingRequest) {
 
         Program program = programService.findProgramById(programId);
 

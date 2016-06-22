@@ -311,19 +311,39 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
             });
 
             $('#trainingDescriptionEditor').summernote();
-            $scope.repeatTraining = true;
+            $("#trainingStartDate").data('DateTimePicker').date(new Date());
+
+
 
             $scope.training = {
                 duration: "60",
                 title: "",
-                description: ""
+                description: "",
+                repeat: true,
+                repeatOnDays: ["monday", "wednesday", "friday"],
+                repeatTerm: "3week"
             };
 
         }
 
+        $scope.isDayInSelected = function (day) {
+            return $scope.training.repeatOnDays.indexOf(day) > -1;
+        };
+
+        $scope.toggleRepeatDay = function (day) {
+            var idx = $scope.training.repeatOnDays.indexOf(day);
+
+            if (idx > -1) {
+                $scope.training.repeatOnDays.splice(idx, 1);
+            } else {
+                $scope.training.repeatOnDays.push(day);
+            }
+        };
+
         $scope.closeModal = function () {
             $uibModalInstance.close();
-        }
+        };
+
         $scope.composeUrlForSavingTraining = function () {
             console.log("Composing URL for add training coachAlias = " + $scope.coachAlias +
                 " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
@@ -332,17 +352,30 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
             return url;
         }
 
-        $scope.submitNewTraining = function() {
+        $scope.submitNewTraining = function () {
             console.log("Submit new training");
             var trainingStartDate = $("#trainingStartDate").data('DateTimePicker').date();
-            console.log("Training start date = " + trainingStartDate);
+            console.log("Training start date = " + JSON.stringify(trainingStartDate));
+            console.log("Training start date = " + trainingStartDate.toISOString());
             console.log("Training duration = " + $scope.training.duration);
             console.log("Training title = " + $scope.training.title);
             var trainingDescription = $("#trainingDescriptionEditor").summernote("code");
             console.log("Training description = " + trainingDescription);
+            console.log("Training repeat term = " + $scope.training.repeatTerm);
+
+            var trainingToAdd = $scope.training;
+            trainingToAdd.startDate = trainingStartDate;
+            trainingToAdd.description = trainingDescription;
+            $http.post(
+                $scope.url,
+                trainingToAdd
+            ).success(function(response){
+                alert("Valar morgulis");
+            });
 
         }
-    }]);
+    }])
+;
 
 
 function parseDateFromString(str) {
