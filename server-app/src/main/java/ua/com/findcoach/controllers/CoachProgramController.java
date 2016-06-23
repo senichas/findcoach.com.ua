@@ -1,10 +1,34 @@
 package ua.com.findcoach.controllers;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.findcoach.api.*;
+
+import ua.com.findcoach.api.AddNewTrainingRequest;
+import ua.com.findcoach.api.CycleDto;
+import ua.com.findcoach.api.PadawanDto;
+import ua.com.findcoach.api.ProgramDetailsDto;
+import ua.com.findcoach.api.ProgramDto;
+import ua.com.findcoach.api.RestResponse;
 import ua.com.findcoach.converters.CycleConverterService;
 import ua.com.findcoach.converters.ProgramConverterService;
 import ua.com.findcoach.domain.Coach;
@@ -15,10 +39,6 @@ import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.CycleService;
 import ua.com.findcoach.services.EventService;
 import ua.com.findcoach.services.ProgramService;
-
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/coach")
@@ -178,7 +198,17 @@ public class CoachProgramController {
     public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId,
                                         @RequestBody AddNewTrainingRequest addNewTrainingRequest) {
 
+        RestResponse response = new RestResponse();
+
         Program program = programService.findProgramById(programId);
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<AddNewTrainingRequest>> constraintViolations = validator.validate(addNewTrainingRequest);
+
+        if (constraintViolations.size() > 0) {
+            response.
+        }
 
 
         RestResponse response = new RestResponse();

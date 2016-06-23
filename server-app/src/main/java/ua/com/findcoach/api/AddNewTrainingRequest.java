@@ -1,12 +1,16 @@
 package ua.com.findcoach.api;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import ua.com.findcoach.api.deserializers.DateTimeDeserializer;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import ua.com.findcoach.api.deserializers.DateTimeDeserializer;
+
 public class AddNewTrainingRequest {
+    @NotEmpty
     private String description;
     private Integer duration;
     private Boolean repeat;
@@ -16,6 +20,7 @@ public class AddNewTrainingRequest {
     @JsonDeserialize(using = DateTimeDeserializer.class)
     private LocalDateTime startDate;
 
+    @NotEmpty
     private String title;
 
     public String getDescription() {
