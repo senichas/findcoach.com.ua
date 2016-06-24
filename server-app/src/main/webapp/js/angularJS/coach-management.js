@@ -322,7 +322,17 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
                 stepping: 15
             });
 
-            $('#trainingDescriptionEditor').summernote();
+            $('#trainingDescriptionEditor').summernote({
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
             $("#trainingStartDate").data('DateTimePicker').date(new Date());
             $scope.formIsValid = true;
 
