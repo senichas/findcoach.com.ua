@@ -22,6 +22,18 @@ coachManagementApplication.config(['$locationProvider', function ($locationProvi
     });
 }]);
 
+coachManagementApplication.factory('requestRejector', ['$q', function ($q) {
+    var requestRejector = {
+        responseError: function (rejectReason) {
+            return $q.reject(rejectReason);
+        }
+    };
+    return requestRejector;
+}]);
+
+coachManagementApplication.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push('requestRejector');
+}]);
 
 var statusesModuleHandler = function ($scope, $resource, $http) {
     $scope.data = $resource('/findcoach/coach/profile/statuses').get();
@@ -312,8 +324,7 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
 
             $('#trainingDescriptionEditor').summernote();
             $("#trainingStartDate").data('DateTimePicker').date(new Date());
-
-
+            $scope.formIsValid = true;
 
             $scope.training = {
                 duration: "60",
@@ -369,8 +380,13 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
             $http.post(
                 $scope.url,
                 trainingToAdd
-            ).success(function(response){
-                alert("Valar morgulis");
+            ).then(function successCallback(response) {
+                console.log("Valar morgulis");
+            }, function errorCallback(response) {
+                console.log("Response error");
+                if (response.data.hasOwnProperty("errorMessage") != null) {
+                    $scope.formIsValid = false;
+                }
             });
 
         }
