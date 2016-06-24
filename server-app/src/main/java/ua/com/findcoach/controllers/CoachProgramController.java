@@ -6,16 +6,13 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +31,7 @@ import ua.com.findcoach.converters.ProgramConverterService;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Cycle;
 import ua.com.findcoach.domain.Program;
+import ua.com.findcoach.exception.ValidationException;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.CycleService;
@@ -196,22 +194,17 @@ public class CoachProgramController {
     @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}/training")
     @ResponseBody
     public RestResponse saveNewTraining(@PathVariable String coachAlias, @PathVariable Integer programId, @PathVariable Integer cycleId,
-                                        @RequestBody AddNewTrainingRequest addNewTrainingRequest) {
+                                        @RequestBody @Valid AddNewTrainingRequest addNewTrainingRequest, BindingResult validationResult) {
 
         RestResponse response = new RestResponse();
 
         Program program = programService.findProgramById(programId);
 
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<AddNewTrainingRequest>> constraintViolations = validator.validate(addNewTrainingRequest);
-
-        if (constraintViolations.size() > 0) {
-            response.
+        // TODO - this solution make detailed validation
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getAllErrors().get(0).getDefaultMessage());
         }
 
-
-        RestResponse response = new RestResponse();
         return response;
     }
 }
