@@ -383,6 +383,7 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
             ).then(function successCallback(response) {
                 console.log("Valar morgulis");
             }, function errorCallback(response) {
+                // TODO Process validation errors carefully and display appropriate message
                 console.log("Response error");
                 if (response.data.hasOwnProperty("errorMessage") != null) {
                     $scope.formIsValid = false;
