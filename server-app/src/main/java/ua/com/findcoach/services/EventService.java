@@ -28,14 +28,17 @@ public class EventService {
         return recurrences;
     }
 
-//    public List<Event> findEventsForUserByUserName(String userName) {
-//        return eventRepository.findAllByAlias(userName);
-//    }
+    public Event addNewEvent(Integer cycleId, String eventTitle, String eventDescription, List<String> repeatOnDays,
+                             String repeatTerm, LocalDateTime startDate) {
+        Event newEvent = new Event();
+        newEvent.setTitle(eventTitle);
+        newEvent.setDescription(eventDescription);
 
-//    public List<Event> findEventsForLoggedInUser() {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        return eventRepository.findAllByAlias(user.getAlias());
-//    }
+        List<EventRecurrence> eventRecurrences = new ArrayList<>();
 
+        EventRecurrence eventRecurrence = new EventRecurrence();
 
+        return newEvent;
+
+    }
 }
