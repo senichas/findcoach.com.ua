@@ -310,7 +310,9 @@ coachManagementApplication.controller("programDetailsController", ["$scope", "$l
 coachManagementApplication.controller("manageTrainingPopupController", ["$scope", "$http", "$uibModalInstance",
     function ($scope, $http, $uibModalInstance) {
 
-
+        $scope.reload = function () {
+            window.location.reload();
+        };
         $scope.init = function () {
             console.log("Modal controller coachAlias = " + $scope.coachAlias +
                 " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
@@ -391,7 +393,8 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
                 $scope.url,
                 trainingToAdd
             ).then(function successCallback(response) {
-                console.log("Valar morgulis");
+                $scope.closeModal();
+                $scope.reload();
             }, function errorCallback(response) {
                 // TODO Process validation errors carefully and display appropriate message
                 console.log("Response error");
