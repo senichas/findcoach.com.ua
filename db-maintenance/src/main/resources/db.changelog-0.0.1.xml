@@ -297,7 +297,7 @@
                 sequenceName="event_recurrence_event_recurrence_id_seq"/>
         <createSequence
                 sequenceName="event_recurrence_event_recurrence_id_seq"
-                startValue="5"/>
+                startValue="9"/>
         <addDefaultValue
                 columnName="event_recurrence_id"
                 defaultValueSequenceNext="event_recurrence_event_recurrence_id_seq"

@@ -49,6 +49,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>#</th>
                 <th>Название цикла</th>
                 <th>Старт</th>
                 <th>Конец</th>
@@ -58,12 +59,13 @@
             </thead>
             <tbody>
             <tr ng-repeat-start="cycle in cycles">
+                <td>{{class.cycleId}}</td>
                 <td>{{cycle.name}}</td>
                 <td>{{cycle.startDate | dateTimeConversionFilter}}</td>
                 <td>{{cycle.endDate | dateTimeConversionFilter}}</td>
                 <td>
                     <button type="button" class="btn btn-default btn-sm"
-                            ng-click="open()">
+                            ng-click="open(cycle.cycleId)">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить тренировку
                     </button>
                 </td>

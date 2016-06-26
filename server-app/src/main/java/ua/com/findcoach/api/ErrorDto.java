@@ -1,28 +1,28 @@
 package ua.com.findcoach.api;
 
 public class ErrorDto {
-    private String errorMessege;
-    private String exceptionMessege;
+    private String errorMessage;
+    private String exceptionMessage;
 
-    public ErrorDto(String errorMessege, String exceptionMessege) {
-        this.errorMessege = errorMessege;
-        this.exceptionMessege = exceptionMessege;
+    public ErrorDto(String errorMessage, String exceptionMessage) {
+        this.errorMessage = errorMessage;
+        this.exceptionMessage = exceptionMessage;
     }
 
 
-    public String getErrorMessege() {
-        return errorMessege;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setErrorMessege(String errorMessege) {
-        this.errorMessege = errorMessege;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
-    public String getExceptionMessege() {
-        return exceptionMessege;
+    public String getExceptionMessage() {
+        return exceptionMessage;
     }
 
-    public void setExceptionMessege(String exceptionMessege) {
-        this.exceptionMessege = exceptionMessege;
+    public void setExceptionMessage(String exceptionMessage) {
+        this.exceptionMessage = exceptionMessage;
     }
 }

@@ -5,9 +5,14 @@
 <script type="text/javascript" src="/js/libs/summernote.js"></script>
 <div style="padding: 10px;" ng-init="init()">
     <form>
+        <div class="alert alert-danger ng-hide" role="alert" ng-show="!formIsValid">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Не все данные валидны или ошибка сохранения.
+        </div>
         <div class="form-group">
             <label>Дата и время:</label>
-            <div class="input-group date" id="startDate">
+            <div class="input-group date" id="trainingStartDate">
                 <input type="text" class="form-control" placeholder="Дата и время"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
@@ -15,39 +20,66 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="trainingDuration">Длительность тренировки:</label>
+            <select name="trainingDuration" id="trainingDuration" ng-model="training.duration">
+                <option value="30">30 мин.</option>
+                <option value="45">45 мин.</option>
+                <option value="60">1 ч.</option>
+                <option value="75">1 ч. 15 мин.</option>
+                <option value="90">1 ч. 30 мин.</option>
+                <option value="105">1 ч. 45 мин.</option>
+                <option value="120">2 ч.</option>
+                <option value="135">2 ч. 15 мин.</option>
+                <option value="150">2 ч. 30 мин.</option>
+                <option value="165">2 ч. 45 мин.</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="trainingTitle">Заголовок:</label>
-            <input type="text" id="trainingTitle" class="form-control" placeholder="Короткое название для треши"/>
+            <input type="text" id="trainingTitle" class="form-control" placeholder="Короткое название для треши"
+                   ng-model="training.title"/>
         </div>
         <div class="form-group">
             <label>Описание:</label>
             <div id="trainingDescriptionEditor">Редактор описания программы тренировки</div>
         </div>
         <div class="form-group">
-            <label><input type="checkbox" id="trainingRepeat" ng-model="repeatTraining"/> Повторить</label>
+            <label><input type="checkbox" id="trainingRepeat" ng-model="training.repeat"/> Повторить</label>
         </div>
-        <fieldset ng-disabled="!repeatTraining">
+        <fieldset ng-disabled="!training.repeat">
             <div class="form-inline">
                 <label>Повторять по</label>
                 <div class="form-group">
-                    <label><input id="trainingRecurrenceMonday" value="true" type="checkbox" id="trainingRepeatMonday">
-                        Пн.</label>
-                    <label><input id="trainingRecurrenceTuesday" value="true" type="checkbox"
-                                  id="trainingRepeatTuesday"> Вт.</label>
-                    <label><input id="trainingRecurrenceWednesday" value="true" type="checkbox"
-                                  id="trainingRepeatWednesday"> Ср.</label>
-                    <label><input id="trainingRecurrenceThursday" value="true" type="checkbox"
-                                  id="trainingRepeatThursday"> Чт.</label>
-                    <label><input id="trainingRecurrenceFriday" value="true" type="checkbox" id="trainingRepeatFriday">
-                        Пт.</label>
-                    <label><input id="trainingRecurrenceSaturday" value="true" type="checkbox"
-                                  id="trainingRepeatSaturday"> Сб.</label>
-                    <label><input id="trainingRecurrenceSunday" value="true" type="checkbox" id="trainingRepeatSunday">
-                        Вс.</label>
+                    <label><input id="trainingRecurrenceMonday" value="monday" type="checkbox" id="trainingRepeatMonday"
+                                  name="trainingRepeatDays[]" ng-checked="isDayInSelected('monday')"
+                                  ng-click="toggleRepeatDay('monday')"> Пн.</label>
+                    <label><input id="trainingRecurrenceTuesday" value="tuesday" type="checkbox"
+                                  id="trainingRepeatTuesday" name="trainingRepeatDays[]"
+                                  ng-checked="isDayInSelected('tuesday')" ng-click="toggleRepeatDay('tuesday')">
+                        Вт.</label>
+                    <label><input id="trainingRecurrenceWednesday" value="wednesday" type="checkbox"
+                                  id="trainingRepeatWednesday" name="trainingRepeatDays[]"
+                                  ng-checked="isDayInSelected('wednesday')" ng-click="toggleRepeatDay('wednesday')">
+                        Ср.</label>
+                    <label><input id="trainingRecurrenceThursday" value="thursday" type="checkbox"
+                                  id="trainingRepeatThursday" name="trainingRepeatDays[]"
+                                  ng-checked="isDayInSelected('thursday')" ng-click="toggleRepeatDay('thursday')">
+                        Чт.</label>
+                    <label><input id="trainingRecurrenceFriday" value="friday" type="checkbox" id="trainingRepeatFriday"
+                                  name="trainingRepeatDays[]" ng-checked="isDayInSelected('friday')"
+                                  ng-click="toggleRepeatDay('friday')"> Пт.</label>
+                    <label><input id="trainingRecurrenceSaturday" value="saturday" type="checkbox"
+                                  id="trainingRepeatSaturday" name="trainingRepeatDays[]"
+                                  ng-checked="isDayInSelected('saturday')" ng-click="toggleRepeatDay('saturday')">
+                        Сб.</label>
+                    <label><input id="trainingRecurrenceSunday" value="sunday" type="checkbox" id="trainingRepeatSunday"
+                                  name="trainingRepeatDays[]" ng-checked="isDayInSelected('sunday')"
+                                  ng-click="toggleRepeatDay('sunday')"> Вс.</label>
                 </div>
             </div>
             <div class="form-group">
                 <label for="trainingRecurrencePeriod">Повторять</label>
-                <select id="trainingRecurrencePeriod" class="form-control">
+                <select id="trainingRecurrencePeriod" class="form-control" ng-model="training.repeatTerm">
                     <option value="1week">1 неделя</option>
                     <option value="2week">2 недели</option>
                     <option value="3week">3 недели</option>
@@ -57,6 +89,10 @@
             </div>
         </fieldset>
 
+        <button type="button" class="btn btn-default btn-sm"
+                ng-click="submitNewTraining()">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Добавить
+        </button>
         <button type="button" class="btn btn-default btn-sm"
                 ng-click="closeModal()">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Закрыть
