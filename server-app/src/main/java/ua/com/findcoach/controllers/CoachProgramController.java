@@ -21,7 +21,10 @@ import ua.com.findcoach.services.ProgramService;
 
 import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -112,28 +115,6 @@ public class CoachProgramController {
 
         return programDetailsDto;
 
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle.html")
-    public ModelAndView createProgramCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId) {
-        Map<String, Object> parameters = new HashMap<>();
-
-        Program program = programService.findProgramById(programId);
-
-        parameters.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
-        parameters.put("programName", program.getName());
-        parameters.put("programId", program.getProgramId());
-
-        Cycle cycle = new Cycle();
-        cycle.setName("");
-        cycle.setNotes("");
-        cycle.setCycleId(-1);
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, 3);
-        parameters.put("cycle", cycle);
-        parameters.put("cycleAction", "Добавить");
-
-        return new ModelAndView("padawan-management/programCycleDetails", parameters);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}.html")

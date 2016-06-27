@@ -79,41 +79,6 @@ coachManagementApplication.factory("CycleDataService", function () {
     };
 });
 
-var saveCycleControllerHandler = function ($scope, CycleDataService, $http) {
-    $scope.endPoint = "/findcoach/coach/" + CycleDataService.loggedCoachAlias + "/program/" + CycleDataService.programId + "/cycle/";
-    $scope.successRedirectUrl = "/findcoach/coach/" + CycleDataService.loggedCoachAlias + "/program/" + CycleDataService.programId + ".html";
-
-    $scope.cycleData = {};
-    $scope.cycleData.name = CycleDataService.cycleName;
-    $scope.cycleData.notes = CycleDataService.cycleNotes;
-    $scope.cycleData.startDate = parseDateFromString(CycleDataService.cycleStartDate);
-    $scope.cycleData.endDate = parseDateFromString(CycleDataService.cycleEndDate);
-    $scope.cycleData.cycleId = CycleDataService.cycleId;
-    $scope.saveCycle = function () {
-
-        var cycleData = {};
-        cycleData.name = $scope.cycleData.name;
-        cycleData.notes = $scope.cycleData.notes;
-        cycleData.startDate = $scope.cycleData.startDate.getTime();
-        cycleData.endDate = $scope.cycleData.endDate.getTime();
-        cycleData.cycleId = $scope.cycleData.cycleId;
-
-        $http({
-            method: 'POST',
-            url: $scope.endPoint,
-            data: cycleData
-
-        }).then(function successCallback(response) {
-            window.location.href = $scope.successRedirectUrl;
-        }, function errorCallback(response) {
-            alert("error");
-        });
-    };
-};
-
-coachManagementApplication.controller("cycleController", ["$scope", "CycleDataService", "$http", saveCycleControllerHandler]);
-
-
 coachManagementApplication.factory("AddPadawanDataService", function () {
 
     return {
@@ -289,11 +254,6 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
                 controller: 'manageTrainingPopupController',
                 backdrop: 'static',
                 scope: $scope,
-                resolve: {
-                    items: function () {
-                        return $scope.items;
-                    }
-                }
             });
 
             modalInstance.result.then(function (selectedItem) {
@@ -302,6 +262,17 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
+
+        $scope.openCyclePopup = function (cycleId) {
+            $scope.cycleId = cycleId;
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '/js/popup-templates/manage-cycle-popup.html',
+                controller: 'manageCyclePopupController',
+                backdrop: 'static',
+                scope: $scope
+            });
+        }
     }
 
 };
@@ -406,6 +377,85 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
         }
     }])
 ;
+coachManagementApplication.controller("manageCyclePopupController", ["$scope", "$http", "$uibModalInstance",
+    function ($scope, $http, $uibModalInstance) {
+
+        $scope.reload = function () {
+            window.location.reload();
+        };
+        $scope.init = function () {
+            console.log("Modal controller coachAlias = " + $scope.coachAlias +
+                " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
+
+            $scope.url = $scope.composeUrlForSavingTraining();
+
+/*            $('#trainingDescriptionEditor').summernote({
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });*/
+
+            $scope.formIsValid = true;
+
+/*            $scope.training = {
+                duration: "60",
+                title: "",
+                description: "",
+                repeat: true,
+                repeatOnDays: ["monday", "wednesday", "friday"],
+                repeatTerm: "3week"
+            };*/
+
+        }
+
+        $scope.closeModal = function () {
+            $uibModalInstance.close();
+        };
+
+        $scope.composeUrlForSavingTraining = function () {
+            console.log("Composing URL for add training coachAlias = " + $scope.coachAlias +
+                " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
+            var url = "/findcoach/coach/" + $scope.coachAlias + "/program/" + $scope.programId + "/cycle/" + $scope.cycleId + "/training";
+            console.log("URL for saving train" + url);
+            return url;
+        }
+
+        $scope.submitCycle = function () {
+            console.log("Submit new training");
+            var trainingStartDate = $("#trainingStartDate").data('DateTimePicker').date();
+            console.log("Training start date = " + JSON.stringify(trainingStartDate));
+            console.log("Training start date = " + trainingStartDate.toISOString());
+            console.log("Training duration = " + $scope.training.duration);
+            console.log("Training title = " + $scope.training.title);
+            var trainingDescription = $("#trainingDescriptionEditor").summernote("code");
+            console.log("Training description = " + trainingDescription);
+            console.log("Training repeat term = " + $scope.training.repeatTerm);
+
+            var trainingToAdd = $scope.training;
+            trainingToAdd.startDate = trainingStartDate;
+            trainingToAdd.description = trainingDescription;
+            $http.post(
+                $scope.url,
+                trainingToAdd
+            ).then(function successCallback(response) {
+                $scope.closeModal();
+                $scope.reload();
+            }, function errorCallback(response) {
+                // TODO Process validation errors carefully and display appropriate message
+                console.log("Response error");
+                if (response.data.hasOwnProperty("errorMessage") != null) {
+                    $scope.formIsValid = false;
+                }
+            });
+
+        }
+    }]);
 
 
 function parseDateFromString(str) {
