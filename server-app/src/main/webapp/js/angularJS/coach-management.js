@@ -369,7 +369,7 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
             }, function errorCallback(response) {
                 // TODO Process validation errors carefully and display appropriate message
                 console.log("Response error");
-                if (response.data.hasOwnProperty("errorMessage") != null) {
+                if (response.data.hasOwnProperty("errorMessage")) {
                     $scope.formIsValid = false;
                 }
             });
@@ -456,13 +456,12 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
                 url: $scope.url,
                 data: cycle
             }).then(function successCallback(response) {
-                console.log("Valar Morgulis");
-                //$scope.closeModal();
-                //$scope.reload();
+                $scope.closeModal();
+                $scope.reload();
             }, function errorCallback(response) {
                 // TODO Process validation errors carefully and display appropriate message
                 console.log("Response error");
-                if (response.data.hasOwnProperty("errorMessage") != null) {
+                if (response.data.hasOwnProperty("errorMessage")) {
                     $scope.formIsValid = false;
                 }
             });
