@@ -99,10 +99,6 @@ public class CoachProgramController {
         parameters.put("programName", program.getName());
         parameters.put("programId", program.getProgramId());
         parameters.put("coachAlias", coachAlias);
-        List<CycleDto> cycleDtos = cycleConverterService.convertCyclesListToDtos(program.getCycles());
-        parameters.put("cycles", cycleDtos);
-        parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-        parameters.put("timeFormatter", DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
         return new ModelAndView("padawan-management/programDetails", parameters);
     }
 
