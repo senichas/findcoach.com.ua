@@ -117,20 +117,17 @@ public class CoachProgramController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}.html")
-    public ModelAndView updateProgramCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId,
-                                               @PathVariable Integer cycleId) {
-        Map<String, Object> parameters = new HashMap<>();
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}")
+    @ResponseBody
+    public SimpleCycleDto updateProgramCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId,
+                                                 @PathVariable Integer cycleId) {
+        Cycle cycle = cycleService.findCycleById(cycleId);
 
-        Program program = programService.findProgramById(programId);
+        SimpleCycleDto simpleCycleDto = new SimpleCycleDto();
+        simpleCycleDto.setName(cycle.getName());
+        simpleCycleDto.setDescription(cycle.getNotes());
 
-        parameters.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
-        parameters.put("programName", program.getName());
-        parameters.put("programId", program.getProgramId());
-        parameters.put("cycle", cycleService.findCycleById(cycleId));
-        parameters.put("cycleAction", "Изменить");
-
-        return new ModelAndView("padawan-management/programCycleDetails", parameters);
+        return simpleCycleDto;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle")

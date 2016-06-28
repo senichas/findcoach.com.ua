@@ -387,7 +387,19 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
             console.log("Modal controller coachAlias = " + $scope.coachAlias +
                 " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
 
-            $scope.url = $scope.composeUrlForSavingCycle();
+            $scope.url = $scope.composeCycleUrl();
+
+            if ($scope.cycleId != null) {
+                $http.get($scope.url)
+                    .then(function successCallback(response) {
+                        console.log("Cycle received");
+                        $scope.updateModel(response.data.name,
+                            response.data.description, true);
+                    }, function errorCallback(response) {
+                        console.log("Ups cycle has not been received");
+                    });
+
+            }
 
             $('#cycleDescriptionEditor').summernote({
                 toolbar: [
@@ -401,19 +413,23 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
                 ]
             });
 
-            $scope.formIsValid = true;
+            $scope.updateModel("", "", true);
 
+        }
+
+        $scope.updateModel = function (cycleName, cycleDescription, formValid) {
+            $scope.formIsValid = formValid;
+            $('#cycleDescriptionEditor').summernote("code", cycleDescription);
             $scope.cycle = {
-                name: ""
+                name: cycleName
             };
-
         }
 
         $scope.closeModal = function () {
             $uibModalInstance.close();
         };
 
-        $scope.composeUrlForSavingCycle = function () {
+        $scope.composeCycleUrl = function () {
             console.log("Composing URL for add training coachAlias = " + $scope.coachAlias +
                 " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
             var url = "/findcoach/coach/" + $scope.coachAlias + "/program/" + $scope.programId + "/cycle";
@@ -423,6 +439,7 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
             console.log("URL for saving train" + url);
             return url;
         }
+
 
         $scope.submitCycle = function () {
             console.log("Submit cycle");
