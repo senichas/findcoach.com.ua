@@ -79,41 +79,6 @@ coachManagementApplication.factory("CycleDataService", function () {
     };
 });
 
-var saveCycleControllerHandler = function ($scope, CycleDataService, $http) {
-    $scope.endPoint = "/findcoach/coach/" + CycleDataService.loggedCoachAlias + "/program/" + CycleDataService.programId + "/cycle/";
-    $scope.successRedirectUrl = "/findcoach/coach/" + CycleDataService.loggedCoachAlias + "/program/" + CycleDataService.programId + ".html";
-
-    $scope.cycleData = {};
-    $scope.cycleData.name = CycleDataService.cycleName;
-    $scope.cycleData.notes = CycleDataService.cycleNotes;
-    $scope.cycleData.startDate = parseDateFromString(CycleDataService.cycleStartDate);
-    $scope.cycleData.endDate = parseDateFromString(CycleDataService.cycleEndDate);
-    $scope.cycleData.cycleId = CycleDataService.cycleId;
-    $scope.saveCycle = function () {
-
-        var cycleData = {};
-        cycleData.name = $scope.cycleData.name;
-        cycleData.notes = $scope.cycleData.notes;
-        cycleData.startDate = $scope.cycleData.startDate.getTime();
-        cycleData.endDate = $scope.cycleData.endDate.getTime();
-        cycleData.cycleId = $scope.cycleData.cycleId;
-
-        $http({
-            method: 'POST',
-            url: $scope.endPoint,
-            data: cycleData
-
-        }).then(function successCallback(response) {
-            window.location.href = $scope.successRedirectUrl;
-        }, function errorCallback(response) {
-            alert("error");
-        });
-    };
-};
-
-coachManagementApplication.controller("cycleController", ["$scope", "CycleDataService", "$http", saveCycleControllerHandler]);
-
-
 coachManagementApplication.factory("AddPadawanDataService", function () {
 
     return {
@@ -289,11 +254,6 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
                 controller: 'manageTrainingPopupController',
                 backdrop: 'static',
                 scope: $scope,
-                resolve: {
-                    items: function () {
-                        return $scope.items;
-                    }
-                }
             });
 
             modalInstance.result.then(function (selectedItem) {
@@ -302,6 +262,17 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
+
+        $scope.openCyclePopup = function (cycleId) {
+            $scope.cycleId = cycleId;
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '/js/popup-templates/manage-cycle-popup.html',
+                controller: 'manageCyclePopupController',
+                backdrop: 'static',
+                scope: $scope
+            });
+        }
     }
 
 };
@@ -398,7 +369,7 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
             }, function errorCallback(response) {
                 // TODO Process validation errors carefully and display appropriate message
                 console.log("Response error");
-                if (response.data.hasOwnProperty("errorMessage") != null) {
+                if (response.data.hasOwnProperty("errorMessage")) {
                     $scope.formIsValid = false;
                 }
             });
@@ -406,16 +377,95 @@ coachManagementApplication.controller("manageTrainingPopupController", ["$scope"
         }
     }])
 ;
+coachManagementApplication.controller("manageCyclePopupController", ["$scope", "$http", "$uibModalInstance",
+    function ($scope, $http, $uibModalInstance) {
+
+        $scope.reload = function () {
+            window.location.reload();
+        };
+        $scope.init = function () {
+            console.log("Modal controller coachAlias = " + $scope.coachAlias +
+                " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
+
+            $scope.url = $scope.composeCycleUrl();
+
+            if ($scope.cycleId != null) {
+                $http.get($scope.url)
+                    .then(function successCallback(response) {
+                        console.log("Cycle received");
+                        $scope.updateModel(response.data.name,
+                            response.data.description, true);
+                    }, function errorCallback(response) {
+                        console.log("Ups cycle has not been received");
+                    });
+
+            }
+
+            $('#cycleDescriptionEditor').summernote({
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+
+            $scope.updateModel("", "", true);
+
+        }
+
+        $scope.updateModel = function (cycleName, cycleDescription, formValid) {
+            $scope.formIsValid = formValid;
+            $('#cycleDescriptionEditor').summernote("code", cycleDescription);
+            $scope.cycle = {
+                name: cycleName
+            };
+        }
+
+        $scope.closeModal = function () {
+            $uibModalInstance.close();
+        };
+
+        $scope.composeCycleUrl = function () {
+            console.log("Composing URL for add training coachAlias = " + $scope.coachAlias +
+                " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
+            var url = "/findcoach/coach/" + $scope.coachAlias + "/program/" + $scope.programId + "/cycle";
+            if ($scope.cycleId != null) {
+                url += "/" + $scope.cycleId;
+            }
+            console.log("URL for saving train" + url);
+            return url;
+        }
 
 
-function parseDateFromString(str) {
-    // str format should be yyyy/mm/dd. Separator can be anything e.g. / or -.
-    if (str == null)
-        return new Date();
+        $scope.submitCycle = function () {
+            console.log("Submit cycle");
+            console.log("Cycle name = " + $scope.cycle.name);
+            var description = $("#cycleDescriptionEditor").summernote("code");
+            console.log("Cycle description = " + description);
 
-    var yr = parseInt(str.substring(0, 4));
-    var mon = parseInt(str.substring(5, 7));
-    var dt = parseInt(str.substring(8, 10));
-    var date = new Date(yr, mon - 1, dt);
-    return date;
-}
+            var cycle = $scope.cycle;
+            cycle.description = description;
+            var requestMethod = ($scope.cycleId == null) ? 'PUT' : 'POST';
+
+            $http({
+                method: requestMethod,
+                url: $scope.url,
+                data: cycle
+            }).then(function successCallback(response) {
+                $scope.closeModal();
+                $scope.reload();
+            }, function errorCallback(response) {
+                // TODO Process validation errors carefully and display appropriate message
+                console.log("Response error");
+                if (response.data.hasOwnProperty("errorMessage")) {
+                    $scope.formIsValid = false;
+                }
+            });
+
+        }
+    }]);
+

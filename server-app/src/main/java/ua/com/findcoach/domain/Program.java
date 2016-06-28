@@ -1,11 +1,10 @@
 package ua.com.findcoach.domain;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +45,7 @@ public class Program {
             joinColumns = @JoinColumn(name = "program_id"),
             inverseJoinColumns = @JoinColumn(name = "cycle_id")
     )
+    @OrderBy(clause = "cycleId ASC")
     private List<Cycle> cycles;
 
     public Integer getProgramId() {

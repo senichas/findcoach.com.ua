@@ -21,7 +21,10 @@ import ua.com.findcoach.services.ProgramService;
 
 import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -96,10 +99,6 @@ public class CoachProgramController {
         parameters.put("programName", program.getName());
         parameters.put("programId", program.getProgramId());
         parameters.put("coachAlias", coachAlias);
-        List<CycleDto> cycleDtos = cycleConverterService.convertCyclesListToDtos(program.getCycles());
-        parameters.put("cycles", cycleDtos);
-        parameters.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-        parameters.put("timeFormatter", DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
         return new ModelAndView("padawan-management/programDetails", parameters);
     }
 
@@ -114,42 +113,35 @@ public class CoachProgramController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle.html")
-    public ModelAndView createProgramCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId) {
-        Map<String, Object> parameters = new HashMap<>();
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}")
+    @ResponseBody
+    public SimpleCycleDto retrieveCycle(@PathVariable String coachAlias, @PathVariable Integer programId,
+                                        @PathVariable Integer cycleId) {
+        Cycle cycle = cycleService.findCycleById(cycleId);
 
-        Program program = programService.findProgramById(programId);
+        SimpleCycleDto simpleCycleDto = new SimpleCycleDto();
+        simpleCycleDto.setName(cycle.getName());
+        simpleCycleDto.setDescription(cycle.getNotes());
 
-        parameters.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
-        parameters.put("programName", program.getName());
-        parameters.put("programId", program.getProgramId());
-
-        Cycle cycle = new Cycle();
-        cycle.setName("");
-        cycle.setNotes("");
-        cycle.setCycleId(-1);
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, 3);
-        parameters.put("cycle", cycle);
-        parameters.put("cycleAction", "Добавить");
-
-        return new ModelAndView("padawan-management/programCycleDetails", parameters);
+        return simpleCycleDto;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}.html")
-    public ModelAndView updateProgramCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId,
-                                               @PathVariable Integer cycleId) {
-        Map<String, Object> parameters = new HashMap<>();
+    @RequestMapping(method = RequestMethod.PUT, value = "/{coachAlias}/program/{programId}/cycle")
+    @ResponseBody
+    public RestResponse addCycleToProgram(@PathVariable String coachAlias, @PathVariable Integer programId,
+                                          @RequestBody @Valid SimpleCycleDto cycleDto) {
+        programService.addNewCycleToProgram(programId, cycleDto.getName(), cycleDto.getDescription());
 
-        Program program = programService.findProgramById(programId);
+        return new RestResponse();
+    }
 
-        parameters.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
-        parameters.put("programName", program.getName());
-        parameters.put("programId", program.getProgramId());
-        parameters.put("cycle", cycleService.findCycleById(cycleId));
-        parameters.put("cycleAction", "Изменить");
+    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}")
+    @ResponseBody
+    public RestResponse updateCycleInProgram(@PathVariable String coachAlias, @PathVariable Integer programId,
+                                             @PathVariable Integer cycleId, @RequestBody @Valid SimpleCycleDto cycleDto) {
+        cycleService.updateCycle(cycleId, cycleDto.getName(), cycleDto.getDescription());
 
-        return new ModelAndView("padawan-management/programCycleDetails", parameters);
+        return new RestResponse();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle")
