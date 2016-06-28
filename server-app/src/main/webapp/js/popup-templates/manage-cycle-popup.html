@@ -1,9 +1,25 @@
 <link rel="stylesheet" href="/css/libs/summernote/summernote.css"/>
 <script type="text/javascript" src="/js/libs/summernote.js"></script>
 <div style="padding: 10px;" ng-init="init()">
-    <h1>Cycle edit</h1>
-    <button type="button" class="btn btn-default btn-sm"
-            ng-click="closeModal()">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Закрыть
-    </button>
+    <h1>Тренировочный цикл</h1>
+    <form>
+        <div class="form-group">
+            <label for="cycleName">Заголовок:</label>
+            <input type="text" id="cycleName" class="form-control" placeholder="Название для цикла"
+                   ng-model="cycle.name"/>
+        </div>
+        <div class="form-group">
+            <label>Описание:</label>
+            <div id="cycleDescriptionEditor">Описание цикла</div>
+        </div>
+        <button type="button" class="btn btn-default btn-sm"
+                ng-click="submitCycle()">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Сохранить
+        </button>
+        <button type="button" class="btn btn-default btn-sm"
+                ng-click="closeModal()">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Закрыть
+        </button>
+    </form>
+
 </div>

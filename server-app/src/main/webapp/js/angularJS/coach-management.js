@@ -387,9 +387,9 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
             console.log("Modal controller coachAlias = " + $scope.coachAlias +
                 " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
 
-            $scope.url = $scope.composeUrlForSavingTraining();
+            $scope.url = $scope.composeUrlForSavingCycle();
 
-/*            $('#trainingDescriptionEditor').summernote({
+            $('#cycleDescriptionEditor').summernote({
                 toolbar: [
                     // [groupName, [list of button]]
                     ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -399,18 +399,13 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['height', ['height']]
                 ]
-            });*/
+            });
 
             $scope.formIsValid = true;
 
-/*            $scope.training = {
-                duration: "60",
-                title: "",
-                description: "",
-                repeat: true,
-                repeatOnDays: ["monday", "wednesday", "friday"],
-                repeatTerm: "3week"
-            };*/
+            $scope.cycle = {
+                name: ""
+            };
 
         }
 
@@ -418,34 +413,33 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
             $uibModalInstance.close();
         };
 
-        $scope.composeUrlForSavingTraining = function () {
+        $scope.composeUrlForSavingCycle = function () {
             console.log("Composing URL for add training coachAlias = " + $scope.coachAlias +
                 " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
-            var url = "/findcoach/coach/" + $scope.coachAlias + "/program/" + $scope.programId + "/cycle/" + $scope.cycleId + "/training";
+            var url = "/findcoach/coach/" + $scope.coachAlias + "/program/" + $scope.programId + "/cycle";
+            if ($scope.cycleId != null) {
+                url += "/" + $scope.cycleId;
+            }
             console.log("URL for saving train" + url);
             return url;
         }
 
         $scope.submitCycle = function () {
-            console.log("Submit new training");
-            var trainingStartDate = $("#trainingStartDate").data('DateTimePicker').date();
-            console.log("Training start date = " + JSON.stringify(trainingStartDate));
-            console.log("Training start date = " + trainingStartDate.toISOString());
-            console.log("Training duration = " + $scope.training.duration);
-            console.log("Training title = " + $scope.training.title);
-            var trainingDescription = $("#trainingDescriptionEditor").summernote("code");
-            console.log("Training description = " + trainingDescription);
-            console.log("Training repeat term = " + $scope.training.repeatTerm);
+            console.log("Submit cycle");
+            console.log("Cycle name = " + $scope.cycle.name);
+            var description = $("#cycleDescriptionEditor").summernote("code");
+            console.log("Cycle description = " + description);
 
-            var trainingToAdd = $scope.training;
-            trainingToAdd.startDate = trainingStartDate;
-            trainingToAdd.description = trainingDescription;
+            var cycle = $scope.cycle;
+            cycle.description = description;
+
             $http.post(
                 $scope.url,
-                trainingToAdd
+                cycle
             ).then(function successCallback(response) {
-                $scope.closeModal();
-                $scope.reload();
+                console.log("Valar Morgulis");
+                //$scope.closeModal();
+                //$scope.reload();
             }, function errorCallback(response) {
                 // TODO Process validation errors carefully and display appropriate message
                 console.log("Response error");
@@ -457,15 +451,3 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
         }
     }]);
 
-
-function parseDateFromString(str) {
-    // str format should be yyyy/mm/dd. Separator can be anything e.g. / or -.
-    if (str == null)
-        return new Date();
-
-    var yr = parseInt(str.substring(0, 4));
-    var mon = parseInt(str.substring(5, 7));
-    var dt = parseInt(str.substring(8, 10));
-    var date = new Date(yr, mon - 1, dt);
-    return date;
-}
