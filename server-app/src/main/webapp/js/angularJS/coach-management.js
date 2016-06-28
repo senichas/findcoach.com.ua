@@ -449,11 +449,13 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
 
             var cycle = $scope.cycle;
             cycle.description = description;
+            var requestMethod = ($scope.cycleId == null) ? 'PUT' : 'POST';
 
-            $http.post(
-                $scope.url,
-                cycle
-            ).then(function successCallback(response) {
+            $http({
+                method: requestMethod,
+                url: $scope.url,
+                data: cycle
+            }).then(function successCallback(response) {
                 console.log("Valar Morgulis");
                 //$scope.closeModal();
                 //$scope.reload();

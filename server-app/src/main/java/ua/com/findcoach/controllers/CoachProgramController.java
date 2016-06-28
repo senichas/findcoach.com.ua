@@ -119,8 +119,8 @@ public class CoachProgramController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}")
     @ResponseBody
-    public SimpleCycleDto updateProgramCyclePage(@PathVariable String coachAlias, @PathVariable Integer programId,
-                                                 @PathVariable Integer cycleId) {
+    public SimpleCycleDto retrieveCycle(@PathVariable String coachAlias, @PathVariable Integer programId,
+                                        @PathVariable Integer cycleId) {
         Cycle cycle = cycleService.findCycleById(cycleId);
 
         SimpleCycleDto simpleCycleDto = new SimpleCycleDto();
@@ -128,6 +128,24 @@ public class CoachProgramController {
         simpleCycleDto.setDescription(cycle.getNotes());
 
         return simpleCycleDto;
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/{coachAlias}/program/{programId}/cycle")
+    @ResponseBody
+    public RestResponse addCycleToProgram(@PathVariable String coachAlias, @PathVariable Integer programId,
+                                          @RequestBody @Valid SimpleCycleDto cycleDto) {
+        programService.addNewCycleToProgram(programId, cycleDto.getName(), cycleDto.getDescription());
+
+        return new RestResponse();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}")
+    @ResponseBody
+    public RestResponse updateCycleInProgram(@PathVariable String coachAlias, @PathVariable Integer programId,
+                                             @PathVariable Integer cycleId, @RequestBody @Valid SimpleCycleDto cycleDto) {
+        cycleService.updateCycle(cycleId, cycleDto.getName(), cycleDto.getDescription());
+
+        return new RestResponse();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/program/{programId}/cycle")
