@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AuthenticationRequest;
-import ua.com.findcoach.api.AuthentificationResponse;
+import ua.com.findcoach.api.AuthenticationResponse;
+import ua.com.findcoach.api.FacebookAuthRequestDto;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.utils.EmailValidator;
 
@@ -31,13 +32,13 @@ public class AuthenticationController {
 
     @RequestMapping(method = RequestMethod.POST, value = {"email"})
     @ResponseBody
-    public AuthentificationResponse postAnswer(@RequestBody String body, HttpServletRequest request) throws JsonMappingException, JsonParseException, IOException {
+    public AuthenticationResponse postAnswerForSimpleLogin(@RequestBody String body, HttpServletRequest request) throws JsonMappingException, JsonParseException, IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         String decodeJSON = new URLDecoder().decode(body, "UTF-8");
         AuthenticationRequest authenticationRequest = mapper.readValue(decodeJSON, AuthenticationRequest.class);
         if (!emailValidator.validate(authenticationRequest.getEmail())) {
-            return new AuthentificationResponse(false, "You wrote wrong message", "");
+            return new AuthenticationResponse(false, "You wrote wrong message", "");
         }
 
         String email = authenticationRequest.getEmail();
@@ -49,13 +50,25 @@ public class AuthenticationController {
             redirectLink = "";
         }
 
-        return new AuthentificationResponse(isAuthenticated, "", redirectLink);
+        return new AuthenticationResponse(isAuthenticated, "", redirectLink);
     }
 
-    @RequestMapping("/facebook.html")
+    @RequestMapping(method = RequestMethod.POST, value = {"facebook"})
     @ResponseBody
-    public ModelAndView loginWithFacebookPage() {
-        return new ModelAndView("facebookLoginForm");
+    public AuthenticationResponse postAnswerForFacebookLogin(@RequestBody FacebookAuthRequestDto facebookDto, HttpServletRequest request) {
+        if (!emailValidator.validate(facebookDto.getEmail())) {
+            return new AuthenticationResponse(false, "You wrote wrong message", "");
+        }
+
+        String email = facebookDto.getEmail();
+        Boolean isAuthenticated = coachService.authenticateUser(email, request);
+        String redirectLink;
+        if (isAuthenticated) {
+            redirectLink = coachService.calculateHomeLink(facebookDto.getEmail());
+        } else {
+            redirectLink = "";
+        }
+        return new AuthenticationResponse(true, "", redirectLink);
     }
 
     @RequestMapping("/index.html")

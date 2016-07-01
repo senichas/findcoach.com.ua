@@ -7,14 +7,15 @@
     <script src="/js/libs/angularjs/angular.js"></script>
     <script type="text/javascript" src="/js/libs/angularjs/angular-resource.js"></script>
     <script type="text/javascript" src="/js/angularJS/login-management.js"></script>
+    <script type="text/javascript" src="/js/angularJS/angular-facebook.js"></script>
 </head>
-<body>
+<body ng-controller="authorizationController">
     Findercoach. Find your destiny <br>
     Input your email<br>
-    <form ng-controller="requestAuthorizationController" ng-submit="sendSimpleAuthorization()">
+    <form ng-submit="sendSimpleAuthorization()">
         <input id="email" type="email" value="vasa@mail.com">
         <input id="submit" type="submit" value="Submit" >
     </form>
-    <img src="/resources/fb.png"/> <a href="/findcoach/authentication/facebook.html">Login via Facebook</a>
+    <img src="/resources/fb.png"/> <a href="" ng-click="login()">Login with Facebook</a>
 </body>
 </html>
