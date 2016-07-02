@@ -80,9 +80,36 @@ public class CoachPadawanManagementController {
         return response;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/padawan")
+    @ResponseBody
+    public RestResponse updatePadawan(@PathVariable String coachAlias, @Valid @RequestBody PadawanCreateDto padawanDto,
+                                      BindingResult validationResult) {
+        // TODO - this solution make detailed validation
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getAllErrors().get(0).getDefaultMessage());
+        }
+
+        Coach coach = coachService.retrieveCurrentCoach();
+        Padawan padawan = padawanService.findByIdAndCoachAlias(padawanDto.getPadawanId(), coachAlias);
+
+        padawan.setFirstName(padawanDto.getFirstName());
+        padawan.setLastName(padawanDto.getLastName());
+        padawan.setCreatedBy(coach);
+        padawan.setBirthday(padawanDto.getBirthday());
+        padawan.setEmail(padawanDto.getEmail());
+        padawan.setGender(padawanDto.getGender());
+        padawan.setNotes(padawanDto.getNotes());
+        padawan.setActive(Boolean.TRUE);
+
+        padawanService.save(padawan);
+
+        RestResponse response = new RestResponse();
+        return response;
+    }
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawan/{padawanId}")
     public PadawanDto retrievePadawan(@PathVariable String coachAlias, @PathVariable Integer padawanId) {
-        return converterService.convertPadawanToDto(padawanService.findById(padawanId));
+        return converterService.convertPadawanToDto(padawanService.findByIdAndCoachAlias(padawanId, coachAlias));
     }
 }

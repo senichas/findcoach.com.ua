@@ -173,6 +173,7 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
             $scope.padawan.birthday = result;
             $scope.padawan.notes = $("#padawanDescriptionEditor").summernote("code");
             $scope.padawan.gender = $scope.selectedGender.value.toUpperCase();
+            $scope.padawan.padawanId = $scope.padawanId;
             var method = ($scope.padawanId == null) ? "PUT" : "POST";
             $http({
                 method: method,
