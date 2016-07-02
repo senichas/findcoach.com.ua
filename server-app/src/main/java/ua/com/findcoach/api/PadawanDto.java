@@ -1,5 +1,7 @@
 package ua.com.findcoach.api;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ua.com.findcoach.api.serializers.DateSerializer;
 import ua.com.findcoach.domain.Gender;
 
 import java.time.LocalDate;
@@ -12,8 +14,10 @@ public class PadawanDto {
     private String lastName;
     private String email;
     private Gender gender;
+    @JsonSerialize(using = DateSerializer.class)
     private LocalDate birthday;
     private boolean padawanActive;
+    private String notes;
     private List<ProgramDto> programDtos;
 
 
@@ -93,5 +97,13 @@ public class PadawanDto {
 
     public void setProgramDtos(List<ProgramDto> programDtos) {
         this.programDtos = programDtos;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

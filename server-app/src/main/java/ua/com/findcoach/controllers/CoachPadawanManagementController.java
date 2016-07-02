@@ -17,7 +17,6 @@ import ua.com.findcoach.services.PadawanService;
 
 import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,5 +78,11 @@ public class CoachPadawanManagementController {
         padawanService.save(padawan);
 
         return response;
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawan/{padawanId}")
+    public PadawanDto retrievePadawan(@PathVariable String coachAlias, @PathVariable Integer padawanId) {
+        return converterService.convertPadawanToDto(padawanService.findById(padawanId));
     }
 }

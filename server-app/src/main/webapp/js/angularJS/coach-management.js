@@ -116,11 +116,29 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
             }
         ];
 
-        $scope.selectedGender = null;
         $scope.closeModal = function () {
             $uibModalInstance.close();
         };
+
+        $scope.initData = function (params) {
+            $scope.padawan = {};
+            $scope.padawan.firstName = params.firstName;
+            $scope.padawan.lastName = params.lastName;
+            $scope.padawan.email = params.email;
+            $scope.selectGender(params.gender);
+            $scope.padawan.birthday = params.birthday;
+            $("#padawanBirthday").data('DateTimePicker').date(new Date(params.birthday));
+            $scope.padawan.notes = $("#padawanDescriptionEditor").summernote("code", params.notes);
+        }
         $scope.init = function () {
+            if ($scope.padawanId != null) {
+                $http.get($scope.padawanUrl + "/" + $scope.padawanId)
+                    .then(function successCallback(response) {
+                        $scope.initData(response.data);
+                    }, function errorCallback(response) {
+                        alert("error");
+                    });
+            }
             $scope.padawan = {};
             $('#padawanBirthday').datetimepicker({
                 format: "YYYY-MM-DD",
@@ -138,13 +156,12 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
                     ['height', ['height']]
                 ]
             });
-            $("#padawanBirthday").data('DateTimePicker').date(new Date(1980, 1, 1));
         }
 
         $scope.selectGender = function (genderValue) {
             for (var i in $scope.genders) {
                 var gender = $scope.genders[i];
-                if (gender.value == genderValue) {
+                if (gender.value.toLowerCase() == genderValue.toLowerCase()) {
                     $scope.selectedGender = gender;
                 }
             }

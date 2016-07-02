@@ -79,6 +79,7 @@ public class ConverterService {
         dto.setBirthday(padawan.getBirthday());
         dto.setEmail(padawan.getEmail());
         dto.setGender(padawan.getGender());
+        dto.setNotes(padawan.getNotes());
 
         dto.setProgramDtos(convertProgramsToDtos(padawan.getProgramList()));
 
