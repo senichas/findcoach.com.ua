@@ -7,14 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.PadawanCreateDto;
 import ua.com.findcoach.api.PadawanDto;
-import ua.com.findcoach.api.ProgramDto;
 import ua.com.findcoach.api.RestResponse;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Padawan;
 import ua.com.findcoach.exception.ValidationException;
 import ua.com.findcoach.services.CoachService;
+import ua.com.findcoach.services.ConverterService;
 import ua.com.findcoach.services.PadawanService;
-import ua.com.findcoach.services.ProgramService;
 
 import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/coach")
@@ -35,7 +33,7 @@ public class CoachPadawanManagementController {
     private PadawanService padawanService;
 
     @Autowired
-    private ProgramService programService;
+    private ConverterService converterService;
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans.html")
@@ -51,33 +49,9 @@ public class CoachPadawanManagementController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans")
     public List<PadawanDto> retrievePadawansAndProgramsList(@PathVariable String coachAlias) {
-        List<PadawanDto> padawans = new ArrayList<>();
-        Coach currentCoach = coachService.retrieveCurrentCoach();
-        currentCoach
-                .getProgramList()
-                .stream()
-                .collect(Collectors.groupingBy(p -> p.getPadawan()))
-                .entrySet().stream()
-                .forEach(entry ->
-                {
-                    PadawanDto padawanDto = new PadawanDto(
-                            entry.getKey().getPadawanId(),
-                            entry.getKey().getFirstName(),
-                            entry.getKey().getLastName(),
-                            entry.getKey().getEmail(),
-                            entry.getKey().getGender(),
-                            entry.getKey().getBirthday(),
-                            entry.getKey().isActive());
-                    entry.getValue().stream()
-                            .forEach(program -> padawanDto.getProgramDtos()
-                                    .add(new ProgramDto(program.getName()
-                                            , program.getGoal()
-                                            , program.getProgramId()
-                                            , program.getStartDate()
-                                            , program.getEndDate())));
-                    padawans.add(padawanDto);
-                });
-        return padawans;
+        List<Padawan> padawans = padawanService.retrievePadawansForCoach(coachAlias);
+        return converterService.convertPadawansToDtos(padawans);
+
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{coachAlias}/padawan")

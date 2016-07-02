@@ -17,6 +17,9 @@ public class PadawanDto {
     private List<ProgramDto> programDtos;
 
 
+    public PadawanDto() {
+    }
+
     public PadawanDto(Integer padawanId, String firstName, String lastName, String email, Gender gender, LocalDate birthday, boolean padawanActive) {
         this.padawanId = padawanId;
         this.firstName = firstName;

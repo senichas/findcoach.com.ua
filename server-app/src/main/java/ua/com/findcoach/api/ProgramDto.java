@@ -19,6 +19,9 @@ public class ProgramDto {
     @JsonSerialize(using = DateSerializer.class)
     private LocalDate programFinishDate;
 
+    public ProgramDto() {
+    }
+
     public ProgramDto(String programName, Goal goal, Integer programId, Date programStartDate, Date programFinishDate) {
         this.programName = programName;
         this.goal = goal;
