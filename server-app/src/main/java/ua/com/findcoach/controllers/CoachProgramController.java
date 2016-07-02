@@ -52,13 +52,21 @@ public class CoachProgramController {
     @Autowired
     private ProgramConverterService programConverterService;
 
-    @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans.html")
     public ModelAndView receiveCoachProgramPadawans(@PathVariable String coachAlias) {
         Map<String, Object> params = new HashMap<>();
         Coach currentCoach = coachService.retrieveCurrentCoach();
         params.put("coachAlias", currentCoach.getAlias());
+
+        params.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+        return new ModelAndView("padawan-management/padawans", params);
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans")
+    public List<PadawanDto> retrievePadawansAndProgramsList(@PathVariable String coachAlias) {
         List<PadawanDto> padawans = new ArrayList<>();
+        Coach currentCoach = coachService.retrieveCurrentCoach();
         currentCoach
                 .getProgramList()
                 .stream()
@@ -75,7 +83,7 @@ public class CoachProgramController {
                             entry.getKey().getBirthday(),
                             entry.getKey().isActive());
                     entry.getValue().stream()
-                            .forEach(program -> padawanDto.getPadawanProgramDTOList()
+                            .forEach(program -> padawanDto.getProgramDtos()
                                     .add(new ProgramDto(program.getName()
                                             , program.getGoal()
                                             , program.getProgramId()
@@ -83,12 +91,9 @@ public class CoachProgramController {
                                             , program.getEndDate())));
                     padawans.add(padawanDto);
                 });
-
-
-        params.put("padawansList", padawans);
-        params.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-        return new ModelAndView("padawan-management/padawans", params);
+        return padawans;
     }
+
 
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}.html")
     public ModelAndView programDetailPage(@PathVariable String coachAlias, @PathVariable Integer programId) {

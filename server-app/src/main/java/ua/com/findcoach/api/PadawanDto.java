@@ -14,7 +14,7 @@ public class PadawanDto {
     private Gender gender;
     private LocalDate birthday;
     private boolean padawanActive;
-    private List<ProgramDto> padawanProgramDTOList;
+    private List<ProgramDto> programDtos;
 
 
     public PadawanDto(Integer padawanId, String firstName, String lastName, String email, Gender gender, LocalDate birthday, boolean padawanActive) {
@@ -25,7 +25,7 @@ public class PadawanDto {
         this.gender = gender;
         this.birthday = birthday;
         this.padawanActive = padawanActive;
-        padawanProgramDTOList = new ArrayList<ProgramDto>();
+        programDtos = new ArrayList<ProgramDto>();
     }
 
     public Integer getPadawanId() {
@@ -68,8 +68,8 @@ public class PadawanDto {
         this.gender = gender;
     }
 
-    public List<ProgramDto> getPadawanProgramDTOList() {
-        return padawanProgramDTOList;
+    public List<ProgramDto> getProgramDtos() {
+        return programDtos;
     }
 
     public LocalDate getBirthday() {
@@ -88,7 +88,7 @@ public class PadawanDto {
         this.padawanActive = padawanActive;
     }
 
-    public void setPadawanProgramDTOList(List<ProgramDto> padawanProgramDTOList) {
-        this.padawanProgramDTOList = padawanProgramDTOList;
+    public void setProgramDtos(List<ProgramDto> programDtos) {
+        this.programDtos = programDtos;
     }
 }

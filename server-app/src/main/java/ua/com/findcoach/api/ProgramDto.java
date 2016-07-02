@@ -1,5 +1,7 @@
 package ua.com.findcoach.api;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ua.com.findcoach.api.serializers.DateSerializer;
 import ua.com.findcoach.domain.Goal;
 
 import java.time.LocalDate;
@@ -10,7 +12,11 @@ public class ProgramDto {
     private String programName;
     private Goal goal;
     private Integer programId;
+
+    @JsonSerialize(using = DateSerializer.class)
     private LocalDate programStartDate;
+
+    @JsonSerialize(using = DateSerializer.class)
     private LocalDate programFinishDate;
 
     public ProgramDto(String programName, Goal goal, Integer programId, Date programStartDate, Date programFinishDate) {

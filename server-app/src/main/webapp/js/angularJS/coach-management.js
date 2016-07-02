@@ -15,6 +15,18 @@ coachManagementApplication.filter("dateTimeConversionFilter", function ($filter)
     };
 });
 
+coachManagementApplication.filter("dateConversionFilter", function ($filter) {
+    var re = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+    return function (input) {
+        if (input == null)
+            return null;
+        if (re.test(input))
+            return $filter('date')(new Date(input), 'yyyy-MM-dd');
+        else
+            return null;
+    };
+});
+
 coachManagementApplication.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode({
         enabled: true,
@@ -47,13 +59,33 @@ var statusesModuleHandler = function ($scope, $resource, $http) {
 };
 coachManagementApplication.controller('statusListController', ["$scope", "$resource", "$http", statusesModuleHandler]);
 
-var padawansListControllerHandler = function ($scope, $resource) {
-    $scope.click = function () {
-        $scope.data = $resource("/findcoach/coach/:coachAlias/padawan", {coachAlias: '@alias'}).query({coachAlias: '${coachAlias}'});
-        ;
-    };
+var padawansListControllerHandler = function ($scope, $http, $location) {
+    $scope.init = function () {
+        console.log("startt to initialize padawan list");
+        var path = $location.path();
+        var params = path.split("/");
+        var coachAlias = params[3];
+
+        var url = $scope.calculateUrlToRetrievePadawansList(coachAlias);
+        $http.get(url)
+            .then(function successCallback(response) {
+                console.log("Padawans received");
+                $scope.padawans = response.data;
+
+            }, function errorCallback(response) {
+                console.log("Ups padawans have not been received");
+            });
+
+        console.log("coachAlias = " + coachAlias);
+
+    }
+
+    $scope.calculateUrlToRetrievePadawansList = function (coachAlias) {
+        var url = "/findcoach/coach/" + coachAlias + "/padawans";
+        return url;
+    }
 };
-coachManagementApplication.controller('padawansListController', ["$scope", "$resource", padawansListControllerHandler])
+coachManagementApplication.controller('padawansListController', ["$scope", "$http", "$location", padawansListControllerHandler])
 
 var profileControllerHandler = function ($scope, $resource) {
     $scope.profileAttributes = $resource('/findcoach/coach/profile/coachProfileAttributes').get();
