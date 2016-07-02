@@ -15,6 +15,18 @@ coachManagementApplication.filter("dateTimeConversionFilter", function ($filter)
     };
 });
 
+coachManagementApplication.filter("dateConversionFilter", function ($filter) {
+    var re = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+    return function (input) {
+        if (input == null)
+            return null;
+        if (re.test(input))
+            return $filter('date')(new Date(input), 'yyyy-MM-dd');
+        else
+            return null;
+    };
+});
+
 coachManagementApplication.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode({
         enabled: true,
@@ -47,13 +59,137 @@ var statusesModuleHandler = function ($scope, $resource, $http) {
 };
 coachManagementApplication.controller('statusListController', ["$scope", "$resource", "$http", statusesModuleHandler]);
 
-var padawansListControllerHandler = function ($scope, $resource) {
-    $scope.click = function () {
-        $scope.data = $resource("/findcoach/coach/:coachAlias/padawan", {coachAlias: '@alias'}).query({coachAlias: '${coachAlias}'});
-        ;
-    };
+var padawansListControllerHandler = function ($scope, $http, $location, $uibModal) {
+    $scope.init = function () {
+        console.log("start to initialize padawan list");
+        var path = $location.path();
+        var params = path.split("/");
+        var coachAlias = params[3];
+
+        $scope.url = $scope.calculateUrlToRetrievePadawansList(coachAlias);
+        $scope.padawanUrl = $scope.calculateUrlToManagePadawan(coachAlias);
+        $http.get($scope.url)
+            .then(function successCallback(response) {
+                console.log("Padawans received");
+                $scope.padawans = response.data;
+
+            }, function errorCallback(response) {
+                console.log("Ups padawans have not been received");
+            });
+
+        console.log("coachAlias = " + coachAlias);
+
+    }
+
+    $scope.openPadawanPopup = function (padawanId) {
+        $scope.padawanId = padawanId;
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '/js/popup-templates/manage-padawan-popup.html',
+            controller: 'managePadawanPopupController',
+            backdrop: 'static',
+            scope: $scope
+        });
+    }
+
+    $scope.calculateUrlToRetrievePadawansList = function (coachAlias) {
+        var url = "/findcoach/coach/" + coachAlias + "/padawans";
+        return url;
+    }
+    $scope.calculateUrlToManagePadawan = function (coachAlias) {
+        var url = "/findcoach/coach/" + coachAlias + "/padawan";
+        return url;
+    }
 };
-coachManagementApplication.controller('padawansListController', ["$scope", "$resource", padawansListControllerHandler])
+coachManagementApplication.controller('padawansListController', ["$scope", "$http", "$location", "$uibModal", padawansListControllerHandler])
+
+coachManagementApplication.controller("managePadawanPopupController", ["$scope", "$http", "$uibModalInstance",
+    function ($scope, $http, $uibModalInstance) {
+        $scope.genders = [
+            {
+                value: "male",
+                label: "Мужчина"
+            },
+            {
+                value: "female",
+                label: "Девушка"
+            }
+        ];
+
+        $scope.closeModal = function () {
+            $uibModalInstance.close();
+        };
+
+        $scope.initData = function (params) {
+            $scope.padawan = {};
+            $scope.padawan.firstName = params.firstName;
+            $scope.padawan.lastName = params.lastName;
+            $scope.padawan.email = params.email;
+            $scope.selectGender(params.gender);
+            $scope.padawan.birthday = params.birthday;
+            $("#padawanBirthday").data('DateTimePicker').date(new Date(params.birthday));
+            $scope.padawan.notes = $("#padawanDescriptionEditor").summernote("code", params.notes);
+        }
+        $scope.init = function () {
+            if ($scope.padawanId != null) {
+                $http.get($scope.padawanUrl + "/" + $scope.padawanId)
+                    .then(function successCallback(response) {
+                        $scope.initData(response.data);
+                    }, function errorCallback(response) {
+                        alert("error");
+                    });
+            }
+            $scope.padawan = {};
+            $('#padawanBirthday').datetimepicker({
+                format: "YYYY-MM-DD",
+                stepping: 15
+            });
+
+            $('#padawanDescriptionEditor').summernote({
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        }
+
+        $scope.selectGender = function (genderValue) {
+            for (var i in $scope.genders) {
+                var gender = $scope.genders[i];
+                if (gender.value.toLowerCase() == genderValue.toLowerCase()) {
+                    $scope.selectedGender = gender;
+                }
+            }
+        }
+
+        $scope.submit = function () {
+            var m = $("#padawanBirthday").data('DateTimePicker').date();
+            var result = moment(m).utc().add(m.utcOffset(), 'm');
+            $scope.padawan.birthday = result;
+            $scope.padawan.notes = $("#padawanDescriptionEditor").summernote("code");
+            $scope.padawan.gender = $scope.selectedGender.value.toUpperCase();
+            $scope.padawan.padawanId = $scope.padawanId;
+            var method = ($scope.padawanId == null) ? "PUT" : "POST";
+            $http({
+                method: method,
+                url: $scope.padawanUrl,
+                data: $scope.padawan
+
+            }).then(function successCallback(response) {
+                window.location.reload();
+            }, function errorCallback(response) {
+                alert("error");
+            });
+
+
+        }
+    }
+]);
 
 var profileControllerHandler = function ($scope, $resource) {
     $scope.profileAttributes = $resource('/findcoach/coach/profile/coachProfileAttributes').get();
@@ -65,119 +201,12 @@ var profileControllerHandler = function ($scope, $resource) {
 };
 coachManagementApplication.controller('profileController', ["$scope", "$resource", profileControllerHandler])
 
-
-coachManagementApplication.factory("CycleDataService", function () {
-
-    return {
-        loggedCoachAlias: loggedCoachAlias,
-        programId: programId,
-        cycleName: cycleName,
-        cycleStartDate: cycleStartDate,
-        cycleEndDate: cycleEndDate,
-        cycleNotes: cycleNotes,
-        cycleId: cycleId
-    };
-});
-
 coachManagementApplication.factory("AddPadawanDataService", function () {
 
     return {
         loggedCoachAlias: loggedCoachAlias
     };
 });
-
-
-var addPadawanControllerHandler = function ($scope, AddPadawanDataService, $http) {
-    $scope.endPoint = "/findcoach/coach/" + AddPadawanDataService.loggedCoachAlias + "/padawan-management/basic-info";
-    $scope.successRedirectUrl = "/findcoach/coach/" + AddPadawanDataService.loggedCoachAlias + "/padawans.html";
-    $scope.padawanData = {};
-    $scope.padawanData.name = "Pertro Vasechkin";
-    $scope.padawanData.email = "padawan@test.com";
-    $scope.padawanData.gender = "MALE";
-    $scope.padawanData.year = "1982";
-
-    $scope.padawanMeasurement = {};
-    $scope.padawanMeasurement.height = "178";
-    $scope.padawanMeasurement.weight = "95";
-    $scope.padawanMeasurement.fatPercentage = "35";
-
-    $scope.padawanProgram = {};
-    $scope.padawanProgram.name = "3 мес сжигание";
-    $scope.padawanProgram.goal = "FAT_BURN";
-    $scope.padawanProgram.notes = "УУууууу";
-    $scope.padawanProgram.startDate = new Date();
-    var endDate = new Date();
-    $scope.padawanProgram.endDate = new Date(endDate.setMonth(endDate.getMonth() + 3));
-
-
-    $scope.submitStep1 = function () {
-
-        var addPadawanData = {};
-        addPadawanData.padawanData = $scope.padawanData;
-        addPadawanData.padawanMeasurement = $scope.padawanMeasurement;
-        addPadawanData.padawanProgram = $scope.padawanProgram;
-
-        $http({
-            method: 'POST',
-            url: $scope.endPoint,
-            data: addPadawanData
-
-        }).then(function successCallback(response) {
-            window.location.href = $scope.successRedirectUrl;
-        }, function errorCallback(response) {
-            alert("error");
-        });
-    };
-};
-coachManagementApplication.controller("addPadawanController", ["$scope", "AddPadawanDataService", "$http", addPadawanControllerHandler]);
-
-coachManagementApplication.factory("EditPadawanDataService", function () {
-
-    return {
-        loggedCoachAlias: loggedCoachAlias,
-        loggedPadawanId: loggedPadawanId,
-        dateBirthDay: dateBirthDay,
-        padawanFirstName: padawanFirstName,
-        padawanLastName: padawanLastName,
-        padawanEmail: padawanEmail,
-        padawanGender: padawanGender,
-        padawanActive: padawanActive
-    };
-})
-;
-
-var editPadawanControllerHandler = function ($scope, EditPadawanDataService, $http) {
-    $scope.padawanData = {};
-    $scope.birthday = "";
-    $scope.endPoint = "/findcoach/coach/" + EditPadawanDataService.loggedCoachAlias + "/padawan-management/" + EditPadawanDataService.loggedPadawanId + "/edit-padawan.html";
-    $scope.successRedirectUrl = "/findcoach/coach/" + EditPadawanDataService.loggedCoachAlias + "/padawans.html";
-    var padawanBirthday = new Date(EditPadawanDataService.dateBirthDay);
-    $scope.padawanData.birthday = padawanBirthday;
-    $scope.padawanData.firstName = EditPadawanDataService.padawanFirstName;
-    $scope.padawanData.lastName = EditPadawanDataService.padawanLastName;
-    $scope.padawanData.email = EditPadawanDataService.padawanEmail;
-    $scope.padawanData.gender = EditPadawanDataService.padawanGender;
-    $scope.padawanData.active = EditPadawanDataService.padawanActive;
-
-
-    $scope.submitEditPadawan = function () {
-
-        $http({
-            method: 'POST',
-            url: $scope.endPoint,
-            data: $scope.padawanData
-
-        }).then(function successCallback(response) {
-            window.location.href = $scope.successRedirectUrl;
-        }, function errorCallback(response) {
-            alert("error");
-        });
-    };
-};
-
-
-coachManagementApplication.controller("editPadawanController", ["$scope", "EditPadawanDataService", "$http", editPadawanControllerHandler]);
-
 
 coachManagementApplication.factory("TrainingDataService", function () {
 

@@ -1,15 +1,18 @@
 package ua.com.findcoach.services;
 
+import org.springframework.stereotype.Service;
+import ua.com.findcoach.api.CalendarEvent;
+import ua.com.findcoach.api.PadawanDto;
+import ua.com.findcoach.api.ProgramDto;
+import ua.com.findcoach.domain.Event;
+import ua.com.findcoach.domain.EventRecurrence;
+import ua.com.findcoach.domain.Padawan;
+import ua.com.findcoach.domain.Program;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
-import ua.com.findcoach.api.CalendarEvent;
-import ua.com.findcoach.domain.Event;
-import ua.com.findcoach.domain.EventRecurrence;
 
 @Service
 public class ConverterService {
@@ -52,4 +55,38 @@ public class ConverterService {
         return calendarEvents;
     }
 
+    public ProgramDto convertProgramToDto(Program program) {
+        ProgramDto dto = new ProgramDto();
+        dto.setProgramId(program.getProgramId());
+        dto.setGoal(program.getGoal());
+        dto.setProgramName(program.getName());
+        dto.setProgramStartDate(program.getStartDate());
+        dto.setProgramFinishDate(program.getEndDate());
+
+        return dto;
+    }
+
+    public List<ProgramDto> convertProgramsToDtos(List<Program> programs) {
+        return programs.stream().map(program -> convertProgramToDto(program)).collect(Collectors.toList());
+    }
+
+    public PadawanDto convertPadawanToDto(Padawan padawan) {
+        PadawanDto dto = new PadawanDto();
+        dto.setPadawanId(padawan.getPadawanId());
+        dto.setPadawanActive(padawan.isActive());
+        dto.setFirstName(padawan.getFirstName());
+        dto.setLastName(padawan.getLastName());
+        dto.setBirthday(padawan.getBirthday());
+        dto.setEmail(padawan.getEmail());
+        dto.setGender(padawan.getGender());
+        dto.setNotes(padawan.getNotes());
+
+        dto.setProgramDtos(convertProgramsToDtos(padawan.getProgramList()));
+
+        return dto;
+    }
+
+    public List<PadawanDto> convertPadawansToDtos(List<Padawan> padawans) {
+        return padawans.stream().map(padawan -> convertPadawanToDto(padawan)).collect(Collectors.toList());
+    }
 }

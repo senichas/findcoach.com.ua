@@ -1,39 +1,20 @@
 package ua.com.findcoach.api;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import ua.com.findcoach.api.serializers.DateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import ua.com.findcoach.api.deserializers.DateDeserializer;
 import ua.com.findcoach.domain.Gender;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-public class PadawanDto {
+public class PadawanCreateDto {
     private Integer padawanId;
     private String firstName;
     private String lastName;
     private String email;
     private Gender gender;
-    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializer.class)
     private LocalDate birthday;
-    private boolean padawanActive;
     private String notes;
-    private List<ProgramDto> programDtos;
-
-
-    public PadawanDto() {
-    }
-
-    public PadawanDto(Integer padawanId, String firstName, String lastName, String email, Gender gender, LocalDate birthday, boolean padawanActive) {
-        this.padawanId = padawanId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.gender = gender;
-        this.birthday = birthday;
-        this.padawanActive = padawanActive;
-        programDtos = new ArrayList<ProgramDto>();
-    }
 
     public Integer getPadawanId() {
         return padawanId;
@@ -75,28 +56,12 @@ public class PadawanDto {
         this.gender = gender;
     }
 
-    public List<ProgramDto> getProgramDtos() {
-        return programDtos;
-    }
-
     public LocalDate getBirthday() {
         return birthday;
     }
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
-    }
-
-    public boolean isPadawanActive() {
-        return padawanActive;
-    }
-
-    public void setPadawanActive(boolean padawanActive) {
-        this.padawanActive = padawanActive;
-    }
-
-    public void setProgramDtos(List<ProgramDto> programDtos) {
-        this.programDtos = programDtos;
     }
 
     public String getNotes() {

@@ -8,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.*;
 import ua.com.findcoach.converters.CycleConverterService;
 import ua.com.findcoach.converters.ProgramConverterService;
-import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Cycle;
 import ua.com.findcoach.domain.Event;
 import ua.com.findcoach.domain.Program;
@@ -20,12 +19,9 @@ import ua.com.findcoach.services.EventService;
 import ua.com.findcoach.services.ProgramService;
 
 import javax.validation.Valid;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/coach")
@@ -52,43 +48,7 @@ public class CoachProgramController {
     @Autowired
     private ProgramConverterService programConverterService;
 
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans.html")
-    public ModelAndView receiveCoachProgramPadawans(@PathVariable String coachAlias) {
-        Map<String, Object> params = new HashMap<>();
-        Coach currentCoach = coachService.retrieveCurrentCoach();
-        params.put("coachAlias", currentCoach.getAlias());
-        List<PadawanDto> padawans = new ArrayList<>();
-        currentCoach
-                .getProgramList()
-                .stream()
-                .collect(Collectors.groupingBy(p -> p.getPadawan()))
-                .entrySet().stream()
-                .forEach(entry ->
-                {
-                    PadawanDto padawanDto = new PadawanDto(
-                            entry.getKey().getPadawanId(),
-                            entry.getKey().getFirstName(),
-                            entry.getKey().getLastName(),
-                            entry.getKey().getEmail(),
-                            entry.getKey().getGender(),
-                            entry.getKey().getBirthday(),
-                            entry.getKey().isActive());
-                    entry.getValue().stream()
-                            .forEach(program -> padawanDto.getPadawanProgramDTOList()
-                                    .add(new ProgramDto(program.getName()
-                                            , program.getGoal()
-                                            , program.getProgramId()
-                                            , program.getStartDate()
-                                            , program.getEndDate())));
-                    padawans.add(padawanDto);
-                });
 
-
-        params.put("padawansList", padawans);
-        params.put("formatter", DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-        return new ModelAndView("padawan-management/padawans", params);
-    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}.html")
     public ModelAndView programDetailPage(@PathVariable String coachAlias, @PathVariable Integer programId) {

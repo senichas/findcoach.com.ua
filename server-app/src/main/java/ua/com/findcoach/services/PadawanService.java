@@ -8,6 +8,7 @@ import ua.com.findcoach.repository.MeasureRepository;
 import ua.com.findcoach.repository.PadawanRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PadawanService {
@@ -21,8 +22,13 @@ public class PadawanService {
         return padawanRepository.save(padawan);
     }
 
-    public Padawan saveAndFlush(Padawan padawan){ return  padawanRepository.saveAndFlush(padawan);}
-    public Padawan findById(Integer padawanId){return padawanRepository.findByPadawanId(padawanId);}
+    public Padawan saveAndFlush(Padawan padawan) {
+        return padawanRepository.saveAndFlush(padawan);
+    }
+
+    public Padawan findByIdAndCoachAlias(Integer padawanId, String coachAlias) {
+        return padawanRepository.findByPadawanIdAndCoachAlias(padawanId, coachAlias);
+    }
 
     public Padawan addMeasureToPadawan(Padawan padawan, Measure measure) {
         measure.setPadawan(padawan);
@@ -32,5 +38,9 @@ public class PadawanService {
 
         padawan.getMeasures().add(measure);
         return padawanRepository.save(padawan);
+    }
+
+    public List<Padawan> retrievePadawansForCoach(String coachAlias) {
+        return padawanRepository.findActivePadawansByCoachAlias(coachAlias);
     }
 }
