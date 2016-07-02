@@ -1,18 +1,23 @@
+<link rel="stylesheet" href="/css/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.css"/>
+<link rel="stylesheet" href="/css/libs/summernote/summernote.css"/>
+<script type="text/javascript" src="/js/libs/moment-with-locales.js"></script>
+<script type="text/javascript" src="/js/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="/js/libs/summernote.js"></script>
 <div style="padding: 10px;" ng-init="init()">
     <h1>Падаван</h1>
     <form>
         <div class="form-group">
-            <label for="padawanFirstName">Заголовок:</label>
+            <label for="padawanFirstName">Имя:</label>
             <input type="text" id="padawanFirstName" class="form-control" placeholder="Имя падавана"
                    ng-model="padawan.firstName"/>
         </div>
         <div class="form-group">
-            <label for="padawanLastName">Заголовок:</label>
+            <label for="padawanLastName">Фамилия:</label>
             <input type="text" id="padawanLastName" class="form-control" placeholder="Фамилия падавана"
                    ng-model="padawan.lastName"/>
         </div>
         <div class="form-group">
-            <label for="padawanEmail">Заголовок:</label>
+            <label for="padawanEmail">Почта:</label>
             <input type="email" id="padawanEmail" class="form-control" placeholder="Почта"
                    ng-model="padawan.email"/>
         </div>
@@ -27,6 +32,21 @@
                     <li ng-repeat="gender in genders"><a ng-click="selectGender(gender.value)" href="#">{{gender.label}}</a></li>
                 </ul>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label>Дата и время:</label>
+            <div class="input-group date" id="padawanBirthDate">
+                <input type="text" class="form-control" placeholder="Дата рождения"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Описание:</label>
+            <div id="padawanDescriptionEditor">Заметки о падаване</div>
         </div>
 
 

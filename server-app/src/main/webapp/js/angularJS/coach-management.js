@@ -61,13 +61,14 @@ coachManagementApplication.controller('statusListController', ["$scope", "$resou
 
 var padawansListControllerHandler = function ($scope, $http, $location, $uibModal) {
     $scope.init = function () {
-        console.log("startt to initialize padawan list");
+        console.log("start to initialize padawan list");
         var path = $location.path();
         var params = path.split("/");
         var coachAlias = params[3];
 
-        var url = $scope.calculateUrlToRetrievePadawansList(coachAlias);
-        $http.get(url)
+        $scope.url = $scope.calculateUrlToRetrievePadawansList(coachAlias);
+        $scope.padawanUrl = $scope.calculateUrlToManagePadawan(coachAlias);
+        $http.get($scope.url)
             .then(function successCallback(response) {
                 console.log("Padawans received");
                 $scope.padawans = response.data;
@@ -95,6 +96,10 @@ var padawansListControllerHandler = function ($scope, $http, $location, $uibModa
         var url = "/findcoach/coach/" + coachAlias + "/padawans";
         return url;
     }
+    $scope.calculateUrlToManagePadawan = function (coachAlias) {
+        var url = "/findcoach/coach/" + coachAlias + "/padawan";
+        return url;
+    }
 };
 coachManagementApplication.controller('padawansListController', ["$scope", "$http", "$location", "$uibModal", padawansListControllerHandler])
 
@@ -115,6 +120,26 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
         $scope.closeModal = function () {
             $uibModalInstance.close();
         };
+        $scope.init = function () {
+            $scope.padawan = {};
+            $('#padawanBirthDate').datetimepicker({
+                format: "YYYY-MM-DD",
+                stepping: 15
+            });
+
+            $('#padawanDescriptionEditor').summernote({
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+            $("#padawanBirthDate").data('DateTimePicker').date(new Date(1980, 1, 1));
+        }
 
         $scope.selectGender = function (genderValue) {
             for (var i in $scope.genders) {
@@ -123,6 +148,25 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
                     $scope.selectedGender = gender;
                 }
             }
+        }
+
+        $scope.submit = function () {
+            $scope.padawan.birthDate = $("#padawanBirthDate").data('DateTimePicker').date();
+            $scope.padawan.notes = $("#padawanDescriptionEditor").summernote("code");
+            $scope.padawan.gender = $scope.selectedGender.value;
+            var method = ($scope.padawanId == null) ? "PUT" : "POST";
+            $http({
+                method: method,
+                url: $scope.padawanUrl,
+                data: $scope.padawan
+
+            }).then(function successCallback(response) {
+                alert("Valar morgulis");
+            }, function errorCallback(response) {
+                alert("error");
+            });
+
+
         }
     }
 ]);
