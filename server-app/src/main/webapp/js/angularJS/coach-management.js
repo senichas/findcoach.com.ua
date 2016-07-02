@@ -122,7 +122,7 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
         };
         $scope.init = function () {
             $scope.padawan = {};
-            $('#padawanBirthDate').datetimepicker({
+            $('#padawanBirthday').datetimepicker({
                 format: "YYYY-MM-DD",
                 stepping: 15
             });
@@ -138,7 +138,7 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
                     ['height', ['height']]
                 ]
             });
-            $("#padawanBirthDate").data('DateTimePicker').date(new Date(1980, 1, 1));
+            $("#padawanBirthday").data('DateTimePicker').date(new Date(1980, 1, 1));
         }
 
         $scope.selectGender = function (genderValue) {
@@ -151,9 +151,11 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
         }
 
         $scope.submit = function () {
-            $scope.padawan.birthDate = $("#padawanBirthDate").data('DateTimePicker').date();
+            var m = $("#padawanBirthday").data('DateTimePicker').date();
+            var result = moment(m).utc().add(m.utcOffset(), 'm');
+            $scope.padawan.birthday = result;
             $scope.padawan.notes = $("#padawanDescriptionEditor").summernote("code");
-            $scope.padawan.gender = $scope.selectedGender.value;
+            $scope.padawan.gender = $scope.selectedGender.value.toUpperCase();
             var method = ($scope.padawanId == null) ? "PUT" : "POST";
             $http({
                 method: method,
@@ -161,7 +163,7 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
                 data: $scope.padawan
 
             }).then(function successCallback(response) {
-                alert("Valar morgulis");
+                window.location.reload();
             }, function errorCallback(response) {
                 alert("error");
             });
