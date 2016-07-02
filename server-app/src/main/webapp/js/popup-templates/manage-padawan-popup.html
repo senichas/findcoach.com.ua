@@ -1,0 +1,42 @@
+<div style="padding: 10px;" ng-init="init()">
+    <h1>Падаван</h1>
+    <form>
+        <div class="form-group">
+            <label for="padawanFirstName">Заголовок:</label>
+            <input type="text" id="padawanFirstName" class="form-control" placeholder="Имя падавана"
+                   ng-model="padawan.firstName"/>
+        </div>
+        <div class="form-group">
+            <label for="padawanLastName">Заголовок:</label>
+            <input type="text" id="padawanLastName" class="form-control" placeholder="Фамилия падавана"
+                   ng-model="padawan.lastName"/>
+        </div>
+        <div class="form-group">
+            <label for="padawanEmail">Заголовок:</label>
+            <input type="email" id="padawanEmail" class="form-control" placeholder="Почта"
+                   ng-model="padawan.email"/>
+        </div>
+        <div class="form-group">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    {{selectedGender.label || "Выберите"}}<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="gender in genders"><a ng-click="selectGender(gender.value)" href="#">{{gender.label}}</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <button type="button" class="btn btn-default btn-sm"
+                ng-click="submit()">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Сохранить
+        </button>
+        <button type="button" class="btn btn-default btn-sm"
+                ng-click="closeModal()">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Закрыть
+        </button>
+    </form>
+</div>

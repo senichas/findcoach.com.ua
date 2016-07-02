@@ -33,7 +33,13 @@
         <h1><a href="/findcoach/coach/profile/dashboard.html">Список падаванов</a></h1>
     </header>
     #parse("padawan-management/menu.vm")
+
     <section ng-controller="padawansListController" ng-init="init()">
+        <button type="button" class="btn btn-default btn-sm"
+                ng-click="openPadawanPopup()">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить падавана
+        </button>
+
         <table class="table table-striped">
             <tr class="header">
                 <th>#</th>
