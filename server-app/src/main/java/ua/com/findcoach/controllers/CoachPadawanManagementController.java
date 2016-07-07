@@ -53,7 +53,7 @@ public class CoachPadawanManagementController {
 
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{coachAlias}/padawan")
+    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/padawan")
     @ResponseBody
     public RestResponse createNewPadawan(@PathVariable String coachAlias, @Valid @RequestBody PadawanCreateDto padawanDto,
                                          BindingResult validationResult) {
@@ -80,7 +80,7 @@ public class CoachPadawanManagementController {
         return response;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/padawan")
+    @RequestMapping(method = RequestMethod.PUT, value = "/{coachAlias}/padawan")
     @ResponseBody
     public RestResponse updatePadawan(@PathVariable String coachAlias, @Valid @RequestBody PadawanCreateDto padawanDto,
                                       BindingResult validationResult) {
