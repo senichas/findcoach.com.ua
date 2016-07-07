@@ -69,7 +69,7 @@ coachManagementApplication.controller("managePadawanPopupController", ["$scope",
             $scope.padawan.notes = $("#padawanDescriptionEditor").summernote("code");
             $scope.padawan.gender = $scope.selectedGender.value.toUpperCase();
             $scope.padawan.padawanId = $scope.padawanId;
-            var method = ($scope.padawanId == null) ? "PUT" : "POST";
+            var method = ($scope.padawanId == null) ? "POST" : "PUT";
             $http({
                 method: method,
                 url: $scope.padawanUrl,
