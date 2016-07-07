@@ -16,20 +16,43 @@ coachManagementApplication.controller("managePadawanProgramPopupController", ["$
         ];
 
         $scope.init = function () {
-            console.log("Valar Morgulis");
+            $scope.program = {};
+
         }
 
-        $scope.closeModal = function() {
+
+        $scope.closeModal = function () {
             $uibModalInstance.close();
         }
 
-        $scope.selectGoal = function(goalValue) {
+        $scope.selectGoal = function (goalValue) {
             for (var i in $scope.goals) {
                 var goal = $scope.goals[i];
                 if (goal.value.toLowerCase() == goalValue.toLowerCase()) {
                     $scope.selectedGoal = goal;
                 }
             }
+        }
+
+        $scope.submit = function () {
+            $scope.program.programId = $scope.programId;
+            $scope.program.goal = $scope.selectedGoal.value;
+            var method = ($scope.programId == null) ? "POST" : "PUT";
+            var url = $scope.calculateUrlToManageProgram($scope.coachAlias, $scope.padawanId, $scope.programId)
+            console.log("Url to work with program is " + url)
+            $http({
+                method: method,
+                url: url,
+                data: $scope.program
+
+            }).then(function successCallback(response) {
+                console.log("Valar Morgulis");
+
+                //window.location.reload();
+            }, function errorCallback(response) {
+                alert("error");
+            });
+
         }
 
 
