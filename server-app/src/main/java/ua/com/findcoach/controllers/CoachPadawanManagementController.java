@@ -7,13 +7,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.PadawanCreateDto;
 import ua.com.findcoach.api.PadawanDto;
+import ua.com.findcoach.api.ProgramDto;
 import ua.com.findcoach.api.RestResponse;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Padawan;
+import ua.com.findcoach.domain.Program;
 import ua.com.findcoach.exception.ValidationException;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.ConverterService;
 import ua.com.findcoach.services.PadawanService;
+import ua.com.findcoach.services.ProgramService;
 
 import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +36,9 @@ public class CoachPadawanManagementController {
 
     @Autowired
     private ConverterService converterService;
+
+    @Autowired
+    private ProgramService programService;
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawans.html")
@@ -111,5 +117,13 @@ public class CoachPadawanManagementController {
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawan/{padawanId}")
     public PadawanDto retrievePadawan(@PathVariable String coachAlias, @PathVariable Integer padawanId) {
         return converterService.convertPadawanToDto(padawanService.findByIdAndCoachAlias(padawanId, coachAlias));
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawan/{padawanId}/program/{programId}")
+    public ProgramDto retrieveProgram(@PathVariable String coachAlias, @PathVariable Integer padawanId,
+                                      @PathVariable Integer programId) {
+        Program program = programService.findProgramByProgramIdAndPadawanIdAndProgramId(coachAlias, padawanId, programId);
+        return converterService.convertProgramToDto(program);
     }
 }

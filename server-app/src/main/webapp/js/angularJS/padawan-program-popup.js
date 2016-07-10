@@ -16,8 +16,27 @@ coachManagementApplication.controller("managePadawanProgramPopupController", ["$
         ];
 
         $scope.init = function () {
-            $scope.program = {};
+            if ($scope.programId != null) {
+                var url = $scope.calculateUrlToManageProgram($scope.coachAlias, $scope.padawanId, $scope.programId)
+                $http({
+                    method: "GET",
+                    url: url,
+                }).then(function successCallback(response) {
+                    $scope.initData(response.data)
 
+                }, function errorCallback(response) {
+                    alert("error");
+                });
+            } else {
+                $scope.initData({programName: "", goal: ""});
+            }
+
+        }
+
+        $scope.initData = function (params) {
+            $scope.program = {};
+            $scope.program.name = (params.programName != null) ? params.programName : "";
+            $scope.selectGoal((params.goal != null) ? params.goal : "");
         }
 
 

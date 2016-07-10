@@ -5,6 +5,7 @@ coachManagementApplication.controller('padawansListController', ["$scope", "$htt
             var path = $location.path();
             var params = path.split("/");
             var coachAlias = params[3];
+            $scope.coachAlias = coachAlias;
 
             $scope.url = $scope.calculateUrlToRetrievePadawansList(coachAlias);
             $scope.padawanUrl = $scope.calculateUrlToManagePadawan(coachAlias);
