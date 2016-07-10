@@ -5,7 +5,6 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 
@@ -32,12 +31,6 @@ public class Program {
     @Enumerated(EnumType.STRING)
     @Column(name = "goal")
     private Goal goal;
-
-    @Column(name = "start_date")
-    private Date startDate;
-
-    @Column(name = "end_date")
-    private Date endDate;
 
     @Fetch(FetchMode.SELECT)
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -78,22 +71,6 @@ public class Program {
 
     public void setGoal(Goal programGoal) {
         this.goal = programGoal;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date programStartDate) {
-        this.startDate = programStartDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date programEndDate) {
-        this.endDate = programEndDate;
     }
 
     public String getName() {

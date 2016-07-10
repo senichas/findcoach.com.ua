@@ -36,4 +36,8 @@ public class ProgramService {
 
         return saveProgram(program);
     }
+
+    public Program findProgramByProgramIdAndPadawanIdAndProgramId(String coachAlias, Integer padawanId, Integer programId) {
+        return programRepository.findOneByProgramIdAndPadawanIdAndCoachAlias(programId, padawanId, coachAlias);
+    }
 }

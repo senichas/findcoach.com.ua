@@ -60,8 +60,6 @@ public class ConverterService {
         dto.setProgramId(program.getProgramId());
         dto.setGoal(program.getGoal());
         dto.setProgramName(program.getName());
-        dto.setProgramStartDate(program.getStartDate());
-        dto.setProgramFinishDate(program.getEndDate());
 
         return dto;
     }
