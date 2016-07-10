@@ -5,10 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.findcoach.api.PadawanCreateDto;
-import ua.com.findcoach.api.PadawanDto;
-import ua.com.findcoach.api.ProgramDto;
-import ua.com.findcoach.api.RestResponse;
+import ua.com.findcoach.api.*;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Padawan;
 import ua.com.findcoach.domain.Program;
@@ -126,4 +123,32 @@ public class CoachPadawanManagementController {
         Program program = programService.findProgramByProgramIdAndPadawanIdAndProgramId(coachAlias, padawanId, programId);
         return converterService.convertProgramToDto(program);
     }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.PUT, value = "/{coachAlias}/padawan/{padawanId}/program/{programId}")
+    public ProgramDto updateProgram(@PathVariable String coachAlias, @PathVariable Integer padawanId,
+                                    @PathVariable Integer programId, @RequestBody ProgramRequest programRequest) {
+        Program program = programService.findProgramByProgramIdAndPadawanIdAndProgramId(coachAlias, padawanId, programId);
+        program.setName(programRequest.getName());
+        program.setGoal(programRequest.getGoal());
+        program = programService.saveProgram(program);
+        return converterService.convertProgramToDto(program);
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST, value = "/{coachAlias}/padawan/{padawanId}/program")
+    public RestResponse createProgram(@PathVariable String coachAlias, @PathVariable Integer padawanId,
+                                      @RequestBody ProgramRequest programRequest) {
+        Padawan padawan = padawanService.findByIdAndCoachAlias(padawanId, coachAlias);
+        Coach coach = coachService.retrieveCurrentCoach();
+        Program program = new Program();
+        program.setName(programRequest.getName());
+        program.setGoal(programRequest.getGoal());
+        program.setCoach(coach);
+        program.setPadawan(padawan);
+        programService.saveProgram(program);
+        return new RestResponse();
+    }
+
+
 }

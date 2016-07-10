@@ -63,11 +63,8 @@ coachManagementApplication.controller("managePadawanProgramPopupController", ["$
                 method: method,
                 url: url,
                 data: $scope.program
-
             }).then(function successCallback(response) {
-                console.log("Valar Morgulis");
-
-                //window.location.reload();
+                window.location.reload();
             }, function errorCallback(response) {
                 alert("error");
             });
