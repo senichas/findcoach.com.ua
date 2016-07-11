@@ -5,16 +5,8 @@ import ua.com.findcoach.domain.Goal;
 public class ProgramDto {
     private String programName;
     private Goal goal;
+    private String localizedGoal;
     private Integer programId;
-
-    public ProgramDto() {
-    }
-
-    public ProgramDto(String programName, Goal goal, Integer programId) {
-        this.programName = programName;
-        this.goal = goal;
-        this.programId = programId;
-    }
 
     public String getProgramName() {
         return programName;
@@ -38,5 +30,13 @@ public class ProgramDto {
 
     public void setProgramId(Integer programId) {
         this.programId = programId;
+    }
+
+    public String getLocalizedGoal() {
+        return localizedGoal;
+    }
+
+    public void setLocalizedGoal(String localizedGoal) {
+        this.localizedGoal = localizedGoal;
     }
 }
