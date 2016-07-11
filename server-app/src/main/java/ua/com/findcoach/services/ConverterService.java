@@ -1,21 +1,28 @@
 package ua.com.findcoach.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.findcoach.api.CalendarEvent;
 import ua.com.findcoach.api.PadawanDto;
 import ua.com.findcoach.api.ProgramDto;
-import ua.com.findcoach.domain.Event;
-import ua.com.findcoach.domain.EventRecurrence;
-import ua.com.findcoach.domain.Padawan;
-import ua.com.findcoach.domain.Program;
+import ua.com.findcoach.domain.*;
+import ua.com.findcoach.i18n.LocalizedMessageResolver;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 public class ConverterService {
+
+    @Resource
+    private Map<Goal, String> programGoalsLocalizationKeys;
+
+    @Autowired
+    private LocalizedMessageResolver messageResolver;
 
     private Function<EventRecurrence, CalendarEvent> eventRecurrenceToCalendarEventFunction = eventRecurrence -> {
         CalendarEvent calendarEvent = new CalendarEvent();
@@ -59,6 +66,8 @@ public class ConverterService {
         ProgramDto dto = new ProgramDto();
         dto.setProgramId(program.getProgramId());
         dto.setGoal(program.getGoal());
+        String localizedGoal = messageResolver.getMessage(programGoalsLocalizationKeys.get(program.getGoal()));
+        dto.setLocalizedGoal(localizedGoal);
         dto.setProgramName(program.getName());
 
         return dto;
