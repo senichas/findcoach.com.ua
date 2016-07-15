@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.findcoach.security.CoachAuthenticationProvider;
 import ua.com.findcoach.security.CoachProgramFilter;
 import ua.com.findcoach.security.CoachUrlAliasFilter;
+import ua.com.findcoach.security.FacebookAuthenticationProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CoachAuthenticationProvider userAuthenticationProvider() {
         return new CoachAuthenticationProvider();
+    }
+
+    @Bean
+    public FacebookAuthenticationProvider facebookUserAuthenticationProvider() {
+        return new FacebookAuthenticationProvider();
     }
 
     @Bean

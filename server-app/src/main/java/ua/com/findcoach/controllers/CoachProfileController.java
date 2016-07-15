@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.CalendarResponse;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
+import ua.com.findcoach.services.AuthenticationService;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.ConverterService;
 import ua.com.findcoach.services.EventService;
@@ -28,6 +29,9 @@ public class CoachProfileController {
     private CoachService coachService;
 
     @Autowired
+    private AuthenticationService authenticationService;
+
+    @Autowired
     private EventService eventService;
 
     @Autowired
@@ -37,11 +41,9 @@ public class CoachProfileController {
     public ModelAndView coachDashboard() throws IOException {
         Map<String, Object> params = new HashMap<>();
         params.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
-        params.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
+        params.put("coachAlias", authenticationService.getCurrentUserToken().getEmail());
         return new ModelAndView("coachDashboard", params);
     }
-
-
 
     @RequestMapping(method = RequestMethod.POST, value = "/calendar")
     @ResponseBody

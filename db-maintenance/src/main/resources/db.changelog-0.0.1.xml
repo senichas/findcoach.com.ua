@@ -329,4 +329,21 @@
         <tagDatabase tag="version_0.0.1"/>
     </changeSet>
 
+    <changeSet id="1.21" author="Vova">
+        <createTable tableName="facebook_user_token">
+            <column name="user_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="character varying(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="long_lived_token" type="character varying(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="facebook_user_token"/>
+        </rollback>
+    </changeSet>
+
 </databaseChangeLog>

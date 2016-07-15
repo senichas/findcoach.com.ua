@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.AuthenticationRequest;
 import ua.com.findcoach.api.AuthenticationResponse;
 import ua.com.findcoach.api.FacebookAuthRequestDto;
+import ua.com.findcoach.services.AuthenticationService;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.utils.EmailValidator;
 
@@ -29,6 +30,8 @@ public class AuthenticationController {
     @Autowired
     private CoachService coachService;
 
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @RequestMapping(method = RequestMethod.POST, value = {"email"})
     @ResponseBody
@@ -56,24 +59,24 @@ public class AuthenticationController {
     @RequestMapping(method = RequestMethod.POST, value = {"facebook"})
     @ResponseBody
     public AuthenticationResponse postAnswerForFacebookLogin(@RequestBody FacebookAuthRequestDto facebookDto, HttpServletRequest request) {
-        if (!emailValidator.validate(facebookDto.getEmail())) {
-            return new AuthenticationResponse(false, "You wrote wrong message", "");
-        }
+        Boolean isAuthenticated = authenticationService.authenticateUser(facebookDto, request);
 
-        String email = facebookDto.getEmail();
-        Boolean isAuthenticated = coachService.authenticateUser(email, request);
         String redirectLink;
         if (isAuthenticated) {
-            redirectLink = coachService.calculateHomeLink(facebookDto.getEmail());
+            redirectLink = authenticationService.getHomeLink();
         } else {
             redirectLink = "";
         }
-        return new AuthenticationResponse(true, "", redirectLink);
+        return new AuthenticationResponse(isAuthenticated, "", redirectLink);
     }
 
     @RequestMapping("/index.html")
     public ModelAndView index() {
+        if (authenticationService.isCurrentUserTokenAlive()) {
+            return new ModelAndView("redirect:" + authenticationService.getHomeLink());
+        }
         return new ModelAndView("index");
     }
+
 }
 
