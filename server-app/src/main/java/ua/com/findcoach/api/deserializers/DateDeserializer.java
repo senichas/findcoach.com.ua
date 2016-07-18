@@ -10,8 +10,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DateDeserializer extends JsonDeserializer<LocalDate> {
+    public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     @Override
     public LocalDate deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
