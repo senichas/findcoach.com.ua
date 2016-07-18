@@ -331,7 +331,7 @@
 
     <changeSet id="1.21" author="Vova">
         <createTable tableName="facebook_user_token">
-            <column name="user_id" type="integer">
+            <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="email" type="character varying(60)">
