@@ -76,7 +76,15 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
             });
 
             $scope.url = $scope.calculateUrlToRetrieveEvents(coachAlias);
-            $http.get($scope.url)
+            var range = $scope.getCalendarDateRange();
+            $http({
+                method: "GET",
+                url: $scope.url,
+                params: {
+                    startDate: range.start,
+                    endDate: range.end
+                }
+            })
                 .then(function successCallback(response) {
                     console.log("Calendars events received");
 
@@ -85,10 +93,21 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
                 });
             console.log("coachAlias = " + coachAlias);
 
+
         }
 
-        $scope.calculateUrlToRetrieveEvents = function(coachAlias) {
+        $scope.calculateUrlToRetrieveEvents = function (coachAlias) {
             return "/findcoach/coach/" + coachAlias + "/calendar/events";
+        }
+
+        $scope.getCalendarDateRange = function () {
+            var calendar = $('#coachCalendar').fullCalendar('getCalendar');
+            var view = calendar.view;
+            var start = view.start._d;
+            var end = view.end._d;
+            var dates = {start: start, end: end};
+            console.log(dates);
+            return dates;
         }
     }
 ]);
