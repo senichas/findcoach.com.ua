@@ -7,20 +7,19 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.CalendarEvent;
 import ua.com.findcoach.api.CalendarResponse;
 import ua.com.findcoach.domain.Coach;
-import ua.com.findcoach.domain.Event;
-import ua.com.findcoach.domain.EventRecurrence;
 import ua.com.findcoach.domain.ViewDateRange;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.EventService;
 import ua.com.findcoach.utils.DateUtils;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/coach/{coachAlias}")
+@RequestMapping("/coach/{coachAlias}/calendar")
 public class CoachCalendarController {
 
     @Autowired
@@ -30,7 +29,7 @@ public class CoachCalendarController {
     private EventService eventService;
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/calendar.html")
+    @RequestMapping(method = RequestMethod.GET, value = "/dashboard.html")
     public ModelAndView coachCalendarPage() {
         Map<String, Object> paramerters = new HashMap<>();
         paramerters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
@@ -38,7 +37,7 @@ public class CoachCalendarController {
         return new ModelAndView("padawan-management/coachCalendarPage", paramerters);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/calendar")
+    @RequestMapping(method = RequestMethod.GET, value = "/events")
     public
     @ResponseBody
     CalendarResponse fetchEventsForCoach(@PathVariable("coachAlias") String coachUserName, @RequestParam("showdate") String showDate,
@@ -83,48 +82,6 @@ public class CoachCalendarController {
         events.add(event1);
 
         response.setEvents(events);
-        return response;
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/calendar")
-    public
-    @ResponseBody
-    CalendarResponse addEventForCoach(@PathVariable("coachAlias") String coachUserName, @RequestParam("CalendarTitle") String eventTitle,
-                                                                                        @RequestParam("CalendarStartTime") String eventStartTime,
-                                                                                        @RequestParam("CalendarEndTime") String eventEndTime,
-                                                                                        @RequestParam("IsAllDayEvent") String isAllDayEvent,
-                                                                                        @RequestParam("timezone") String timezone) {
-        String timeFormat = "M/dd/yyyy HH:mm";
-
-        Coach currentCoach = coachService.retrieveCurrentCoach();
-        Event event = new Event();
-        event.setTitle(eventTitle);
-        EventRecurrence recurrence = new EventRecurrence();
-        recurrence.setAllDay(isAllDayEvent == "0" ? false : true);
-        recurrence.setStartDate(DateUtils.stringToLocalDateTime(eventStartTime, timeFormat));
-        recurrence.setEndDate(DateUtils.stringToLocalDateTime(eventEndTime, timeFormat));
-        event.setRecurrences(Stream.of(recurrence).collect(Collectors.toList()));
-        eventService.save(event);
-        CalendarResponse response = new CalendarResponse();
-        response.setIssort(Boolean.TRUE);
-        return response;
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/calendar")
-    public
-    @ResponseBody
-    CalendarResponse removeEventForCoach(@PathVariable("coachAlias") String coachUserName) {
-        Coach currentCoach = coachService.retrieveCurrentCoach();
-        CalendarResponse response = new CalendarResponse();
-        return response;
-    }
-
-    @RequestMapping(method = RequestMethod.PUT, value = "/calendar")
-    public
-    @ResponseBody
-    CalendarResponse updateEventForCoach(@PathVariable("coachAlias") String coachUserName) {
-        Coach currentCoach = coachService.retrieveCurrentCoach();
-        CalendarResponse response = new CalendarResponse();
         return response;
     }
 }

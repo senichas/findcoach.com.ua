@@ -1,7 +1,7 @@
 coachManagementApplication.controller('coachCalendarController', ["$scope", "$http", "$location",
     function ($scope, $http, $location) {
         $scope.init = function () {
-            console.log("start to initialize padawan list");
+            console.log("start to initialize calenadar");
             var path = $location.path();
             var params = path.split("/");
             var coachAlias = params[3];
@@ -75,19 +75,20 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
                 ]
             });
 
-         /*   $scope.url = $scope.calculateUrlToRetrievePadawansList(coachAlias);
-            $scope.padawanUrl = $scope.calculateUrlToManagePadawan(coachAlias);
+            $scope.url = $scope.calculateUrlToRetrieveEvents(coachAlias);
             $http.get($scope.url)
                 .then(function successCallback(response) {
-                    console.log("Padawans received");
-                    $scope.padawans = response.data;
+                    console.log("Calendars events received");
 
                 }, function errorCallback(response) {
-                    console.log("Ups padawans have not been received");
+                    console.log("Ups. Calendars events have not been received");
                 });
-*/
             console.log("coachAlias = " + coachAlias);
 
+        }
+
+        $scope.calculateUrlToRetrieveEvents = function(coachAlias) {
+            return "/findcoach/coach/" + coachAlias + "/calendar/events";
         }
     }
 ]);
