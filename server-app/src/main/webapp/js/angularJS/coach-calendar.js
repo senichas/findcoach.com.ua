@@ -6,6 +6,7 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
             var params = path.split("/");
             var coachAlias = params[3];
             $scope.coachAlias = coachAlias;
+            $scope.url = $scope.calculateUrlToRetrieveEvents(coachAlias);
 
             $('#coachCalendar').fullCalendar({
                 header: {
@@ -17,6 +18,7 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
                 defaultDate: '2016-06-12',
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
+                viewRender: $scope.dateRangeChangedHandler,
                 events: [
                     {
                         title: 'All Day Event',
@@ -75,22 +77,8 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
                 ]
             });
 
-            $scope.url = $scope.calculateUrlToRetrieveEvents(coachAlias);
-            var range = $scope.getCalendarDateRange();
-            $http({
-                method: "GET",
-                url: $scope.url,
-                params: {
-                    startDate: range.start,
-                    endDate: range.end
-                }
-            })
-                .then(function successCallback(response) {
-                    console.log("Calendars events received");
 
-                }, function errorCallback(response) {
-                    console.log("Ups. Calendars events have not been received");
-                });
+
             console.log("coachAlias = " + coachAlias);
 
 
@@ -108,6 +96,24 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
             var dates = {start: start, end: end};
             console.log(dates);
             return dates;
+        }
+
+        $scope.dateRangeChangedHandler = function (view, element) {
+            console.log("Date range changed");
+            var range = $scope.getCalendarDateRange();
+            $http({
+                method: "GET",
+                url: $scope.url,
+                params: {
+                    startDate: range.start,
+                    endDate: range.end
+                }
+            }).then(function successCallback(response) {
+                console.log("Calendars events received");
+
+            }, function errorCallback(response) {
+                console.log("Ups. Calendars events have not been received");
+            });
         }
     }
 ]);
