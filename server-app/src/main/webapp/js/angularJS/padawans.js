@@ -45,6 +45,11 @@ coachManagementApplication.controller('padawansListController', ["$scope", "$htt
             });
         }
 
+        $scope.openProgramTrainings = function (padawanId, programId) {
+            var url = $scope.calculateUrlToManageProgram($scope.coachAlias, padawanId, programId)
+            window.location.href = url + ".html";
+        }
+
         $scope.calculateUrlToRetrievePadawansList = function (coachAlias) {
             var url = "/findcoach/coach/" + coachAlias + "/padawans";
             return url;
