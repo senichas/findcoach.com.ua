@@ -94,7 +94,7 @@
                 sequenceName="coach_coach_id_seq"/>
         <createSequence
                 sequenceName="coach_coach_id_seq"
-                startValue="11"/>
+                startValue="12"/>
         <addDefaultValue
                 columnName="coach_id"
                 defaultValueSequenceNext="coach_coach_id_seq"
