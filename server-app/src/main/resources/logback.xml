@@ -8,17 +8,17 @@
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="ch.qos.logback.classic.PatternLayout">
-                <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</Pattern>
+                <Pattern>%d{HH:mm:ss.SSS} [%thread] [%-5level] %logger - %msg%n</Pattern>
             </layout>
         </encoder>
     </appender>
 
-    <logger name="org.springframework" level="INFO"/>
-    <logger name="org.springframework.context.support" level="WARN"/>
-    <logger name="ua.com.findcoach" level="DEBUG"/>
-    <logger name="org.hibernate" level="DEBUG" />
+    <logger name="ua.com.findcoach" level="DEBUG"
+            additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="console"/>
     </root>
 </configuration>

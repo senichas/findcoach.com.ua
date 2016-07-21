@@ -5,11 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.CalendarResponse;
+import ua.com.findcoach.converters.ConverterService;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.i18n.LocalizedMessageResolver;
 import ua.com.findcoach.services.AuthenticationService;
 import ua.com.findcoach.services.CoachService;
-import ua.com.findcoach.services.ConverterService;
 import ua.com.findcoach.services.EventService;
 
 import java.io.IOException;

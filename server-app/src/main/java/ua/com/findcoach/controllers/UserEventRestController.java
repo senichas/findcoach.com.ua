@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.findcoach.api.CalendarEvent;
-import ua.com.findcoach.services.ConverterService;
+import ua.com.findcoach.converters.ConverterService;
 import ua.com.findcoach.services.EventService;
 
 import java.util.List;

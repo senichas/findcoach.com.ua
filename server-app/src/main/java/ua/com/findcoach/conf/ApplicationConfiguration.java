@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 import ua.com.findcoach.domain.EventType;
+import ua.com.findcoach.domain.Goal;
 import ua.com.findcoach.utils.CoachStatusHolder;
 import ua.com.findcoach.utils.EmailValidator;
 
@@ -66,6 +67,15 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
         Map<EventType, String> keys = new HashMap<>();
         keys.put(EventType.PUBLIC_TRAINING, "domain.public_training");
         keys.put(EventType.TRAINING, "domain.training");
+        return keys;
+    }
+
+    @Bean
+    public Map<Goal, String> programGoalsLocalizationKeys() {
+        Map<Goal, String> keys = new HashMap<>();
+        keys.put(Goal.ENDURANCE, "program.goal.endurance");
+        keys.put(Goal.FAT_BURN, "program.goal.fat_burn");
+        keys.put(Goal.STRENGTH, "program.goal.strength");
         return keys;
     }
 

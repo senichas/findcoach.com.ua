@@ -9,13 +9,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventRepository extends CrudRepository<Event, Long> {
-    @Query("SELECT e FROM Program p " +
+    @Query("SELECT DISTINCT e FROM Program p " +
             "JOIN p.coach ch " +
             "JOIN p.cycles c " +
             "JOIN  c.events e " +
             "JOIN e.recurrences r " +
             "WHERE ch.alias = :coachAlias " +
             "AND r.startDate >= :startDate " +
-            "AND r.endDate <= :endDate")
-    List<Event> findEventsInPeriodForCoach(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("coachAlias") String coachAlias);
+            "AND r.endDate < :endDate")
+    List<Event> findEventsInPeriodForCoach(@Param("coachAlias") String coachAlias,
+                                           @Param("startDate") LocalDateTime startDate,
+                                           @Param("endDate") LocalDateTime endDate);
 }
