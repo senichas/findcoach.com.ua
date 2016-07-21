@@ -15,10 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ua.com.findcoach.security.CoachAuthenticationProvider;
 import ua.com.findcoach.security.CoachProgramFilter;
 import ua.com.findcoach.security.CoachUrlAliasFilter;
-import ua.com.findcoach.security.FacebookAuthenticationProvider;
+import ua.com.findcoach.security.FindCoachAuthenticationProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,19 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public CoachAuthenticationProvider userAuthenticationProvider() {
-        return new CoachAuthenticationProvider();
-    }
-
-    @Bean
-    public FacebookAuthenticationProvider facebookUserAuthenticationProvider() {
-        return new FacebookAuthenticationProvider();
+    public FindCoachAuthenticationProvider userAuthenticationProvider() {
+        return new FindCoachAuthenticationProvider();
     }
 
     @Bean
     public CoachUrlAliasFilter coachUrlAliasFilter() {
         return new CoachUrlAliasFilter();
     }
+
     @Bean
     public CoachProgramFilter coachProgramFilter() {
         return new CoachProgramFilter();
@@ -96,6 +91,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new FilterChainProxy(securityFilterChains);
 
     }
-
 
 }

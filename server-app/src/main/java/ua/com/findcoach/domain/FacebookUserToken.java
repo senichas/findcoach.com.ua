@@ -9,29 +9,29 @@ import javax.persistence.Table;
 @Table(name = "facebook_user_token")
 public class FacebookUserToken {
     @Id
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "facebook_user_id")
+    private Long facebookUserId;
 
-    @Column(length = 60)
-    private String email;
+    @Column(name = "coach_id")
+    private Integer coachId;
 
     @Column(name = "long_lived_token", length = 100)
     private String longLivedToken;
 
-    public Long getUserId() {
-        return userId;
+    public Integer getCoachId() {
+        return coachId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setCoachId(Integer coachId) {
+        this.coachId = coachId;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getFacebookUserId() {
+        return facebookUserId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFacebookUserId(Long facebookUserId) {
+        this.facebookUserId = facebookUserId;
     }
 
     public String getLongLivedToken() {

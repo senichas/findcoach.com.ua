@@ -331,11 +331,13 @@
 
     <changeSet id="1.21" author="Vova">
         <createTable tableName="facebook_user_token">
-            <column name="user_id" type="bigint">
-                <constraints nullable="false"/>
+            <column name="coach_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="facebook_user_token_coach_id_fk"
+                             references=" &quot;coach&quot; (coach_id)"/>
             </column>
-            <column name="email" type="character varying(60)">
-                <constraints nullable="false"/>
+            <column name="facebook_user_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="long_lived_token" type="character varying(200)">
                 <constraints nullable="false"/>

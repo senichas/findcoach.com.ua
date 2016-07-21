@@ -10,12 +10,11 @@ import ua.com.findcoach.domain.CoachStatus;
 
 import java.util.List;
 
-/**
- * Created by DENIS on 10.10.2015.
- */
 public interface CoachRepository extends CrudRepository<Coach, Integer> {
 
     Coach findByEmail(String email);
+
+    Coach findByCoachId(Integer coachId);
 
     List<Coach> findAll();
 

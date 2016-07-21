@@ -18,8 +18,12 @@ public class FacebookService {
         return facebookUserToken;
     }
 
-    public FacebookUserToken findUserTokenById(Long userId) {
-        return facebookUserTokenRepository.findByUserId(userId);
+    public FacebookUserToken findUserTokenByFacebookUserId(Long facebookUserId) {
+        return facebookUserTokenRepository.findUserTokenByFacebookUserId(facebookUserId);
+    }
+
+    public FacebookUserToken findUserTokenByCoachId(Integer coachId) {
+        return facebookUserTokenRepository.findUserTokenByCoachId(coachId);
     }
 
     public int updateTokenByUserId(String userToken, Long userId) {

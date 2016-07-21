@@ -9,11 +9,13 @@ import ua.com.findcoach.domain.FacebookUserToken;
 
 public interface FacebookUserTokenRepository extends CrudRepository<FacebookUserToken, Integer> {
 
-	FacebookUserToken findByUserId(Long userId);
+	FacebookUserToken findUserTokenByFacebookUserId(Long facebookUserId);
+
+	FacebookUserToken findUserTokenByCoachId(Integer coachId);
 
 	@Modifying(clearAutomatically = true)
 	@Transactional(readOnly = false)
-	@Query("UPDATE FacebookUserToken t SET t.longLivedToken = :userToken WHERE t.userId = :userId")
-	int updateToken(@Param("userToken") String userToken, @Param("userId") Long userId);
+	@Query("UPDATE FacebookUserToken t SET t.longLivedToken = :userToken WHERE t.facebookUserId = :facebookUserId")
+	int updateToken(@Param("userToken") String userToken, @Param("facebookUserId") Long facebookUserId);
 
 }

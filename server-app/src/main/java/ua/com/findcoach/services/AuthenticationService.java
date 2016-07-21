@@ -7,6 +7,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -15,8 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import ua.com.findcoach.api.FacebookAuthRequestDto;
+import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.FacebookUserToken;
-import ua.com.findcoach.security.FacebookAuthenticationProvider;
+import ua.com.findcoach.security.FindCoachAuthenticationProvider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,36 +27,47 @@ import java.io.IOException;
 @Service
 public class AuthenticationService {
     private final static String COACH_REDIRECT = "/findcoach/coach/profile/dashboard.html";
+    private final static String PADAWAN_REDIRECT = "/findcoach/padawan/profile/home.html";
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
 
-    private static final String FACEBOOK_APP_SECRET = "7134dc709dc6282e6b35ccccf25cd2f4";
-    private static final String FACEBOOK_GRAPH_URL = "https://graph.facebook.com/";
-
     @Autowired
-    private FacebookAuthenticationProvider facebookAuthenticationProvider;
+    private FindCoachAuthenticationProvider authenticationProvider;
 
     @Autowired
     private FacebookService facebookService;
 
-    public Boolean authenticateUser(FacebookAuthRequestDto authRequestDto, HttpServletRequest request) {
-        String longLivedFacebookToken = getLongLivedFacebookToken(authRequestDto);
+    @Autowired
+    private CoachService coachService;
 
-        FacebookUserToken userToken = facebookService.findUserTokenById(authRequestDto.getUserId());
+    @Autowired
+    Environment environment;
+
+    public Boolean authenticateUser(FacebookAuthRequestDto authRequestDto, HttpServletRequest request) {
+        Coach userProfile = coachService.findByEmail(authRequestDto.getEmail());
+        if (userProfile == null) {
+            //TO DO: to handle situation when there is no coach with facebook user email and redirect to page for creation such data
+            return false;
+        }
+
+        String longLivedFacebookToken = getLongLivedFacebookToken(authRequestDto);
+        FacebookUserToken userToken = facebookService.findUserTokenByFacebookUserId(authRequestDto.getUserId());
+
         if (userToken == null) {
             userToken = new FacebookUserToken();
             userToken.setLongLivedToken(longLivedFacebookToken);
-            userToken.setEmail(authRequestDto.getEmail());
-            userToken.setUserId(authRequestDto.getUserId());
+
+            userToken.setCoachId(userProfile.getCoachId());
+            userToken.setFacebookUserId(authRequestDto.getUserId());
             facebookService.save(userToken);
         } else {
             facebookService.updateTokenByUserId(longLivedFacebookToken, authRequestDto.getUserId());
         }
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authRequestDto.getUserId(), "");
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userToken.getCoachId(), "");
         token.setDetails(new WebAuthenticationDetails(request));
         Authentication authentication;
         try {
-            authentication = facebookAuthenticationProvider.authenticate(token);
+            authentication = authenticationProvider.authenticate(token);
         } catch (AuthenticationException e) {
             return false;
         }
@@ -68,11 +81,11 @@ public class AuthenticationService {
     }
 
     public String getLongLivedFacebookToken(FacebookAuthRequestDto facebookDto) {
-        String url = FACEBOOK_GRAPH_URL
+        String url = environment.getProperty("facebook.graph.url")
             .concat("oauth/access_token?grant_type=fb_exchange_token&client_id=")
             .concat(facebookDto.getApplicationId().toString())
             .concat("&client_secret=")
-            .concat(FACEBOOK_APP_SECRET)
+            .concat(environment.getProperty("facebook.application.secret"))
             .concat("&fb_exchange_token=")
             .concat(facebookDto.getShortLivedToken());
         String token;
@@ -110,34 +123,35 @@ public class AuthenticationService {
         return COACH_REDIRECT;
     }
 
-    public FacebookUserToken getCurrentUserToken() {
+    public Coach getCurrentUserToken() {
         Object currentUserToken = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (currentUserToken == null || currentUserToken instanceof String)
             return null;
-        return (FacebookUserToken) currentUserToken;
+        return (Coach) currentUserToken;
     }
 
     public Boolean isCurrentUserTokenAlive() {
-        FacebookUserToken currentToken = getCurrentUserToken();
+        Coach currentUser = getCurrentUserToken();
 
-        if (currentToken == null)
+        if (currentUser == null)
             return false;
 
         String userData = null;
         try {
-            userData = getFacebookUserDetails(currentToken);
+            userData = getFacebookUserDetails(currentUser.getCoachId());
         } catch (Exception e) {
         }
 
         return userData != null;
     }
 
-    public String getFacebookUserDetails(FacebookUserToken userToken) throws IOException {
+    public String getFacebookUserDetails(Integer userId) throws IOException {
         String details;
-        String url = FACEBOOK_GRAPH_URL
-            .concat(userToken.getUserId().toString())
+        FacebookUserToken currentToken = facebookService.findUserTokenByCoachId(userId);
+        String url = environment.getProperty("facebook.graph.url")
+            .concat(currentToken.getFacebookUserId().toString())
             .concat("?access_token=")
-            .concat(userToken.getLongLivedToken());
+            .concat(currentToken.getLongLivedToken());
         try {
             HttpResponse data = doRequest(url);
             details = EntityUtils.toString(data.getEntity(), "UTF-8");
