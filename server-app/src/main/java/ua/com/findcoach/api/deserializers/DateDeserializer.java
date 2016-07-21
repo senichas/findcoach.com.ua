@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 public class DateDeserializer extends JsonDeserializer<LocalDate> {
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateTimeDeserializer.DATE_TIME_PATTERN);
 
     @Override
     public LocalDate deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JsonProcessingException {

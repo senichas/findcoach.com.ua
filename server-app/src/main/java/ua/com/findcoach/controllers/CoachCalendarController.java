@@ -1,26 +1,25 @@
 package ua.com.findcoach.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.CalendarEvent;
 import ua.com.findcoach.api.CalendarResponse;
-import ua.com.findcoach.domain.Coach;
+import ua.com.findcoach.api.deserializers.DateTimeDeserializer;
+import ua.com.findcoach.converters.EventConverterService;
 import ua.com.findcoach.domain.Event;
-import ua.com.findcoach.domain.EventRecurrence;
-import ua.com.findcoach.domain.ViewDateRange;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.EventService;
-import ua.com.findcoach.utils.DateUtils;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/coach/{coachAlias}")
+@RequestMapping("/coach/{coachAlias}/calendar")
 public class CoachCalendarController {
 
     @Autowired
@@ -30,7 +29,11 @@ public class CoachCalendarController {
     private EventService eventService;
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/calendar.html")
+    @Autowired
+    private EventConverterService eventConverterService;
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/dashboard.html")
     public ModelAndView coachCalendarPage() {
         Map<String, Object> paramerters = new HashMap<>();
         paramerters.put("coachAlias", coachService.retrieveCurrentCoach().getAlias());
@@ -38,93 +41,20 @@ public class CoachCalendarController {
         return new ModelAndView("padawan-management/coachCalendarPage", paramerters);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/calendar")
+    @RequestMapping(method = RequestMethod.GET, value = "/events")
     public
     @ResponseBody
-    CalendarResponse fetchEventsForCoach(@PathVariable("coachAlias") String coachUserName, @RequestParam("showdate") String showDate,
-                                                                                           @RequestParam("viewtype") ViewDateRange viewType,
-                                                                                           @RequestParam("timezone") String timeZone) {
-        Coach currentCoach = coachService.retrieveCurrentCoach();
+    CalendarResponse fetchEventsForCoach(@PathVariable("coachAlias") String coachAlias,
+                                         @RequestParam("startDate")
+                                         @DateTimeFormat(pattern = DateTimeDeserializer.DATE_TIME_PATTERN) LocalDateTime startDate,
+                                         @RequestParam("endDate")
+                                         @DateTimeFormat(pattern = DateTimeDeserializer.DATE_TIME_PATTERN) LocalDateTime endDate) {
+        List<Event> events = eventService.findEventByDateRange(coachAlias, startDate, endDate);
 
-        LocalDateTime startTimeToShow;
-        LocalDateTime endTimeToShow;
-
-        if (viewType.getDateRange().equals(ViewDateRange.week.getDateRange())) {
-            startTimeToShow = DateUtils.calculateFirstDayOfWeekEarliestTime(showDate);
-            endTimeToShow = DateUtils.calculateLastDayOfWeekLatestTime(showDate);
-        } else if (viewType.getDateRange().equals(ViewDateRange.month.getDateRange())){
-            startTimeToShow = DateUtils.calculateFirstDayOfMonthEarliestTime(showDate);
-            endTimeToShow = DateUtils.calculateLastDayOfMonthLatestTime(showDate);
-        } else {
-            startTimeToShow = DateUtils.calculateDayEarliestTime(showDate);
-            endTimeToShow = DateUtils.calculateDayLatestTime(showDate);
-        }
+        List<CalendarEvent> calendarEvents = eventConverterService.convertEventsToCalendarEvent(events);
 
         CalendarResponse response = new CalendarResponse();
-        response.setStart(startTimeToShow);
-        response.setEnd(endTimeToShow);
-        response.setIssort(Boolean.TRUE);
-
-        List<CalendarEvent> events = new ArrayList<>();
-
-        CalendarEvent event1 = new CalendarEvent();
-        event1.setId(1);
-        event1.setSubject("TRX Training");
-        event1.setStartTime(LocalDateTime.of(2016, 2, 18, 7, 0));
-        event1.setEndTime(LocalDateTime.of(2016, 2, 18, 10, 0));
-        event1.setAllDayEvent(Boolean.FALSE);
-        event1.setCrossDay(0);
-        event1.setRecurringEvent(0);
-        event1.setColor(2);
-        event1.setEditable(0);
-        event1.setLocation("Start gym");
-        event1.setAttends("");
-
-        events.add(event1);
-
-        response.setEvents(events);
-        return response;
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/calendar")
-    public
-    @ResponseBody
-    CalendarResponse addEventForCoach(@PathVariable("coachAlias") String coachUserName, @RequestParam("CalendarTitle") String eventTitle,
-                                                                                        @RequestParam("CalendarStartTime") String eventStartTime,
-                                                                                        @RequestParam("CalendarEndTime") String eventEndTime,
-                                                                                        @RequestParam("IsAllDayEvent") String isAllDayEvent,
-                                                                                        @RequestParam("timezone") String timezone) {
-        String timeFormat = "M/dd/yyyy HH:mm";
-
-        Coach currentCoach = coachService.retrieveCurrentCoach();
-        Event event = new Event();
-        event.setTitle(eventTitle);
-        EventRecurrence recurrence = new EventRecurrence();
-        recurrence.setAllDay(isAllDayEvent == "0" ? false : true);
-        recurrence.setStartDate(DateUtils.stringToLocalDateTime(eventStartTime, timeFormat));
-        recurrence.setEndDate(DateUtils.stringToLocalDateTime(eventEndTime, timeFormat));
-        event.setRecurrences(Stream.of(recurrence).collect(Collectors.toList()));
-        eventService.save(event);
-        CalendarResponse response = new CalendarResponse();
-        response.setIssort(Boolean.TRUE);
-        return response;
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/calendar")
-    public
-    @ResponseBody
-    CalendarResponse removeEventForCoach(@PathVariable("coachAlias") String coachUserName) {
-        Coach currentCoach = coachService.retrieveCurrentCoach();
-        CalendarResponse response = new CalendarResponse();
-        return response;
-    }
-
-    @RequestMapping(method = RequestMethod.PUT, value = "/calendar")
-    public
-    @ResponseBody
-    CalendarResponse updateEventForCoach(@PathVariable("coachAlias") String coachUserName) {
-        Coach currentCoach = coachService.retrieveCurrentCoach();
-        CalendarResponse response = new CalendarResponse();
+        response.setEvents(calendarEvents);
         return response;
     }
 }

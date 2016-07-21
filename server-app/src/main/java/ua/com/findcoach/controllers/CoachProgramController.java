@@ -49,9 +49,9 @@ public class CoachProgramController {
     private ProgramConverterService programConverterService;
 
 
-
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}.html")
-    public ModelAndView programDetailPage(@PathVariable String coachAlias, @PathVariable Integer programId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawan/{padawanId}/program/{programId}.html")
+    public ModelAndView programDetailPage(@PathVariable String coachAlias, @PathVariable Integer padawanId,
+                                          @PathVariable Integer programId) {
         Map<String, Object> parameters = new HashMap<>();
 
         Program program = programService.findProgramById(programId);

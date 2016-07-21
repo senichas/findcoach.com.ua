@@ -39,7 +39,7 @@ public class EventService {
     }
 
     public Event composeNewEvent(String eventTitle, String eventDescription, List<String> repeatOnDays,
-                             String repeatTerm, LocalDateTime startDate, Integer durationMin) {
+                                 String repeatTerm, LocalDateTime startDate, Integer durationMin) {
         Event newEvent = new Event();
         newEvent.setTitle(eventTitle);
         newEvent.setDescription(eventDescription);
@@ -74,5 +74,9 @@ public class EventService {
 
         newEvent.setRecurrences(eventRecurrences);
         return newEvent;
+    }
+
+    public List<Event> findEventByDateRange(String coachAlias, LocalDateTime startDate, LocalDateTime endDate) {
+        return eventRepository.findEventsInPeriodForCoach(coachAlias, startDate, endDate);
     }
 }

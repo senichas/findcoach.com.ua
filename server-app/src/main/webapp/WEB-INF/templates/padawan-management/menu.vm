@@ -1,4 +1,4 @@
 <section>
-    <a href="/findcoach/coach/${coachAlias}/calendar.html">Календарь</a>
+    <a href="/findcoach/coach/${coachAlias}/calendar/dashboard.html">Календарь</a>
     <a href="/findcoach/coach/${coachAlias}/padawans.html">Список падаванов</a>
 </section>
