@@ -9,3 +9,4 @@ coach_id,first_name,last_name,email,alias,active,status,gender,title,description
 8,SUPER,MAN,super@mail.com,super_man,true,ON_LEAVE,MALE,Super Man,"Мастер Спорта по маунтенбайку, абсолютный Чемпион Украины по велотриалу 2015 года."
 9,CART,MAN,cart@mail.com,cart_man,true,ON_SICK_LEAVE,MALE,Cart Man,"Не люблю говорить в процессе тренировки, отдаю предпочтение тем, кто хочет себя изменить, а я для этого прикладываю максимум усилий"
 10,HARD,BALLS,hard@mail.com,hard_balls,true,LOOKING_FOR_PADAWAN,MALE,Hard Balls,"Если вы не слышали про слово твердый, значит вы еще не общались со мной"
+11,Андрей,Сенько,senko.andriy@gmail.com,senko.andriy,true,LOOKING_FOR_PADAWAN,MALE,Hard Balls,"Если вы не слышали про слово твердый, значит вы еще не общались со мной"

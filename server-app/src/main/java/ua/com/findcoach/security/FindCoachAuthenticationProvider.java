@@ -15,27 +15,24 @@ import ua.com.findcoach.services.CoachService;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created by senich on 10/2/2015.
- */
-public class CoachAuthenticationProvider implements AuthenticationProvider {
+public class FindCoachAuthenticationProvider implements AuthenticationProvider {
+
     @Autowired
     private CoachService coachService;
 
-
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String email = (String) authentication.getPrincipal();
+        Integer coachId = (Integer) authentication.getPrincipal();
         char[] password = String.valueOf("").toCharArray();
 
-        Coach coach = coachService.findByEmail(email);
-        if (coach == null) {
-            throw new BadCredentialsException("Username not found.");
+        Coach userToken = coachService.findByCoachId(coachId);
+        if (userToken == null) {
+            throw new BadCredentialsException("UserId not found.");
         }
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(UserRole.COACH.name()));
 
-        return new UsernamePasswordAuthenticationToken(coach, password, authorities);
+        return new UsernamePasswordAuthenticationToken(userToken, password, authorities);
     }
 
     @Override

@@ -1,11 +1,11 @@
 package ua.com.findcoach.conf;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 import ua.com.findcoach.domain.EventType;
@@ -17,15 +17,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-/**
- * Created by DENIS on 26.09.2015.
- */
 @Configuration
-@PropertySource({"classpath:jdbc.properties"})
+@PropertySources({
+        @PropertySource({"classpath:jdbc.properties"}),
+        @PropertySource({"classpath:environment.properties"})
+})
 @ComponentScan({"ua.com.findcoach.controllers", "ua.com.findcoach.services", "ua.com.findcoach.converters"})
 @EnableWebMvc
-public class ApplicationConfiguration {
-
+public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
     @Bean
     public EmailValidator emailValidator() {
@@ -78,5 +77,15 @@ public class ApplicationConfiguration {
         keys.put(Goal.FAT_BURN, "program.goal.fat_burn");
         keys.put(Goal.STRENGTH, "program.goal.strength");
         return keys;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
     }
 }

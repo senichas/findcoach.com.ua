@@ -1,12 +1,12 @@
 package ua.com.findcoach.api;
 
-public class AuthentificationResponse {
+public class AuthenticationResponse {
     private boolean result;
     private String message;
     private String redirectLink;
 
 
-    public AuthentificationResponse(boolean result, String message, String redirectLink) {
+    public AuthenticationResponse(boolean result, String message, String redirectLink) {
         this.result = result;
         this.message = message;
         this.redirectLink = redirectLink;
