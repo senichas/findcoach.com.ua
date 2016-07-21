@@ -1,26 +1,24 @@
-package ua.com.findcoach.services;
+package ua.com.findcoach.converters;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import ua.com.findcoach.api.CalendarEvent;
+import ua.com.findcoach.domain.Event;
+import ua.com.findcoach.domain.EventRecurrence;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.core.IsEqual;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
-import ua.com.findcoach.api.CalendarEvent;
-import ua.com.findcoach.domain.Event;
-import ua.com.findcoach.domain.EventRecurrence;
+public class EventConverterServiceTest {
+    private EventConverterService service;
 
-public class ConverterServiceTest {
-
-    private ConverterService service;
     @Before
     public void setUp() throws Exception {
-        service = new ConverterService();
+        service = new EventConverterService();
     }
 
     @Test

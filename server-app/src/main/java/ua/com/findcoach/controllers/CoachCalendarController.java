@@ -5,14 +5,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ua.com.findcoach.api.CalendarEvent;
 import ua.com.findcoach.api.CalendarResponse;
-import ua.com.findcoach.api.deserializers.DateDeserializer;
-import ua.com.findcoach.domain.Coach;
+import ua.com.findcoach.api.deserializers.DateTimeDeserializer;
+import ua.com.findcoach.converters.EventConverterService;
+import ua.com.findcoach.domain.Event;
 import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.EventService;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -24,6 +27,10 @@ public class CoachCalendarController {
 
     @Autowired
     private EventService eventService;
+
+
+    @Autowired
+    private EventConverterService eventConverterService;
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/dashboard.html")
@@ -39,12 +46,15 @@ public class CoachCalendarController {
     @ResponseBody
     CalendarResponse fetchEventsForCoach(@PathVariable("coachAlias") String coachAlias,
                                          @RequestParam("startDate")
-                                         @DateTimeFormat(pattern = DateDeserializer.DATE_PATTERN) LocalDate startDate,
+                                         @DateTimeFormat(pattern = DateTimeDeserializer.DATE_TIME_PATTERN) LocalDateTime startDate,
                                          @RequestParam("endDate")
-                                         @DateTimeFormat(pattern = DateDeserializer.DATE_PATTERN) LocalDate endDate) {
-        Coach currentCoach = coachService.retrieveCurrentCoach();
+                                         @DateTimeFormat(pattern = DateTimeDeserializer.DATE_TIME_PATTERN) LocalDateTime endDate) {
+        List<Event> events = eventService.findEventByDateRange(coachAlias, startDate, endDate);
+
+        List<CalendarEvent> calendarEvents = eventConverterService.convertEventsToCalendarEvent(events);
 
         CalendarResponse response = new CalendarResponse();
+        response.setEvents(calendarEvents);
         return response;
     }
 }

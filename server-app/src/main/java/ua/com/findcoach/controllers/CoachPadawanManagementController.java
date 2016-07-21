@@ -6,12 +6,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.com.findcoach.api.*;
+import ua.com.findcoach.converters.ConverterService;
+import ua.com.findcoach.converters.ProgramConverterService;
 import ua.com.findcoach.domain.Coach;
 import ua.com.findcoach.domain.Padawan;
 import ua.com.findcoach.domain.Program;
 import ua.com.findcoach.exception.ValidationException;
 import ua.com.findcoach.services.CoachService;
-import ua.com.findcoach.services.ConverterService;
 import ua.com.findcoach.services.PadawanService;
 import ua.com.findcoach.services.ProgramService;
 
@@ -33,6 +34,9 @@ public class CoachPadawanManagementController {
 
     @Autowired
     private ConverterService converterService;
+
+    @Autowired
+    private ProgramConverterService programConverterService;
 
     @Autowired
     private ProgramService programService;
@@ -121,7 +125,7 @@ public class CoachPadawanManagementController {
     public ProgramDto retrieveProgram(@PathVariable String coachAlias, @PathVariable Integer padawanId,
                                       @PathVariable Integer programId) {
         Program program = programService.findProgramByProgramIdAndPadawanIdAndProgramId(coachAlias, padawanId, programId);
-        return converterService.convertProgramToDto(program);
+        return programConverterService.convertProgramToDto(program);
     }
 
     @ResponseBody
@@ -132,7 +136,7 @@ public class CoachPadawanManagementController {
         program.setName(programRequest.getName());
         program.setGoal(programRequest.getGoal());
         program = programService.saveProgram(program);
-        return converterService.convertProgramToDto(program);
+        return programConverterService.convertProgramToDto(program);
     }
 
     @ResponseBody
