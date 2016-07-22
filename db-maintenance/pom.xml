@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>DB Maintenance</name>
+    <groupId>ua.com.findcoach</groupId>
+    <artifactId>db-maintenance</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.7</version>
+                    <configuration>
+                        <nonFilteredFileExtensions>
+                            <nonFilteredFileExtension>csv</nonFilteredFileExtension>
+                        </nonFilteredFileExtensions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-maven-plugin</artifactId>
+                    <version>3.5.1</version>
+                    <configuration>
+                        <propertyFile>liquibase.properties</propertyFile>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <database.driverClassName>org.postgresql.Driver</database.driverClassName>
+                <database.url>jdbc:postgresql://localhost:5432/findcoach</database.url>
+                <database.user>postgres</database.user>
+                <database.password>postgres</database.password>
+            </properties>
+        </profile>
+        <profile>
+            <id>local-test</id>
+            <properties>
+                <database.driverClassName>org.postgresql.Driver</database.driverClassName>
+                <database.url>jdbc:postgresql://localhost:5432/findcoach-test</database.url>
+                <database.user>postgres</database.user>
+                <database.password>postgres</database.password>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

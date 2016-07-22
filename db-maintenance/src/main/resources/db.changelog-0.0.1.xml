@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <preConditions>
+        <dbms type="postgresql"/>
+    </preConditions>
+
+
+    <changeSet id="1.0" author="Andriy">
+        <createTable tableName="coach">
+            <column name="coach_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="character varying(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="character varying(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="character varying(255)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="coach_email_uc"/>
+            </column>
+            <column name="alias" type="character varying(60)">
+                <constraints nullable="false"
+                             unique="true"
+                             uniqueConstraintName="coach_alias_uc"/>
+            </column>
+            <column name="active" type="boolean" defaultValue="false"/>
+            <column name="status" type="character varying(20)"/>
+            <column name="gender" type="character varying(10)"/>
+            <column name="title" type="character varying(60)"/>
+            <column name="description" type="character varying(140)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="coach"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.1" author="Andriy">
+        <createTable tableName="coach_facebook_login">
+            <column name="coach_id" type="integer">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             foreignKeyName="coach_facebook_login_coach_id_fk"
+                             references=" &quot;coach&quot; (coach_id)"/>
+            </column>
+            <column name="facebook_id" type="character varying(30)"/>
+            <column name="facebook_auth_token" type="clob"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="coach_facebook_login"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.2" author="Andriy">
+        <createTable tableName="padawan">
+            <column name="padawan_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="character varying(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="character varying(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="character varying(255)"/>
+            <column name="active" type="boolean" defaultValue="false"/>
+            <column name="gender" type="character varying(10)"/>
+            <column name="birthday" type="timestamp"/>
+            <column name="created_by_coach_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="padawan_created_by_coach_id_fk"
+                             references=" coach (coach_id)"/>
+            </column>
+            <column name="notes" type="text"/>
+
+        </createTable>
+        <rollback>
+            <dropTable tableName="padawan"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.3" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/coach.csv"
+                  tableName="coach"/>
+        <dropSequence
+                sequenceName="coach_coach_id_seq"/>
+        <createSequence
+                sequenceName="coach_coach_id_seq"
+                startValue="12"/>
+        <addDefaultValue
+                columnName="coach_id"
+                defaultValueSequenceNext="coach_coach_id_seq"
+                tableName="coach"/>
+    </changeSet>
+
+    <changeSet id="1.4" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/padawan.csv"
+                  tableName="padawan"/>
+        <dropSequence
+                sequenceName="padawan_padawan_id_seq"/>
+        <createSequence
+                sequenceName="padawan_padawan_id_seq"
+                startValue="15"/>
+        <addDefaultValue
+                columnName="padawan_id"
+                defaultValueSequenceNext="padawan_padawan_id_seq"
+                tableName="padawan"/>
+    </changeSet>
+
+    <changeSet id="1.5" author="Andriy">
+        <createTable tableName="program">
+            <column name="program_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="coach_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="program_coach_id_fk"
+                             references=" &quot;coach&quot; (coach_id)"/>
+            </column>
+            <column name="padawan_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="program_padawan_id_fk"
+                             references=" &quot;padawan&quot; (padawan_id)"/>
+            </column>
+            <column name="goal" type="character varying(25)"/>
+            <column name="name" type="character varying(200)"/>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="program"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.6" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/program.csv"
+                  tableName="program"/>
+        <dropSequence
+                sequenceName="program_program_id_seq"/>
+        <createSequence
+                sequenceName="program_program_id_seq"
+                startValue="6"/>
+        <addDefaultValue
+                columnName="program_id"
+                defaultValueSequenceNext="program_program_id_seq"
+                tableName="program"/>
+    </changeSet>
+
+    <changeSet id="1.7" author="Andriy">
+        <createTable tableName="measure">
+            <column name="measure_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="padawan_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="measure_padawan_id_fk"
+                             references=" &quot;padawan&quot; (padawan_id)"/>
+            </column>
+            <column name="measure_date" type="timestamp"/>
+            <column name="height" type="numeric(4)"/>
+            <column name="weight" type="numeric(3,1)"/>
+            <column name="fat_percentage" type="numeric(2)"/>
+            <column name="neck" type="numeric(4)"/>
+            <column name="right_upper_arm" type="numeric(4)"/>
+            <column name="left_upper_arm" type="numeric(4)"/>
+            <column name="right_forearm" type="numeric(4)"/>
+            <column name="left_forearm" type="numeric(4)"/>
+            <column name="chest" type="numeric(4)"/>
+            <column name="bust" type="numeric(4)"/>
+            <column name="midriff" type="numeric(4)"/>
+            <column name="waist" type="numeric(4)"/>
+            <column name="abdomen" type="numeric(4)"/>
+            <column name="hips" type="numeric(4)"/>
+            <column name="buttocks" type="numeric(4)"/>
+            <column name="thigh" type="numeric(4)"/>
+            <column name="knee" type="numeric(4)"/>
+            <column name="calf" type="numeric(4)"/>
+            <column name="ankle" type="numeric(4)"/>
+
+        </createTable>
+        <rollback>
+            <dropTable tableName="program"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.8" author="Andriy">
+        <createTable tableName="cycle">
+            <column name="cycle_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="character varying(100)"/>
+            <column name="notes" type="character varying(500)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cycle"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.9" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/cycle.csv"
+                  tableName="cycle"/>
+        <dropSequence
+                sequenceName="cycle_cycle_id_seq"/>
+        <createSequence
+                sequenceName="cycle_cycle_id_seq"
+                startValue="8"/>
+        <addDefaultValue
+                columnName="cycle_id"
+                defaultValueSequenceNext="cycle_cycle_id_seq"
+                tableName="cycle"/>
+    </changeSet>
+
+    <changeSet id="1.10" author="Andriy">
+        <createTable tableName="program_cycle_link">
+            <column name="program_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="cycle_program_program_id_fk"
+                             references=" &quot;program&quot; (program_id)"/>
+            </column>
+            <column name="cycle_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="cycle_program_cycle_id_fk"
+                             references=" &quot;cycle&quot; (cycle_id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="program_cycle_link"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.11" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/program_cycle_link.csv"
+                  tableName="program_cycle_link"/>
+    </changeSet>
+
+    <changeSet id="1.12" author="Andriy">
+        <createTable tableName="event">
+            <column name="event_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="character varying(60)"/>
+            <column name="description" type="character varying(140)"/>
+            <column name="type" type="character varying(15)"/>
+            <column name="location" type="character varying(60)"/>
+        </createTable>
+        <createTable tableName="event_recurrence">
+            <column name="event_recurrence_id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="event_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="event_recurrence_id_fk"
+                             references=" &quot;event&quot; (event_id)"/>
+            </column>
+            <column name="all_day" type="boolean"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="event_recurrence"/>
+            <dropTable tableName="event"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.13" author="Andriy">
+        <loadData encoding="UTF-8"
+                  file="data/event.csv"
+                  tableName="event"/>
+        <dropSequence
+                sequenceName="event_event_id_seq"/>
+        <createSequence
+                sequenceName="event_event_id_seq"
+                startValue="10"/>
+        <addDefaultValue
+                columnName="event_id"
+                defaultValueSequenceNext="event_event_id_seq"
+                tableName="event"/>
+
+        <loadData encoding="UTF-8"
+                  file="data/event_recurrence.csv"
+                  tableName="event_recurrence"/>
+        <dropSequence
+                sequenceName="event_recurrence_event_recurrence_id_seq"/>
+        <createSequence
+                sequenceName="event_recurrence_event_recurrence_id_seq"
+                startValue="9"/>
+        <addDefaultValue
+                columnName="event_recurrence_id"
+                defaultValueSequenceNext="event_recurrence_event_recurrence_id_seq"
+                tableName="event_recurrence"/>
+    </changeSet>
+
+    <changeSet id="1.14" author="Andriy">
+        <createTable tableName="cycle_event_link">
+            <column name="cycle_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="cycle_event_cycle_id_fk"
+                             references=" &quot;cycle&quot; (cycle_id)"/>
+            </column>
+            <column name="event_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="cycle_event_event_id_fk"
+                             references=" &quot;event&quot; (event_id)"/>
+            </column>
+        </createTable>
+        <loadData encoding="UTF-8"
+                  file="data/cycle_event_link.csv"
+                  tableName="cycle_event_link"/>
+        <rollback>
+            <dropTable tableName="cycle_event_link"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="1.20" author="Andriy">
+        <tagDatabase tag="version_0.0.1"/>
+    </changeSet>
+
+    <changeSet id="1.21" author="Vova">
+        <createTable tableName="facebook_user_token">
+            <column name="coach_id" type="integer">
+                <constraints nullable="false"
+                             foreignKeyName="facebook_user_token_coach_id_fk"
+                             references=" &quot;coach&quot; (coach_id)"/>
+            </column>
+            <column name="facebook_user_id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="long_lived_token" type="character varying(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="facebook_user_token"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

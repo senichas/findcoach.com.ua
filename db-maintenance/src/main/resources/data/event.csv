@@ -1,0 +1,10 @@
+event_id,title,description,type,location
+1,Улучшение моторики,Бегаем прыгаем отжимаемся,TRAINING,AT&T Gym
+2,Растяжка,Стретчинг плавный,TRAINING,AT&T Gym
+3,Тренируем хват,таскаем ящики и мячи,TRAINING,AT&T Gym
+4,Тренируем подъём,Заброс на высоту,TRAINING,AT&T Gym
+5,Микс,Мультифункциональная тренировка,TRAINING,AT&T Gym
+6,Аэробные нагрузки,Бег скакалка орбитрек,TRAINING,AT&T Gym
+7,На выносливость,штанга и тренажерры,TRAINING,AT&T Gym
+8,Делаем рельеф,Работа с гантелями,TRAINING,AT&T Gym
+9,Кардионагрузки,Беговая дорожка велотренажер,TRAINING,AT&T Gym

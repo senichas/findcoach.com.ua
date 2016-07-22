@@ -1,0 +1,25 @@
+#formWrap {
+    width: 200px;
+    height: 200px;
+    background-color: #4A96AD;
+    border-radius: 10px;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    right: 0%;
+    bottom: 0%;
+    margin: auto;
+    padding: 30px;
+}
+
+.input {
+    display: block;
+    margin: auto;
+    width: 150px;
+    margin-bottom: 5px;
+}
+
+#formWrap span {
+    margin-left: 25%;
+    color: #ffffff;
+}

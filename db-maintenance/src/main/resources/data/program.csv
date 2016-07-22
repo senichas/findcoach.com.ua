@@ -1,0 +1,6 @@
+program_id,coach_id,padawan_id,goal,name
+1,1,1,ENDURANCE,Как стать крутым
+2,1,1,FAT_BURN,Таскаем тяжести
+3,2,2,STRENGTH,Становимся гимнастом
+4,2,2,FAT_BURN,Учимся делать чудеса
+5,8,14,FAT_BURN,Для новичков
