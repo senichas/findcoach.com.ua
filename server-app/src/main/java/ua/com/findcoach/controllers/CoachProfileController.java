@@ -41,7 +41,7 @@ public class CoachProfileController {
     public ModelAndView coachDashboard() throws IOException {
         Map<String, Object> params = new HashMap<>();
         params.put("message", messageResolver.getMessage("titlepage.welcome.coach"));
-        params.put("coachAlias", authenticationService.getCurrentUserToken().getEmail());
+        params.put("coachAlias", authenticationService.getCurrentUserToken().getAlias());
         return new ModelAndView("coachDashboard", params);
     }
 
