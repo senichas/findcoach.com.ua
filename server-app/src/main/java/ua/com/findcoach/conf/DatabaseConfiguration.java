@@ -16,7 +16,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories("ua.com.findcoach.repository")
-public class DatabaseConfigurarion {
+public class DatabaseConfiguration {
 
     @Autowired
     Environment environment;
