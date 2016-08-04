@@ -1,6 +1,6 @@
 package ua.com.findcoach.conf;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +12,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
@@ -61,11 +62,11 @@ public class DatabaseConfiguration {
     }
 
     @Bean
-    public ComboPooledDataSource dataSource() throws Exception {
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setDriverClass(environment.getProperty("jdbc.driverClassName"));
-        dataSource.setJdbcUrl(environment.getProperty("jdbc.url"));
-        dataSource.setUser(environment.getProperty("jdbc.username"));
+    public DataSource dataSource() throws Exception {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
+        dataSource.setUrl(environment.getProperty("jdbc.url"));
+        dataSource.setUsername(environment.getProperty("jdbc.username"));
         dataSource.setPassword(environment.getProperty("jdbc.password"));
         return dataSource;
     }
