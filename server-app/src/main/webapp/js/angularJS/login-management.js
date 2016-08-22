@@ -1,4 +1,4 @@
-var loginManagementApplication = angular.module('loginManagement', ["ngResource", 'facebook']);
+var loginManagementApplication = angular.module('loginManagement', ["ngResource", "facebook"]);
 
 loginManagementApplication.constant("appConfig", {
     "applicationId": "1691660047783905"
@@ -7,7 +7,6 @@ loginManagementApplication.constant("appConfig", {
 loginManagementApplication.config(function(FacebookProvider, appConfig) {
     FacebookProvider.init(appConfig.applicationId);
     FacebookProvider.setSdkVersion('v2.6');
-
 })
 
 var authorizationHandler = function ($scope, Facebook, $window, appConfig) {
@@ -84,6 +83,7 @@ var authorizationHandler = function ($scope, Facebook, $window, appConfig) {
             type: 'POST',
             data: JSON.stringify(email),
             dataType: 'json',
+            contentType: "application/json; charset=utf-8",
             success: function (res) {
                 $window.location.assign(res.redirectLink);
             }
@@ -102,5 +102,27 @@ var fields = [
 ].join(',');
 
 loginManagementApplication.controller('authorizationController', ["$scope", "Facebook", "$window", "appConfig", authorizationHandler]);
+
+
+loginManagementApplication.controller('settingsController', ["$scope", "$http",
+    function ($scope, $http) {
+        $scope.init = function () {
+            console.log("load settings from server");
+            var url = "/findcoach/settings";
+
+            $http.get(url).then(function (response) {
+                var responseData = response.data;
+                $scope.devMode = responseData.developmentMode;
+            },
+            function (response) {
+            });
+
+            console.log("settings loaded");
+        }
+
+        $scope.init();
+    }
+]);
+
 
 
