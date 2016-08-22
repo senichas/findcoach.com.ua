@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SettingsService {
-    @Value("${clientapi.url:false}")
+    @Value("${findcoach.deploy.developmentMode:false}")
     private Boolean developerMode;
 
     public Boolean getDeveloperMode() {

@@ -63,21 +63,7 @@ public class AuthenticationService {
             facebookService.updateTokenByUserId(longLivedFacebookToken, authRequestDto.getUserId());
         }
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userToken.getCoachId(), "");
-        token.setDetails(new WebAuthenticationDetails(request));
-        Authentication authentication;
-        try {
-            authentication = authenticationProvider.authenticate(token);
-        } catch (AuthenticationException e) {
-            return false;
-        }
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-
-        HttpSession session = request.getSession(true);
-        session.setAttribute(SPRING_SECURITY_CONTEXT, securityContext);
-
-        return true;
+        return userTokenAuthenticated(userToken.getCoachId(), request);
     }
 
     public String getLongLivedFacebookToken(FacebookAuthRequestDto facebookDto) {
@@ -159,5 +145,33 @@ public class AuthenticationService {
             throw e;
         }
         return details;
+    }
+
+    public Boolean authenticateUserInDevelopmentMode(String email, HttpServletRequest request) {
+        Coach userProfile = coachService.findByEmail(email);
+        if (userProfile == null) {
+            //TO DO: to handle situation when there is no coach with facebook user email and redirect to page for creation such data
+            return false;
+        }
+
+        return userTokenAuthenticated(userProfile.getCoachId(), request);
+    }
+
+    private boolean userTokenAuthenticated(Integer userId, HttpServletRequest request){
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, "");
+        token.setDetails(new WebAuthenticationDetails(request));
+        Authentication authentication;
+        try {
+            authentication = authenticationProvider.authenticate(token);
+        } catch (AuthenticationException e) {
+            return false;
+        }
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+
+        HttpSession session = request.getSession(true);
+        session.setAttribute(SPRING_SECURITY_CONTEXT, securityContext);
+
+        return true;
     }
 }
