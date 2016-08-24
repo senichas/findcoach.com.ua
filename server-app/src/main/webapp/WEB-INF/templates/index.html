@@ -11,8 +11,8 @@
 </head>
 <body ng-controller="authorizationController">
     Findercoach. Find your destiny <br>
-    Input your email<br>
-    <form ng-submit="sendSimpleAuthorization()">
+    <form ng-show="devMode" ng-submit="sendSimpleAuthorization()" ng-controller="settingsController">
+        Input your email<br>
         <input id="email" type="email" value="vasa@mail.com">
         <input id="submit" type="submit" value="Submit" >
     </form>
