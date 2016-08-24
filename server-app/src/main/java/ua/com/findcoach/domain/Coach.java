@@ -42,10 +42,6 @@ public class Coach implements User {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private CoachStatus status;
-
-    @Enumerated(EnumType.STRING)
     @Column
     private Gender gender;
 
@@ -130,14 +126,6 @@ public class Coach implements User {
     @Override
     public void setAlias(String alias) {
         this.alias = alias;
-    }
-
-    public CoachStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(CoachStatus status) {
-        this.status = status;
     }
 
     public Gender getGender() {
