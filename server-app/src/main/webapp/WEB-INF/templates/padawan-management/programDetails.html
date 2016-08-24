@@ -28,17 +28,8 @@
 </head>
 <body>
 <div id="mainContainer">
-    <header id="coachHeader" ng-controller="statusListController">
-        <div style="text-align: right;">
-            <span>Статус:</span>
-            <select ng-model="currentStatus" ng-change="updateStatus()" ng-options="k as v for (k,v) in data"
-                    name="status" id="status"></select>
-        </div>
-        <div id="statusResponseHolder" style="text-align: right">
-            <span id="statusMessege"></span>
-        </div>
-        Welcome to coach page!<br>
-        ${message}
+    <header id="coachHeader">
+
     </header>
     <section ng-controller="programDetailsController" ng-init="init()">
         <h1>Детали для программы &laquo;<span ng-bind="programName"></span>&raquo;</h1>
