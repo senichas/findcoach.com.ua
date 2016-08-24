@@ -10,7 +10,6 @@ import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 import ua.com.findcoach.domain.EventType;
 import ua.com.findcoach.domain.Goal;
-import ua.com.findcoach.utils.CoachStatusHolder;
 import ua.com.findcoach.utils.EmailValidator;
 
 import java.util.HashMap;
@@ -29,11 +28,6 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public EmailValidator emailValidator() {
         return new EmailValidator();
-    }
-
-    @Bean
-    public CoachStatusHolder statusHolder() {
-        return new CoachStatusHolder();
     }
 
     @Bean

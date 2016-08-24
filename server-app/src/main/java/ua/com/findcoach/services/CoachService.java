@@ -29,16 +29,6 @@ public class CoachService {
         return coachRepository.receiveCoachProfileAttributes(current.getEmail());
     }
 
-    public int updateStatus(CoachStatus coachStatus) {
-        Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return coachRepository.updateCoachStatus(coachStatus, current.getEmail());
-    }
-
-    public Enum receiveCurrentCoachStatus() {
-        Coach current = (Coach) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return coachRepository.receiveCurrentCoachStatus(current.getEmail());
-    }
-
     public Coach findByEmail(String email) {
         Coach user = coachRepository.findByEmail(email);
         return user;
