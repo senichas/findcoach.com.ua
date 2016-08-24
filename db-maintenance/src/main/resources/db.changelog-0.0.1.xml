@@ -32,7 +32,6 @@
                              uniqueConstraintName="coach_alias_uc"/>
             </column>
             <column name="active" type="boolean" defaultValue="false"/>
-            <column name="status" type="character varying(20)"/>
             <column name="gender" type="character varying(10)"/>
             <column name="title" type="character varying(60)"/>
             <column name="description" type="character varying(140)"/>

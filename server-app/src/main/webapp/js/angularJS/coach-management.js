@@ -47,18 +47,6 @@ coachManagementApplication.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.interceptors.push('requestRejector');
 }]);
 
-var statusesModuleHandler = function ($scope, $resource, $http) {
-    $scope.data = $resource('/findcoach/coach/profile/statuses').get();
-    $http.get('/findcoach/coach/profile/status')
-        .success(function (data) {
-            $scope.currentStatus = data;
-        });
-    $scope.updateStatus = function () {
-        $resource('/findcoach/coach/profile/status').save($scope.currentStatus);
-    }
-};
-coachManagementApplication.controller('statusListController', ["$scope", "$resource", "$http", statusesModuleHandler]);
-
 var profileControllerHandler = function ($scope, $resource) {
     $scope.profileAttributes = $resource('/findcoach/coach/profile/coachProfileAttributes').get();
     $scope.submit = function () {
