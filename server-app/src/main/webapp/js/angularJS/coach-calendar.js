@@ -7,6 +7,9 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
             var coachAlias = params[3];
             $scope.coachAlias = coachAlias;
             $scope.url = $scope.calculateUrlToRetrieveEvents(coachAlias);
+            if ($location.search().padawanId) {
+                $scope.padawanId = $location.search().padawanId;
+            }
 
             $('#coachCalendar').fullCalendar({
                 header: {
@@ -19,8 +22,8 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
                 //viewRender: $scope.dateRangeChangedHandler,
-                events: function(start, end, timezone, callback) {
-                    $scope.dateRangeChangedHandler (start, end, timezone, callback)
+                events: function (start, end, timezone, callback) {
+                    $scope.dateRangeChangedHandler(start, end, timezone, callback)
                 }
             });
 
@@ -47,13 +50,17 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
         $scope.dateRangeChangedHandler = function (start, end, timezone, callback) {
             console.log("Date range changed");
             var range = $scope.getCalendarDateRange();
+            var params = {
+                startDate: range.start,
+                endDate: range.end
+            };
+            if ($scope.padawanId) {
+                params.padawanId = $scope.padawanId;
+            }
             $http({
                 method: "GET",
                 url: $scope.url,
-                params: {
-                    startDate: range.start,
-                    endDate: range.end
-                }
+                params:params
             }).then(function successCallback(response) {
                 console.log("Calendars events received");
                 callback(response.data.events);

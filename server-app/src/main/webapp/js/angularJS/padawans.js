@@ -33,6 +33,13 @@ coachManagementApplication.controller('padawansListController', ["$scope", "$htt
             });
         }
 
+        $scope.openPadawanCalendar = function (padawanId) {
+            var url = "/findcoach/coach/vasa_petrovich/calendar/dashboard.html";
+            url += "?"
+            url += "padawanId=" + padawanId;
+            window.location = url;
+        }
+
         $scope.openProgramPopup = function (padawanId, programId) {
             $scope.padawanId = padawanId;
             $scope.programId = programId;
