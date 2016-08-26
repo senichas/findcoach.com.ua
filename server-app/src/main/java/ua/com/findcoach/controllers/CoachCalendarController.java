@@ -14,6 +14,7 @@ import ua.com.findcoach.services.CoachService;
 import ua.com.findcoach.services.EventService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,12 +45,23 @@ public class CoachCalendarController {
     @RequestMapping(method = RequestMethod.GET, value = "/events")
     public
     @ResponseBody
-    CalendarResponse fetchEventsForCoach(@PathVariable("coachAlias") String coachAlias,
+    CalendarResponse fetchEventsForCoach(@PathVariable("coachAlias") final String coachAlias,
                                          @RequestParam("startDate")
-                                         @DateTimeFormat(pattern = DateTimeDeserializer.DATE_TIME_PATTERN) LocalDateTime startDate,
+                                         @DateTimeFormat(pattern = DateTimeDeserializer.DATE_TIME_PATTERN)
+                                         final LocalDateTime startDate,
                                          @RequestParam("endDate")
-                                         @DateTimeFormat(pattern = DateTimeDeserializer.DATE_TIME_PATTERN) LocalDateTime endDate) {
-        List<Event> events = eventService.findEventByDateRange(coachAlias, startDate, endDate);
+                                         @DateTimeFormat(pattern = DateTimeDeserializer.DATE_TIME_PATTERN)
+                                         final LocalDateTime endDate,
+                                         @RequestParam(name = "padawanId", required = false)
+                                         Integer padawanId) {
+
+        List<Event> events = new ArrayList<>();
+        if (padawanId == null) {
+            events = eventService.findEventByDateRange(coachAlias, startDate, endDate);
+        } else {
+            events = eventService.findEventByDateRangeForPadawan(coachAlias, startDate, endDate, padawanId);
+        }
+
 
         List<CalendarEvent> calendarEvents = eventConverterService.convertEventsToCalendarEvent(events);
 

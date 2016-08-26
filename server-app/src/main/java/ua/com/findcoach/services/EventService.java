@@ -79,4 +79,9 @@ public class EventService {
     public List<Event> findEventByDateRange(String coachAlias, LocalDateTime startDate, LocalDateTime endDate) {
         return eventRepository.findEventsInPeriodForCoach(coachAlias, startDate, endDate);
     }
+
+    public List<Event> findEventByDateRangeForPadawan(String coachAlias, LocalDateTime startDate, LocalDateTime endDate,
+                                                      Integer padawanId) {
+        return eventRepository.findEventsInPeriodForCoachForPadawan(coachAlias, startDate, endDate, padawanId);
+    }
 }

@@ -18,7 +18,7 @@ coachManagementApplication.controller('coachCalendarController', ["$scope", "$ht
                     right: 'month,agendaWeek,agendaDay'
                 },
                 lang: "ru",
-                defaultDate: '2016-06-12',
+                defaultDate: new Date(),
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
                 //viewRender: $scope.dateRangeChangedHandler,

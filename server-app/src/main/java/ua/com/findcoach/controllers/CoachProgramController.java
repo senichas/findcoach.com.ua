@@ -62,17 +62,6 @@ public class CoachProgramController {
         return new ModelAndView("padawan-management/programDetails", parameters);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}")
-    @ResponseBody
-    public ProgramDetailsDto programDetails(@PathVariable String coachAlias, @PathVariable Integer programId) {
-        Program program = programService.findProgramById(programId);
-
-        ProgramDetailsDto programDetailsDto = programConverterService.convertToDetailedDto(program);
-
-        return programDetailsDto;
-
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/program/{programId}/cycle/{cycleId}")
     @ResponseBody
     public SimpleCycleDto retrieveCycle(@PathVariable String coachAlias, @PathVariable Integer programId,

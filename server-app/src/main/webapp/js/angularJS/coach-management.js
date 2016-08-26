@@ -113,15 +113,16 @@ var programDetailsHandler = function ($scope, $location, $http, $uibModal) {
         var path = $location.path();
         var params = path.split("/");
         var coachAlias = params[3];
-        var programId = params[5].split(".").shift();
+        var padawanId = params[5].split(".").shift();
+        var programId = params[7].split(".").shift();
 
         console.log("coachAlias = " + coachAlias);
+        console.log("padawanId = " + padawanId);
         console.log("programId = " + programId);
         $scope.coachAlias = coachAlias;
+        $scope.padawanId = padawanId;
         $scope.programId = programId;
-
-        var url = "/findcoach/coach/" + coachAlias + "/program/" + programId;
-
+        var url = "/findcoach/coach/" + coachAlias + "/padawan/" + padawanId + "/program/" + programId;
         $http.get(url).then(function (response) {
                 var responseData = response.data;
                 $scope.programName = responseData.programName;
@@ -269,7 +270,7 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
             window.location.reload();
         };
         $scope.init = function () {
-            console.log("Modal controller coachAlias = " + $scope.coachAlias +
+            console.log("Modal controller coachAlias = " + $scope.coachAlias + ", padawanId = " + padawanId +
                 " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
 
             $scope.url = $scope.composeCycleUrl();
@@ -317,7 +318,7 @@ coachManagementApplication.controller("manageCyclePopupController", ["$scope", "
         $scope.composeCycleUrl = function () {
             console.log("Composing URL for add training coachAlias = " + $scope.coachAlias +
                 " programId = " + $scope.programId + " cycleId = " + $scope.cycleId);
-            var url = "/findcoach/coach/" + $scope.coachAlias + "/program/" + $scope.programId + "/cycle";
+            var url = "/findcoach/coach/" + $scope.coachAlias + "/padawan/" + padawanId + "/program/" + $scope.programId + "/cycle";
             if ($scope.cycleId != null) {
                 url += "/" + $scope.cycleId;
             }

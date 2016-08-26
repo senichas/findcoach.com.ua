@@ -122,10 +122,13 @@ public class CoachPadawanManagementController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{coachAlias}/padawan/{padawanId}/program/{programId}")
-    public ProgramDto retrieveProgram(@PathVariable String coachAlias, @PathVariable Integer padawanId,
+    public ProgramDetailsDto retrieveProgram(@PathVariable String coachAlias, @PathVariable Integer padawanId,
                                       @PathVariable Integer programId) {
         Program program = programService.findProgramByProgramIdAndPadawanIdAndProgramId(coachAlias, padawanId, programId);
-        return programConverterService.convertProgramToDto(program);
+
+        ProgramDetailsDto programDetailsDto = programConverterService.convertToDetailedDto(program);
+
+        return programDetailsDto;
     }
 
     @ResponseBody
