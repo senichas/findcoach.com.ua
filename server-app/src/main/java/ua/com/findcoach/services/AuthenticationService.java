@@ -6,6 +6,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +28,8 @@ import java.io.IOException;
 
 @Service
 public class AuthenticationService {
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationService.class);
+
     private final static String COACH_REDIRECT = "/findcoach/coach/profile/dashboard.html";
     private final static String PADAWAN_REDIRECT = "/findcoach/padawan/profile/home.html";
     private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
@@ -49,10 +53,15 @@ public class AuthenticationService {
             return false;
         }
 
+        LOG.debug("Found user for authentication request = " + authRequestDto.toString());
         String longLivedFacebookToken = getLongLivedFacebookToken(authRequestDto);
+        LOG.debug("Found longLivedFacebookToken = " + longLivedFacebookToken);
+
         FacebookUserToken userToken = facebookService.findUserTokenByFacebookUserId(authRequestDto.getUserId());
 
         if (userToken == null) {
+            LOG.debug("User token hasn't been found");
+
             userToken = new FacebookUserToken();
             userToken.setLongLivedToken(longLivedFacebookToken);
 
@@ -60,6 +69,7 @@ public class AuthenticationService {
             userToken.setFacebookUserId(authRequestDto.getUserId());
             facebookService.save(userToken);
         } else {
+            LOG.debug("User token has been found");
             facebookService.updateTokenByUserId(longLivedFacebookToken, authRequestDto.getUserId());
         }
 
@@ -68,12 +78,12 @@ public class AuthenticationService {
 
     public String getLongLivedFacebookToken(FacebookAuthRequestDto facebookDto) {
         String url = environment.getProperty("facebook.graph.url")
-            .concat("oauth/access_token?grant_type=fb_exchange_token&client_id=")
-            .concat(facebookDto.getApplicationId().toString())
-            .concat("&client_secret=")
-            .concat(environment.getProperty("facebook.application.secret"))
-            .concat("&fb_exchange_token=")
-            .concat(facebookDto.getShortLivedToken());
+                .concat("oauth/access_token?grant_type=fb_exchange_token&client_id=")
+                .concat(facebookDto.getApplicationId().toString())
+                .concat("&client_secret=")
+                .concat(environment.getProperty("facebook.application.secret"))
+                .concat("&fb_exchange_token=")
+                .concat(facebookDto.getShortLivedToken());
         String token;
         try {
             HttpResponse longLivedLoadResponse = doRequest(url);
@@ -135,9 +145,9 @@ public class AuthenticationService {
         String details;
         FacebookUserToken currentToken = facebookService.findUserTokenByCoachId(userId);
         String url = environment.getProperty("facebook.graph.url")
-            .concat(currentToken.getFacebookUserId().toString())
-            .concat("?access_token=")
-            .concat(currentToken.getLongLivedToken());
+                .concat(currentToken.getFacebookUserId().toString())
+                .concat("?access_token=")
+                .concat(currentToken.getLongLivedToken());
         try {
             HttpResponse data = doRequest(url);
             details = EntityUtils.toString(data.getEntity(), "UTF-8");
@@ -157,13 +167,15 @@ public class AuthenticationService {
         return userTokenAuthenticated(userProfile.getCoachId(), request);
     }
 
-    private boolean userTokenAuthenticated(Integer userId, HttpServletRequest request){
+    private boolean userTokenAuthenticated(Integer userId, HttpServletRequest request) {
+        LOG.debug("Try to authenticate user with ID = " + userId);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, "");
         token.setDetails(new WebAuthenticationDetails(request));
         Authentication authentication;
         try {
             authentication = authenticationProvider.authenticate(token);
         } catch (AuthenticationException e) {
+            LOG.debug("User hasn't been authenticated userId = " + userId);
             return false;
         }
         SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -171,6 +183,7 @@ public class AuthenticationService {
 
         HttpSession session = request.getSession(true);
         session.setAttribute(SPRING_SECURITY_CONTEXT, securityContext);
+        LOG.debug("User has been authenticated userId = " + userId);
 
         return true;
     }

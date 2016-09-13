@@ -37,4 +37,14 @@ public class FacebookAuthRequestDto {
     public void setApplicationId(Long applicationId) {
         this.applicationId = applicationId;
     }
+
+    @Override
+    public String toString() {
+        return "FacebookAuthRequestDto{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", shortLivedToken='" + shortLivedToken + '\'' +
+                ", applicationId=" + applicationId +
+                '}';
+    }
 }

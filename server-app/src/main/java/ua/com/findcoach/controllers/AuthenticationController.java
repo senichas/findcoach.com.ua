@@ -1,5 +1,7 @@
 package ua.com.findcoach.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/authentication")
 public class AuthenticationController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
+
+
     @Autowired
     private EmailValidator emailValidator;
 
@@ -32,6 +37,7 @@ public class AuthenticationController {
     @RequestMapping(method = RequestMethod.POST, value = {"facebook"})
     @ResponseBody
     public AuthenticationResponse postAnswerForFacebookLogin(@RequestBody FacebookAuthRequestDto facebookDto, HttpServletRequest request) {
+        LOG.debug("Received request for facebook authentication params = " + facebookDto.toString());
         Boolean isAuthenticated = authenticationService.authenticateUser(facebookDto, request);
         return formedRedirectLink(isAuthenticated);
     }
